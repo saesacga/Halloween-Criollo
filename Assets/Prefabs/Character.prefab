@@ -153,15 +153,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: AstarPathfindingProject::Pathfinding.FollowerEntity
   version: 1073741831
   shape:
-    radius: 0.5
+    radius: 0.3
     height: 2
   movement:
     follower:
       rotationSpeed: 600
-      speed: 5
+      speed: 3
       maxRotationSpeed: 720
       maxOnSpotRotationSpeed: 720
-      slowdownTime: 0.5
+      slowdownTime: 0
       slowdownTimeWhenTurningOnSpot: 0
       desiredWallDistance: 0.5
       leadInRadiusWhenApproachingDestination: 1
@@ -176,9 +176,9 @@ MonoBehaviour:
     isStopped: 0
   managedState:
     rvoSettings:
-      agentTimeHorizon: 1
-      obstacleTimeHorizon: 0.5
-      maxNeighbours: 10
+      agentTimeHorizon: 3
+      obstacleTimeHorizon: 1
+      maxNeighbours: 50
       layer: 1
       collidesWith: -1
       priority: 0.5
@@ -189,7 +189,7 @@ MonoBehaviour:
         value: -1
       tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
       traversableTags: -1
-    enableLocalAvoidance: 0
+    enableLocalAvoidance: 1
     enableGravity: 1
   autoRepathBacking:
     mode: 2
@@ -210,4 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a932265a960c6346992f5e4e9e37c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SearchableCharacter
-  _padding: 0.5
+  <ActiveSearchable>k__BackingField: 0
+  _paddingX: 0
+  _paddingY: 0

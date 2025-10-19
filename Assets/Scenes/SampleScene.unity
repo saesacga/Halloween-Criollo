@@ -403,6 +403,7 @@ GameObject:
   m_Component:
   - component: {fileID: 229698694}
   - component: {fileID: 229698695}
+  - component: {fileID: 229698696}
   m_Layer: 0
   m_Name: A* Pathfinder
   m_TagString: Untagged
@@ -511,6 +512,27 @@ MonoBehaviour:
     pivotPointRoot: {fileID: 0}
     spreadOutCount: 1
   showGraphs: 1
+--- !u!114 &229698696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229698692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1764de1de43cc4d19af52679d3eaae06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AstarPathfindingProject::Pathfinding.RVO.RVOSimulator
+  version: 1073741824
+  desiredSimulationFPS: 20
+  workerThreads: 2
+  doubleBuffering: 0
+  hardCollisions: 1
+  symmetryBreakingBias: 0.1
+  movementPlane: 1
+  useNavmeshAsObstacle: 1
+  drawQuadtree: 0
 --- !u!1 &350417310
 GameObject:
   m_ObjectHideFlags: 0
@@ -1889,10 +1911,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7018cb3a8db93324eb606fa183902606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  characters:
+  _characterPrefabs:
   - {fileID: 5600226923342620669, guid: f6edbe1789ea3624396f496fa27cd7c4, type: 3}
   - {fileID: 744179692915340195, guid: 66b1149ff723ddd46b9284d3f8303549, type: 3}
   - {fileID: 5897995978321835561, guid: 68f03e15a6340194a9ef45de6d7ce106, type: 3}
+  _numberOfCharacters: 50
   _padding: 1
 --- !u!1 &1048296761
 GameObject:

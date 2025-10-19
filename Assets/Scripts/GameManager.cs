@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] characters;
+    [SerializeField] private GameObject[] _characterPrefabs;
+    [SerializeField] private int _numberOfCharacters = 10;
     [SerializeField] private float _padding = 0.5f;
     
     #region Singleton 
@@ -18,15 +19,21 @@ public class GameManager : MonoBehaviour
         
     private void Start()
     {
-        GameObject character = characters[Random.Range(0, characters.Length)];
-        for (int i = 0; i < 3; i++)
-        {
-            GameObject charaRef = Instantiate(character, GetRandomScreenPosition(), Quaternion.identity);
-            charaRef.GetComponent<SearchableCharacter>().ActiveSearchable = true;
-            
-            GameObject[] otherCharacters = System.Array.FindAll(characters, c => c != character);
+        GameObject character = _characterPrefabs[Random.Range(0, _characterPrefabs.Length)];
+        GameObject[] otherCharacters = System.Array.FindAll(_characterPrefabs, c => c != character);
 
-            Instantiate(otherCharacters[Random.Range(0, otherCharacters.Length)], GetRandomScreenPosition(), Quaternion.identity);
+        for (var i = 0; i < _numberOfCharacters; i++)
+        {
+            if (i < 1)
+            {
+                GameObject charaRef = Instantiate(character, GetRandomScreenPosition(), Quaternion.identity);
+                charaRef.GetComponent<SearchableCharacter>().ActiveSearchable = true;
+                charaRef.transform.position = Vector3.back;
+            }
+            else
+            { 
+                Instantiate(otherCharacters[Random.Range(0, otherCharacters.Length)], GetRandomScreenPosition(), Quaternion.identity);
+            }
         }
     }
     
