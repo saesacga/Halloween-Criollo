@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: cda002107e7ea38488e93a32747ab14a
+guid: 25b0bfb68ef26b4499ad1d20547d2bb6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8572770936200696036
-    second: Isla2_0
+      213: 5934350352701869415
+    second: Color5_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,10 +48,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
-  alignment: 9
-  spritePivot: {x: 0.5813315, y: 0.1609647}
-  spritePixelsToUnits: 130
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Isla2_0
+      name: Color5_0
       rect:
         serializedVersion: 2
-        x: 1365
-        y: 85
-        width: 580
-        height: 527
+        x: 0
+        y: 0
+        width: 4
+        height: 1
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e01909feb998f670800000000000000
-      internalID: 8572770936200696036
+      spriteID: 76d4289443c0b5250800000000000000
+      internalID: 5934350352701869415
       vertices: []
       indices: 
       edges: []
@@ -139,7 +139,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Isla2_0: 8572770936200696036
+      Color5_0: 5934350352701869415
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
