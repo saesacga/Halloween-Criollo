@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] _characterPrefabs;
-    [SerializeField] private int _numberOfCharacters = 10;
-    [SerializeField] private float _padding = 0.5f;
-    
     #region Singleton 
     public static GameManager Instance { get; private set; }
     
@@ -16,7 +12,11 @@ public class GameManager : MonoBehaviour
         Instance = this; 
     } 
     #endregion
-        
+    
+    [SerializeField] private GameObject[] _characterPrefabs;
+    [SerializeField] private int _numberOfCharacters = 10;
+    [SerializeField] private float _padding = 0.5f;
+    
     private void Start()
     {
         GameObject character = _characterPrefabs[Random.Range(0, _characterPrefabs.Length)];
