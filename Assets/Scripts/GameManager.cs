@@ -26,9 +26,8 @@ public class GameManager : MonoBehaviour
         {
             if (i < 1)
             {
-                GameObject charaRef = Instantiate(character, GetRandomScreenPosition(), Quaternion.identity);
-                charaRef.GetComponent<SearchableCharacter>().ActiveSearchable = true;
-                charaRef.transform.position = Vector3.back;
+                GameObject charaRef = Instantiate(character);
+                charaRef.GetComponent<SearchableCharacter>().SetSearchable(); 
             }
             else
             { 

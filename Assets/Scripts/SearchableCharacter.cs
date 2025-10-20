@@ -1,6 +1,5 @@
 using Pathfinding;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 
 public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
@@ -8,10 +7,6 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
     [field: SerializeField] public bool ActiveSearchable { get; set; }
     private FollowerEntity _followerEntity;
     private Camera _mainCamera;
-    
-    [SerializeField] private float _paddingX = 0.1f;
-    [SerializeField] private float _paddingY = 0.2f;
-    
     
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -22,8 +17,19 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
     {
         _mainCamera = Camera.main;
         _followerEntity = GetComponent<FollowerEntity>();
-        
         SetNewRandomDestination();
+    }
+
+    public void SetSearchable()
+    {
+        ActiveSearchable = true;
+        FollowSearchable.Instance.Target = transform;
+        
+        _followerEntity.rvoSettings.priority = 1;
+        
+        var charaRefVisual = transform.GetChild(0).gameObject;
+        charaRefVisual.layer = LayerMask.NameToLayer("Searchable");
+        charaRefVisual.transform.position = Vector3.back;
     }
 
     private void Update()
@@ -50,8 +56,8 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
         do
         {
             Vector2 randomViewportPoint = new Vector2(
-                Random.Range(0f + _paddingX, 1f - _paddingX),
-                Random.Range(0f + _paddingY, 1f - _paddingY)
+                Random.Range(0f, 1f),
+                Random.Range(0f, 1f)
             );
 
             randomPos = _mainCamera.ViewportToWorldPoint(
