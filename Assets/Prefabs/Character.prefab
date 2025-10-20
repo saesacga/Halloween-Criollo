@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4340855832774808889}
   - component: {fileID: 3892430043764924108}
   - component: {fileID: 2724395757957260892}
-  - component: {fileID: 212800772178726595}
   m_Layer: 7
   m_Name: Character
   m_TagString: Untagged
@@ -50,7 +49,7 @@ MonoBehaviour:
   version: 1073741831
   shape:
     radius: 0.1
-    height: 0.1
+    height: 1
   movement:
     follower:
       rotationSpeed: 600
@@ -107,23 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SearchableCharacter
   <ActiveSearchable>k__BackingField: 0
---- !u!114 &212800772178726595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 403021850790436683}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af8715be19db49c4a8f645b2a2508b22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CrowdSeparation
-  _separationRadius: 1
-  _separationStrength: 2
-  _agentLayer:
-    serializedVersion: 2
-    m_Bits: 128
+  _useCorner: 1
 --- !u!1 &8578384221619566124
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +119,7 @@ GameObject:
   - component: {fileID: 932008134109605266}
   - component: {fileID: 6351237810840993753}
   - component: {fileID: 751499474301746216}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CharacterVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}

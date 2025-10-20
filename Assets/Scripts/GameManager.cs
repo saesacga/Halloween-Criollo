@@ -15,7 +15,9 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private GameObject[] _characterPrefabs;
     [SerializeField] private int _numberOfCharacters = 10;
-    [SerializeField] private float _padding = 0.5f;
+    [SerializeField] private Transform[] _corners;
+    [SerializeField] private float _spawnRadius = 3f;
+    public float SpawnRadius => _spawnRadius;
     
     private void Start()
     {
@@ -24,6 +26,12 @@ public class GameManager : MonoBehaviour
 
         for (var i = 0; i < _numberOfCharacters; i++)
         {
+            int cornerIndex = i % _corners.Length;
+            Transform assignedCorner = _corners[cornerIndex];
+            
+            Vector2 randomOffset = Random.insideUnitCircle * _spawnRadius;
+            Vector3 spawnPos = assignedCorner.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+            
             if (i < 1)
             {
                 GameObject charaRef = Instantiate(character);
@@ -31,23 +39,9 @@ public class GameManager : MonoBehaviour
             }
             else
             { 
-                Instantiate(otherCharacters[Random.Range(0, otherCharacters.Length)], GetRandomScreenPosition(), Quaternion.identity);
+                GameObject charaRef = Instantiate(otherCharacters[Random.Range(0, otherCharacters.Length)], spawnPos, Quaternion.identity);
+                charaRef.GetComponent<SearchableCharacter>().Corner = assignedCorner;
             }
         }
-    }
-    
-    private Vector3 GetRandomScreenPosition()
-    {
-        //Main Cam
-        Camera cam = Camera.main;
-
-        // Limits
-        float x = Random.Range(_padding, 1 - _padding);
-        float y = Random.Range(_padding, 1 - _padding);
-
-        //Convert to world position
-        Vector3 worldPos = cam.ViewportToWorldPoint(new Vector3(x, y, cam.nearClipPlane + 5f));
-        worldPos.z = 0; // Para 2D
-        return worldPos;
     }
 }

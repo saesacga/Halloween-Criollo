@@ -1,13 +1,17 @@
 using Pathfinding;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
 {
-    [field: SerializeField] public bool ActiveSearchable { get; set; }
+    [field: SerializeField, ReadOnly] public bool ActiveSearchable { get; set; }
+    [SerializeField] private bool _useCorner;
+    
     private FollowerEntity _followerEntity;
     private Camera _mainCamera;
-    
+    public Transform Corner { get; set; }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log(ActiveSearchable ? "Found!" : "Wrong Character");
@@ -22,8 +26,10 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
 
     public void SetSearchable()
     {
+        _useCorner = false;
+        
         ActiveSearchable = true;
-        FollowSearchable.Instance.Target = transform;
+        FollowSearchable.Instance.Target = transform; //For camera to follow
         
         _followerEntity.rvoSettings.priority = 1;
         
@@ -42,9 +48,15 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
 
     void SetNewRandomDestination()
     {
-        Vector3 randomPos = GetRandomPositionOnScreen();
+        if (_useCorner && Corner != null)
+        {
+            _followerEntity.destination = CornerPosition();
+        }
+        else
+        {
+            _followerEntity.destination = GetRandomPositionOnScreen();
+        }
         
-        _followerEntity.destination = randomPos;
     }
 
     Vector3 GetRandomPositionOnScreen()
@@ -70,5 +82,12 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
         while (Vector3.Distance(transform.position, randomPos) < minDistance && attempts < 10);
 
         return randomPos;
+    }
+
+    private Vector3 CornerPosition()
+    {
+        Vector2 randomOffset = Random.insideUnitCircle * GameManager.Instance.SpawnRadius;
+        Vector3 targetPos = Corner.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+        return targetPos;
     }
 }
