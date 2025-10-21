@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Searchables : MonoBehaviour
@@ -23,17 +24,32 @@ public class Searchables : MonoBehaviour
     {
         GameManager.OnCharactersInstantiated -= SetFirstSearchable;
     }
-
+    
+    private readonly List<GameObject> _searchableCharacters = new List<GameObject>();
+    private int _currentIndex;
     private void SetFirstSearchable()
     {
+        #region Destroy All Searchable Characters (If any)
+
+        if (_searchableCharacters.Count > 0)
+        {
+            foreach (var searchableCharacter in _searchableCharacters) { searchableCharacter.transform.SetParent(null); }
+            foreach (var searchableCharacter in _searchableCharacters) { Destroy(searchableCharacter); }
+            _searchableCharacters.Clear();
+        }
+
+        #endregion
+
         for (var i = 0; i < transform.childCount; i++)
         {
             transform.GetChild(i).gameObject.SetActive(false);
+            _searchableCharacters.Add(transform.GetChild(i).gameObject);
         }
+        
+        _currentIndex = 0;
+        
         ChangeSearchableCharacter();
     }
-
-    private int _currentIndex;
     public void ChangeSearchableCharacter()
     {
         if (transform.childCount == 0) return;
@@ -42,9 +58,10 @@ public class Searchables : MonoBehaviour
         
         var nextCharacter = transform.GetChild(_currentIndex).GetComponent<Character>();
 
-        nextCharacter.gameObject.SetActive(true);
+        if (!nextCharacter.gameObject.activeSelf) nextCharacter.gameObject.SetActive(true); 
+        
         nextCharacter.SetSearchable();
         
-        UnsearchablePool.Instance.ActivateObjects(500);
+        UnsearchablePool.Instance.ActivateObjects(GameManager.Instance.SpawnPerClick);
     }
 }

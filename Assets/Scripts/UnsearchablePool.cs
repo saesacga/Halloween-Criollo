@@ -59,6 +59,11 @@ public class UnsearchablePool : MonoBehaviour
             _pool.Get();
         }
     }
+    
+    public void DestroyAll()
+    {
+        _pool.Clear();
+    }
 
     private void Update()
     {

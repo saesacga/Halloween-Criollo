@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using TMPro;
-
+using System;
 public class GameTime : MonoBehaviour
 {
     #region Singleton 
@@ -23,7 +23,14 @@ public class GameTime : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _clockDisplay;
     
+    public static event Action OnTimeEnd;
+    
     void Start()
+    {
+        SetTime();
+    }
+    
+    public void SetTime()
     {
         float totalHours = _gameEndHour - _gameStartHour;
         float t = 0;
@@ -35,7 +42,7 @@ public class GameTime : MonoBehaviour
                 UpdateClockDisplay();
             })
             .OnComplete(() => {
-                Debug.Log("¡Fin del tiempo de juego!");
+                OnTimeEnd?.Invoke();
             });
     }
 

@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     #region Game Parameters
     
     public enum Level { One, Two, Three }
-    [TabGroup("Game Parameters", TextColor = "orange"), EnumToggleButtons, OnValueChanged(nameof(UpdateEntitySpawn)), SerializeField]
+    [TabGroup("Game Parameters", TextColor = "orange"), EnumToggleButtons, OnValueChanged(nameof(UpdateEntitySpawnQuantity)), SerializeField]
     private Level _currentLevel;
     public Level CurrentLevel
     {
@@ -31,18 +31,22 @@ public class GameManager : MonoBehaviour
         {
             if (_currentLevel == value) return;
             _currentLevel = value;
-            UpdateEntitySpawn();
+            UpdateEntitySpawnQuantity();
         }
     }
     
     [TabGroup("Game Parameters"), ShowIf("@_currentLevel == Level.One"), SerializeField]
-    private int _numberOfTotalCharactersLevel1, _spawnPerClickLevel1;
+    private int _numberOfTotalCharacters1, _spawnPerClick1;
 
     [TabGroup("Game Parameters"), ShowIf("@_currentLevel == Level.Two"), SerializeField]
-    private int _numberOfTotalCharactersLevel2, _spawnPerClickLevel2;
+    private int _numberOfTotalCharacters2, _spawnPerClick2;
 
     [TabGroup("Game Parameters"), ShowIf("@_currentLevel == Level.Three"), SerializeField]
-    private int _numberOfTotalCharactersLevel3, _spawnPerClickLevel3;
+    private int _numberOfTotalCharacters3, _spawnPerClick3;
+    
+    [TabGroup("Game Parameters"), InfoBox("Walk radius of Agents around the corner points"), SerializeField] 
+    private float _walkRadius;
+    public float WalkRadius => _walkRadius;
     
     #endregion
     
@@ -77,15 +81,33 @@ public class GameManager : MonoBehaviour
     
     private int _numberOfCharacters, _spawnPerClick;
     public int NumberOfCharacters => _numberOfCharacters;
+    public int SpawnPerClick => _spawnPerClick;
     
     private GameObject _charaRef;
     public static event Action OnCharactersInstantiated;
     
     #endregion
+
+    private void OnEnable()
+    {
+        GameTime.OnTimeEnd += LevelEnd;
+    }
+
+    private void OnDisable()
+    {
+        GameTime.OnTimeEnd -= LevelEnd;
+    }
     
     private void Start()
     {
-        for (var i = 0; i < _numberOfCharacters; i++)
+        UpdateEntitySpawnQuantity();
+        
+        InstantiateCharacters();
+    }
+
+    private void InstantiateCharacters()
+    {
+        for (var i = 0; i < NumberOfCharacters; i++)
         {
             int index = i % _corners.Length;
             
@@ -99,7 +121,6 @@ public class GameManager : MonoBehaviour
         
         OnCharactersInstantiated?.Invoke();
     }
-    
     private Material UniqueMaterialCheck(GameObject prefabType)
     {
         Material chosenMat = null;
@@ -122,21 +143,32 @@ public class GameManager : MonoBehaviour
         return chosenMat;
     }
 
-    private void UpdateEntitySpawn()
+    private void LevelEnd()
+    {
+        UnsearchablePool.Instance.DestroyAll();
+        _reservedMaterial.Clear();
+        
+        CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
+        
+        InstantiateCharacters();
+        GameTime.Instance.SetTime();
+    }
+
+    private void UpdateEntitySpawnQuantity()
     {
         _numberOfCharacters = _currentLevel switch
         {
-            Level.One => _numberOfTotalCharactersLevel1,
-            Level.Two => _numberOfTotalCharactersLevel2,
-            Level.Three => _numberOfTotalCharactersLevel3,
+            Level.One => _numberOfTotalCharacters1,
+            Level.Two => _numberOfTotalCharacters2,
+            Level.Three => _numberOfTotalCharacters3,
             _ => throw new ArgumentOutOfRangeException()
         };
 
         _spawnPerClick = _currentLevel switch
         {
-            Level.One => _spawnPerClickLevel1,
-            Level.Two => _spawnPerClickLevel2,
-            Level.Three => _spawnPerClickLevel3,
+            Level.One => _spawnPerClick1,
+            Level.Two => _spawnPerClick2,
+            Level.Three => _spawnPerClick3,
             _ => throw new ArgumentOutOfRangeException()
         };
     }
