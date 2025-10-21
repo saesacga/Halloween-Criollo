@@ -11,17 +11,16 @@ public class FollowSearchable : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         
         Instance = this; 
+        
+        _characterRT = transform.GetChild(0).GetComponent<SpriteRenderer>();
     } 
     #endregion
     
-    public Transform Target { get; set; }
-    [SerializeField] private float _yOffset = 1f;
-
-    private void Update()
+    private SpriteRenderer _characterRT;
+    
+    public void SetSprite(Sprite sprite, Material mat)
     {
-        if (Target != null)
-        {
-            transform.position = new Vector3(Target.position.x, Target.position.y + _yOffset, -10f);
-        }
+        _characterRT.sprite = sprite;
+        _characterRT.material = mat;
     }
 }

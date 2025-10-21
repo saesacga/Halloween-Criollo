@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -19,29 +21,64 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _spawnRadius = 3f;
     public float SpawnRadius => _spawnRadius;
     
+    [SerializeField] private Material[] _paletteMaterials;
+    private readonly Dictionary<GameObject, Material> _reservedMaterial = new();
+
+    private GameObject _charaRef;
+    
     private void Start()
     {
-        GameObject character = _characterPrefabs[Random.Range(0, _characterPrefabs.Length)];
-        GameObject[] otherCharacters = System.Array.FindAll(_characterPrefabs, c => c != character);
-
         for (var i = 0; i < _numberOfCharacters; i++)
         {
+            #region SpawnPoint
+
             int cornerIndex = i % _corners.Length;
             Transform assignedCorner = _corners[cornerIndex];
             
             Vector2 randomOffset = Random.insideUnitCircle * _spawnRadius;
             Vector3 spawnPos = assignedCorner.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+
+            #endregion
+
+            var prefabToUse = _characterPrefabs[Random.Range(0, _characterPrefabs.Length)];
+             
+            _charaRef = Instantiate(prefabToUse, spawnPos, Quaternion.identity);
             
-            if (i < 1)
-            {
-                GameObject charaRef = Instantiate(character);
-                charaRef.GetComponent<SearchableCharacter>().SetSearchable(); 
-            }
-            else
-            { 
-                GameObject charaRef = Instantiate(otherCharacters[Random.Range(0, otherCharacters.Length)], spawnPos, Quaternion.identity);
-                charaRef.GetComponent<SearchableCharacter>().Corner = assignedCorner;
-            }
+            _charaRef.GetComponent<SearchableCharacter>().SetMaterial(AssignMaterialWithUniqueFirst(prefabToUse));
+            _charaRef.GetComponent<SearchableCharacter>().Corner = assignedCorner;
+            
+            if (i < 1) _charaRef.GetComponent<SearchableCharacter>().SetSearchable();
         }
+    }
+    
+    private List<GameObject> _searchableCharactersList = new List<GameObject>();
+    private Material AssignMaterialWithUniqueFirst(GameObject prefabType)
+    {
+        Material chosenMat = null;
+
+        if (_reservedMaterial.TryGetValue(prefabType, out var value)) //There is a reserved material
+        {
+            var allowedMats = _paletteMaterials.Where(m => m != value).ToArray();
+            chosenMat = allowedMats[Random.Range(0, allowedMats.Length)];
+        }
+        else
+        {
+            chosenMat = _paletteMaterials[Random.Range(0, _paletteMaterials.Length)];
+            _reservedMaterial[prefabType] = chosenMat;
+            _searchableCharactersList.Add(_charaRef);
+        }
+        
+        return chosenMat;
+    }
+
+    private int _currentIndex;
+    public void ChangeSearchableCharacter()
+    {
+        if (_searchableCharactersList.Count == 0) return;
+        
+        _currentIndex = (_currentIndex + 1) % _searchableCharactersList.Count; //Cycles through the list
+        
+        var nextCharacter = _searchableCharactersList[_currentIndex];
+        nextCharacter.GetComponent<SearchableCharacter>().SetSearchable();
     }
 }

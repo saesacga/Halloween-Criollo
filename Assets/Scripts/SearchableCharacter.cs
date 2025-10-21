@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Pathfinding;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,31 +12,60 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
     private FollowerEntity _followerEntity;
     private Camera _mainCamera;
     public Transform Corner { get; set; }
+    
+    private GameObject _visualCharacter;
+    
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(ActiveSearchable ? "Found!" : "Wrong Character");
+        if (ActiveSearchable) SetUnsearchable();
     }
 
     private void OnEnable()
     {
         _mainCamera = Camera.main;
+        
         _followerEntity = GetComponent<FollowerEntity>();
+        _visualCharacter = transform.GetChild(0).gameObject;
+
         SetNewRandomDestination();
     }
 
     public void SetSearchable()
     {
-        _useCorner = false;
-        
         ActiveSearchable = true;
-        FollowSearchable.Instance.Target = transform; //For camera to follow
         
+        _useCorner = false;
         _followerEntity.rvoSettings.priority = 1;
         
-        var charaRefVisual = transform.GetChild(0).gameObject;
-        charaRefVisual.layer = LayerMask.NameToLayer("Searchable");
-        charaRefVisual.transform.position = Vector3.back;
+        _visualCharacter.transform.localPosition = Vector3.back;
+        
+        var spriteRenderer = _visualCharacter.GetComponent<SpriteRenderer>();
+        FollowSearchable.Instance.SetSprite(spriteRenderer.sprite, spriteRenderer.material);//For camera Render Texture
+    }
+    private void SetUnsearchable()
+    {
+        ActiveSearchable = false;
+        
+        _useCorner = true;
+        _followerEntity.rvoSettings.priority = 0;
+        
+        _visualCharacter.transform.localPosition = Vector3.zero;
+        
+        GameManager.Instance.ChangeSearchableCharacter();
+        
+        _visualCharacter.transform.DOScale(1.5f, 0.1f)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                _visualCharacter.transform.DOScale(1, 0.2f)
+                    .SetEase(Ease.OutBack);
+            });
+    }
+
+    public void SetMaterial(Material mat)
+    {
+        _visualCharacter.GetComponent<SpriteRenderer>().material = mat;
     }
 
     private void Update()

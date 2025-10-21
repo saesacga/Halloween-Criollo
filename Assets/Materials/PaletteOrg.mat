@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ch1Palette 1
-  m_Shader: {fileID: 4800000, guid: 6091617cc5cf885458fd7720e0a38d25, type: 3}
+  m_Name: PaletteOrg
+  m_Shader: {fileID: 4800000, guid: 13c02b14c4d048fa9653293d54f6e0e1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -40,15 +40,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Palette:
-        m_Texture: {fileID: 2800000, guid: 9719059220338d541bf078ecc0ac1124, type: 3}
+        m_Texture: {fileID: 2800000, guid: 658f5c76377218146861bc7835a7e65f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Swap:
-        m_Texture: {fileID: 2800000, guid: b2a9f2da5e2c41e42b0b5d35761e1744, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - PixelSnap: 0
     - _EnableExternalAlpha: 0
     - _ZWrite: 0
     m_Colors:
