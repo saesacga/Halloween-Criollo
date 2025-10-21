@@ -3,9 +3,8 @@ using Pathfinding;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
-public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
+public class Character : MonoBehaviour, IPointerClickHandler
 {
     [field: SerializeField, ReadOnly] public bool ActiveSearchable { get; set; }
     [SerializeField] private bool _useCorner;
@@ -53,7 +52,7 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
         
         _visualCharacter.transform.localPosition = Vector3.zero;
         
-        GameManager.Instance.ChangeSearchableCharacter();
+        Searchables.Instance.ChangeSearchableCharacter();
         
         _visualCharacter.transform.DOScale(1.5f, 0.1f)
             .SetEase(Ease.OutQuad)
@@ -74,11 +73,6 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
         if (_followerEntity.reachedEndOfPath || _followerEntity.velocity.sqrMagnitude < 0.1f)
         {
             SetNewRandomDestination();
-        }
-        
-        if (Keyboard.current.gKey.wasPressedThisFrame && !ActiveSearchable)
-        {
-            GameManager.Instance.Pool.Release(gameObject);
         }
     }
 
