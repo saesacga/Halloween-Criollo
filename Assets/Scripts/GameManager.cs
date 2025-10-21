@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
     #region Singleton y Object Pool
     public static GameManager Instance { get; private set; }
-    private ObjectPool<GameObject> _pool;
+    public ObjectPool<GameObject> Pool;
     
     private void Awake() 
     { 
@@ -15,13 +17,22 @@ public class GameManager : MonoBehaviour
         
         Instance = this;
 
-        _pool = new ObjectPool<GameObject>(createFunc: () => null,
-            actionOnGet: obj => { if(obj != null) obj.SetActive(true); },
+        Pool = new ObjectPool<GameObject>(createFunc: () => null,
+            actionOnGet: OnGet,
             actionOnRelease: obj => { if(obj != null) obj.SetActive(false); },
             actionOnDestroy: obj => { if(obj != null) Destroy(obj); },
             collectionCheck: false,
             defaultCapacity: 20,
             maxSize: _numberOfCharacters);
+    }
+
+    private void OnGet(GameObject obj)
+    {
+        if (obj == null) return;
+        
+        obj.transform.position = _spawnPos[Random.Range(0, _spawnPos.Length)].position;
+        
+        obj.SetActive(true);
     }
 
     #endregion
@@ -47,23 +58,22 @@ public class GameManager : MonoBehaviour
 
             int index = i % _corners.Length;
             
-            var spawnPos = _spawnPos[index].position;
-            
             #endregion
 
             var prefabToUse = _characterPrefabs[Random.Range(0, _characterPrefabs.Length)];
              
-            _charaRef = Instantiate(prefabToUse, spawnPos, Quaternion.identity);
+            _charaRef = Instantiate(prefabToUse, _spawnPos[Random.Range(0, _spawnPos.Length)].position, Quaternion.identity);
             
-            _charaRef.GetComponent<SearchableCharacter>().SetMaterial(AssignMaterialWithUniqueFirst(prefabToUse));
             _charaRef.GetComponent<SearchableCharacter>().Corner = _corners[index];
-            
-            if (i < 1) _charaRef.GetComponent<SearchableCharacter>().SetSearchable();
+            _charaRef.GetComponent<SearchableCharacter>().SetMaterial(AssignMaterial(prefabToUse));
+
+            if (i >= 1) continue;
+            _charaRef.GetComponent<SearchableCharacter>().SetSearchable();
         }
     }
     
     private List<GameObject> _searchableCharactersList = new List<GameObject>();
-    private Material AssignMaterialWithUniqueFirst(GameObject prefabType)
+    private Material AssignMaterial(GameObject prefabType)
     {
         Material chosenMat = null;
 
@@ -72,13 +82,15 @@ public class GameManager : MonoBehaviour
             var allowedMats = _paletteMaterials.Where(m => m != value).ToArray();
             chosenMat = allowedMats[Random.Range(0, allowedMats.Length)];
             
-            _pool.Release(_charaRef);
+            Pool.Release(_charaRef);
         }
         else
         {
             chosenMat = _paletteMaterials[Random.Range(0, _paletteMaterials.Length)];
             _reservedMaterial[prefabType] = chosenMat;
+            
             _searchableCharactersList.Add(_charaRef);
+            if (_searchableCharactersList.Count > 1) _charaRef.SetActive(false); 
         }
         
         return chosenMat;
@@ -92,16 +104,18 @@ public class GameManager : MonoBehaviour
         _currentIndex = (_currentIndex + 1) % _searchableCharactersList.Count; //Cycles through the list
         
         var nextCharacter = _searchableCharactersList[_currentIndex];
+
+        if (!nextCharacter.activeSelf) nextCharacter.SetActive(true);
         nextCharacter.GetComponent<SearchableCharacter>().SetSearchable();
         
         ActivateObjects(500);
     }
 
-    private void ActivateObjects(int count)
+    public void ActivateObjects(int count)
     {
         for (var i = 0; i < count; i++)
         { 
-            _pool.Get();
+            Pool.Get();
         }
     }
 }

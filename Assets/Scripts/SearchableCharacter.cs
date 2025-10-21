@@ -3,6 +3,7 @@ using Pathfinding;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
 {
@@ -73,6 +74,11 @@ public class SearchableCharacter : MonoBehaviour, IPointerClickHandler
         if (_followerEntity.reachedEndOfPath || _followerEntity.velocity.sqrMagnitude < 0.1f)
         {
             SetNewRandomDestination();
+        }
+        
+        if (Keyboard.current.gKey.wasPressedThisFrame && !ActiveSearchable)
+        {
+            GameManager.Instance.Pool.Release(gameObject);
         }
     }
 
