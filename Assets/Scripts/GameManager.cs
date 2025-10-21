@@ -1,18 +1,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class GameManager : MonoBehaviour
 {
-    #region Singleton 
+    #region Singleton y Object Pool
     public static GameManager Instance { get; private set; }
+    private ObjectPool<GameObject> _pool;
     
     private void Awake() 
     { 
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         
-        Instance = this; 
-    } 
+        Instance = this;
+
+        _pool = new ObjectPool<GameObject>(createFunc: () => null,
+            actionOnGet: obj => { if(obj != null) obj.SetActive(true); },
+            actionOnRelease: obj => { if(obj != null) obj.SetActive(false); },
+            actionOnDestroy: obj => { if(obj != null) Destroy(obj); },
+            collectionCheck: false,
+            defaultCapacity: 20,
+            maxSize: _numberOfCharacters);
+    }
+
     #endregion
     
     [SerializeField] private GameObject[] _characterPrefabs;
@@ -20,6 +31,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform[] _corners;
     [SerializeField] private float _spawnRadius = 3f;
     public float SpawnRadius => _spawnRadius;
+    
+    [SerializeField] private Transform[] _spawnPos;
     
     [SerializeField] private Material[] _paletteMaterials;
     private readonly Dictionary<GameObject, Material> _reservedMaterial = new();
@@ -32,12 +45,10 @@ public class GameManager : MonoBehaviour
         {
             #region SpawnPoint
 
-            int cornerIndex = i % _corners.Length;
-            Transform assignedCorner = _corners[cornerIndex];
+            int index = i % _corners.Length;
             
-            Vector2 randomOffset = Random.insideUnitCircle * _spawnRadius;
-            Vector3 spawnPos = assignedCorner.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
-
+            var spawnPos = _spawnPos[index].position;
+            
             #endregion
 
             var prefabToUse = _characterPrefabs[Random.Range(0, _characterPrefabs.Length)];
@@ -45,7 +56,7 @@ public class GameManager : MonoBehaviour
             _charaRef = Instantiate(prefabToUse, spawnPos, Quaternion.identity);
             
             _charaRef.GetComponent<SearchableCharacter>().SetMaterial(AssignMaterialWithUniqueFirst(prefabToUse));
-            _charaRef.GetComponent<SearchableCharacter>().Corner = assignedCorner;
+            _charaRef.GetComponent<SearchableCharacter>().Corner = _corners[index];
             
             if (i < 1) _charaRef.GetComponent<SearchableCharacter>().SetSearchable();
         }
@@ -60,6 +71,8 @@ public class GameManager : MonoBehaviour
         {
             var allowedMats = _paletteMaterials.Where(m => m != value).ToArray();
             chosenMat = allowedMats[Random.Range(0, allowedMats.Length)];
+            
+            _pool.Release(_charaRef);
         }
         else
         {
@@ -80,5 +93,15 @@ public class GameManager : MonoBehaviour
         
         var nextCharacter = _searchableCharactersList[_currentIndex];
         nextCharacter.GetComponent<SearchableCharacter>().SetSearchable();
+        
+        ActivateObjects(500);
+    }
+
+    private void ActivateObjects(int count)
+    {
+        for (var i = 0; i < count; i++)
+        { 
+            _pool.Get();
+        }
     }
 }
