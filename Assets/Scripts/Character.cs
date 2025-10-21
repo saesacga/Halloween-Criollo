@@ -15,6 +15,8 @@ public class Character : MonoBehaviour, IPointerClickHandler
     
     private GameObject _visualCharacter;
     
+    [SerializeField] private float _walkRadius;
+    
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -116,7 +118,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
 
     private Vector3 CornerPosition()
     {
-        Vector2 randomOffset = Random.insideUnitCircle * GameManager.Instance.SpawnRadius;
+        Vector2 randomOffset = Random.insideUnitCircle * _walkRadius;
         Vector3 targetPos = Corner.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
         return targetPos;
     }

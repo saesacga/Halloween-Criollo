@@ -2815,23 +2815,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7018cb3a8db93324eb606fa183902606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _currentLevel: 2
+  _numberOfTotalCharactersLevel1: 100
+  _spawnPerClickLevel1: 10
+  _numberOfTotalCharactersLevel2: 200
+  _spawnPerClickLevel2: 20
+  _numberOfTotalCharactersLevel3: 500
+  _spawnPerClickLevel3: 50
+  _numberOfCharacters: 500
+  _spawnPerClick: 50
   _characterPrefabs:
   - {fileID: 6571516033583601351, guid: f6edbe1789ea3624396f496fa27cd7c4, type: 3}
   - {fileID: 6571516033583601351, guid: d0ad3a02e2903d04da91b4fb480fee2e, type: 3}
-  _numberOfCharacters: 500
-  _corners:
-  - {fileID: 1347439515}
-  - {fileID: 2037385772}
-  - {fileID: 697081543}
-  - {fileID: 1155337547}
-  _spawnRadius: 10
-  _spawnPoints:
-  - {fileID: 198843969}
-  - {fileID: 1610665176}
-  - {fileID: 699134969}
-  - {fileID: 379506862}
-  _searchableParent: {fileID: 623632026}
-  _unsearchableParent: {fileID: 2144167836}
   _paletteMaterials:
   - {fileID: 2100000, guid: 29aba10a9aec8484c90a5f84c3daa418, type: 2}
   - {fileID: 2100000, guid: 3044fc12d0ddff147bab15ea6e477361, type: 2}
@@ -2839,6 +2834,18 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 21fe7ba2229fe6f4f890f7b7c312212d, type: 2}
   - {fileID: 2100000, guid: d702452802ca0dd4d822d34a36996f2e, type: 2}
   - {fileID: 2100000, guid: 953021c787733104aab0ba360ff0dc6c, type: 2}
+  _corners:
+  - {fileID: 1347439515}
+  - {fileID: 2037385772}
+  - {fileID: 697081543}
+  - {fileID: 1155337547}
+  _spawnPoints:
+  - {fileID: 198843969}
+  - {fileID: 1610665176}
+  - {fileID: 699134969}
+  - {fileID: 379506862}
+  _searchableParent: {fileID: 623632026}
+  _unsearchableParent: {fileID: 2144167836}
 --- !u!1 &964398290
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -17,25 +18,70 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    #region Game Parameters
     
-    [SerializeField] private GameObject[] _characterPrefabs;
-    [SerializeField] private int _numberOfCharacters;
-    public int NumberOfCharacters => _numberOfCharacters;
-    [SerializeField] private Transform[] _corners;
-    [SerializeField] private float _spawnRadius;
-    public float SpawnRadius => _spawnRadius;
+    public enum Level { One, Two, Three }
+    [TabGroup("Game Parameters", TextColor = "orange"), EnumToggleButtons, OnValueChanged(nameof(UpdateEntitySpawn)), SerializeField]
+    private Level _currentLevel;
+    public Level CurrentLevel
+    {
+        get => _currentLevel; // devuelve el valor actual
+        set
+        {
+            if (_currentLevel == value) return;
+            _currentLevel = value;
+            UpdateEntitySpawn();
+        }
+    }
     
-    [SerializeField] private Transform[] _spawnPoints;
+    [TabGroup("Game Parameters"), ShowIf("@_currentLevel == Level.One"), SerializeField]
+    private int _numberOfTotalCharactersLevel1, _spawnPerClickLevel1;
+
+    [TabGroup("Game Parameters"), ShowIf("@_currentLevel == Level.Two"), SerializeField]
+    private int _numberOfTotalCharactersLevel2, _spawnPerClickLevel2;
+
+    [TabGroup("Game Parameters"), ShowIf("@_currentLevel == Level.Three"), SerializeField]
+    private int _numberOfTotalCharactersLevel3, _spawnPerClickLevel3;
+    
+    #endregion
+    
+    #region Global Assets References
+
+    [TabGroup("Global Assets References", TextColor = "green"), SerializeField, AssetsOnly] 
+    private GameObject[] _characterPrefabs;
+    
+    [TabGroup("Global Assets References"), SerializeField, AssetsOnly] 
+    private Material[] _paletteMaterials;
+    private readonly Dictionary<GameObject, Material> _reservedMaterial = new();
+    
+    #endregion
+
+    #region Global Scene References
+
+    [TabGroup("Global Scene References", TextColor = "yellow"), SerializeField] 
+    private Transform[] _corners;
+    
+    [TabGroup("Global Scene References"), SerializeField] 
+    private Transform[] _spawnPoints;
     public Transform[] SpawnPoints => _spawnPoints;
     
-    [SerializeField] private Transform _searchableParent, _unsearchableParent;
+    [TabGroup("Global Scene References"), Title("Character Parents"), SerializeField] 
+    private Transform _searchableParent;
+    [TabGroup("Global Scene References"), SerializeField] 
+    private Transform _unsearchableParent;
     
-    [SerializeField] private Material[] _paletteMaterials;
-    private readonly Dictionary<GameObject, Material> _reservedMaterial = new();
+    #endregion
 
-    private GameObject _charaRef;
+    #region Non Serialized
     
+    private int _numberOfCharacters, _spawnPerClick;
+    public int NumberOfCharacters => _numberOfCharacters;
+    
+    private GameObject _charaRef;
     public static event Action OnCharactersInstantiated;
+    
+    #endregion
     
     private void Start()
     {
@@ -74,5 +120,24 @@ public class GameManager : MonoBehaviour
         }
         
         return chosenMat;
+    }
+
+    private void UpdateEntitySpawn()
+    {
+        _numberOfCharacters = _currentLevel switch
+        {
+            Level.One => _numberOfTotalCharactersLevel1,
+            Level.Two => _numberOfTotalCharactersLevel2,
+            Level.Three => _numberOfTotalCharactersLevel3,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        _spawnPerClick = _currentLevel switch
+        {
+            Level.One => _spawnPerClickLevel1,
+            Level.Two => _spawnPerClickLevel2,
+            Level.Three => _spawnPerClickLevel3,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }
