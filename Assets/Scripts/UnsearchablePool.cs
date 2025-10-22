@@ -1,14 +1,16 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine.Pool;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class UnsearchablePool : MonoBehaviour
 {
     #region Singleton & Object Pool
 
-    private ObjectPool<GameObject> _pool;
+    public ObjectPool<GameObject> Pool;
+    
+    private List<GameObject> _activePoolObjects = new List<GameObject>();
+    public IReadOnlyList<GameObject> ActivePoolObjects => _activePoolObjects;
     public static UnsearchablePool Instance { get; private set; }
     private void Awake()
     {
@@ -16,13 +18,13 @@ public class UnsearchablePool : MonoBehaviour
         
         Instance = this;
         
-        _pool = new ObjectPool<GameObject>(createFunc: () => null,
+        Pool = new ObjectPool<GameObject>(createFunc: () => null,
             actionOnGet: OnGet,
-            actionOnRelease: obj => { if(obj != null) obj.SetActive(false); },
+            actionOnRelease: OnRelease,
             actionOnDestroy: obj => { if(obj != null) Destroy(obj); },
             collectionCheck: false,
             defaultCapacity: 20,
-            maxSize: 500);
+            maxSize: 800);
     }
     private void OnGet(GameObject obj)
     {
@@ -31,6 +33,15 @@ public class UnsearchablePool : MonoBehaviour
         obj.transform.position = GameManager.Instance.SpawnPoints[Random.Range(0, GameManager.Instance.SpawnPoints.Length)].position;
         
         obj.SetActive(true);
+        _activePoolObjects.Add(obj);
+    }
+
+    private void OnRelease(GameObject obj)
+    {
+        if (obj == null) return;
+        
+        obj.SetActive(false);
+        _activePoolObjects.Remove(obj);
     }
     
     #endregion
@@ -48,7 +59,7 @@ public class UnsearchablePool : MonoBehaviour
     {
         for (var i = 0; i < transform.childCount; i++)
         {
-            _pool.Release(transform.GetChild(i).gameObject);
+            Pool.Release(transform.GetChild(i).gameObject);
         }
     }
     
@@ -56,12 +67,12 @@ public class UnsearchablePool : MonoBehaviour
     {
         for (var i = 0; i < count; i++)
         { 
-            _pool.Get();
+            Pool.Get();
         }
     }
     
     public void DestroyAll()
     {
-        _pool.Clear();
+        Pool.Clear();
     }
 }

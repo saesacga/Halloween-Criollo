@@ -6,21 +6,16 @@ using UnityEngine.EventSystems;
 
 public class Character : MonoBehaviour, IPointerClickHandler
 {
+    [SerializeField] private string _characterName;
     [field: SerializeField, ReadOnly] public bool ActiveSearchable { get; set; }
     [SerializeField] private bool _useCorner;
-    
+
     private FollowerEntity _followerEntity;
     private Camera _mainCamera;
     public Transform Corner { get; set; }
     
     private GameObject _visualCharacter;
     
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (ActiveSearchable) SetUnsearchable();
-        else WrongAnimation();
-    }
-
     private void OnEnable()
     {
         _mainCamera = Camera.main;
@@ -30,7 +25,13 @@ public class Character : MonoBehaviour, IPointerClickHandler
 
         SetNewRandomDestination();
     }
-
+    
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (ActiveSearchable) SetUnsearchable();
+        else WrongAnimation();
+    }
+    
     public void SetSearchable()
     {
         ActiveSearchable = true;
@@ -42,6 +43,8 @@ public class Character : MonoBehaviour, IPointerClickHandler
         
         var spriteRenderer = _visualCharacter.GetComponent<SpriteRenderer>();
         FollowSearchable.Instance.SetSprite(spriteRenderer.sprite, spriteRenderer.material);//For camera Render Texture
+        
+        GameManager.Instance.CharacterName.text = _characterName;
     }
     private void SetUnsearchable()
     {
@@ -59,9 +62,14 @@ public class Character : MonoBehaviour, IPointerClickHandler
         Searchables.Instance.ChangeSearchableCharacter();
     }
 
+    #region Visuals
+
+    private Tween _shakeTween;
     private void WrongAnimation()
     {
-        _visualCharacter.transform.DOShakePosition(
+        _shakeTween?.Kill();
+        
+        _shakeTween = _visualCharacter.transform.DOShakePosition(
             duration: 0.3f,
             strength: new Vector3(0.05f, 0.05f, 0),
             vibrato: 30,
@@ -71,9 +79,12 @@ public class Character : MonoBehaviour, IPointerClickHandler
         );
     }
 
+    private Tween _scaleTween;
     private void RightAnimation()
     {
-        _visualCharacter.transform.DOScale(1.5f, 0.1f)
+        _scaleTween?.Kill();
+        
+        _scaleTween= _visualCharacter.transform.DOScale(1.5f, 0.1f)
             .SetEase(Ease.OutQuad)
             .OnComplete(() =>
             {
@@ -86,7 +97,11 @@ public class Character : MonoBehaviour, IPointerClickHandler
     {
         _visualCharacter.GetComponent<SpriteRenderer>().material = mat;
     }
+    
+    #endregion
 
+    #region Pathfinding
+    
     private void Update()
     {
         if (_followerEntity.reachedEndOfPath || _followerEntity.velocity.sqrMagnitude < 0.1f)
@@ -139,4 +154,6 @@ public class Character : MonoBehaviour, IPointerClickHandler
         Vector3 targetPos = Corner.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
         return targetPos;
     }
+
+    #endregion
 }

@@ -10,12 +10,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 403021850790436683, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_Name
-      value: Character1
+      value: Char1
       objectReference: {fileID: 0}
     - target: {fileID: 932008134109605266, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 3e8235a508abf1542aa916c7d25f60b9, type: 2}
+    - target: {fileID: 2724395757957260892, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
+      propertyPath: _characterName
+      value: No puedo tengo fubol
+      objectReference: {fileID: 0}
     - target: {fileID: 4340855832774808889, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -2,6 +2,8 @@ using UnityEngine;
 using DG.Tweening;
 using TMPro;
 using System;
+using Sirenix.OdinInspector;
+
 public class GameTime : MonoBehaviour
 {
     #region Singleton 
@@ -17,8 +19,7 @@ public class GameTime : MonoBehaviour
     
     private readonly float _gameEndHour = 23f;   // 11 PM
     private readonly float _gameStartHour = 19f; // 7 PM
-    [SerializeField] private float _durationInSeconds = 180f; // 3 minutes
-
+    [SerializeField] private float _durationInSeconds = 180f;
     public float CurrentHour { get; private set; }
 
     [SerializeField] private TextMeshProUGUI _clockDisplay;
@@ -26,16 +27,17 @@ public class GameTime : MonoBehaviour
     public static event Action OnTimeEnd;
     
     void Start()
-    {
+    { 
         SetTime();
     }
-    
+
+    private Tween _timeTween;
     public void SetTime()
     {
         float totalHours = _gameEndHour - _gameStartHour;
         float t = 0;
 
-        DOTween.To(() => t, x => t = x, totalHours, _durationInSeconds)
+        _timeTween = DOTween.To(() => t, x => t = x, totalHours, _durationInSeconds)
             .SetEase(Ease.Linear)
             .OnUpdate(() => {
                 CurrentHour = _gameStartHour + t;
@@ -70,5 +72,20 @@ public class GameTime : MonoBehaviour
                 _lastMinute = minute;
             }
         }
+    }
+    
+    [Button]
+    private void PauseTimer()
+    {
+        _timeTween?.Pause();
+    }
+    [Button]
+    private void ResumeTimer()
+    {
+        if (_timeTween == null) SetTime();
+     
+        if(_timeTween.IsPlaying()) return;
+        
+        _timeTween.Play();
     }
 }

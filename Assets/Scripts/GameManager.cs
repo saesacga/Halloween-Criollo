@@ -76,11 +76,12 @@ public class GameManager : MonoBehaviour
     [TabGroup("Global Scene References"), SerializeField, SceneObjectsOnly] 
     private Transform _unsearchableParent;
 
-    [TabGroup("Global Scene References"), Title("UI for score"), SerializeField, SceneObjectsOnly]
+    [TabGroup("Global Scene References"), Title("In Game UI"), SerializeField, SceneObjectsOnly]
     private TextMeshProUGUI _dailyScoreUI;
-    
     [TabGroup("Global Scene References"), SerializeField, SceneObjectsOnly]
     private TextMeshProUGUI _totalScoreUI;
+    [field: SerializeField, TabGroup("Global Scene References"), SceneObjectsOnly]
+    public TextMeshProUGUI CharacterName { get; set; }
     
     #endregion
 

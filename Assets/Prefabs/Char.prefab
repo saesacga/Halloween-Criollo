@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4340855832774808889}
   - component: {fileID: 3892430043764924108}
   - component: {fileID: 2724395757957260892}
+  - component: {fileID: 5621645834137286248}
   m_Layer: 7
   m_Name: Char
   m_TagString: Untagged
@@ -105,8 +106,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a932265a960c6346992f5e4e9e37c35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SearchableCharacter
+  _characterName: 
   <ActiveSearchable>k__BackingField: 0
   _useCorner: 1
+  FollowerEntity: {fileID: 0}
+--- !u!114 &5621645834137286248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 403021850790436683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c3172d59b44be4ea7921ec73950c66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &8578384221619566124
 GameObject:
   m_ObjectHideFlags: 0

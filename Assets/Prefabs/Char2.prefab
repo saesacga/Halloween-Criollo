@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: d702452802ca0dd4d822d34a36996f2e, type: 2}
+    - target: {fileID: 2724395757957260892, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
+      propertyPath: _characterName
+      value: "Adulto beb\xE9"
+      objectReference: {fileID: 0}
     - target: {fileID: 4340855832774808889, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

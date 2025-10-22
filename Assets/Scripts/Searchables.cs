@@ -16,6 +16,17 @@ public class Searchables : MonoBehaviour
     
     #endregion
 
+    private GameObject _activeSearchable;
+    private GameObject ActiveSearchable
+    {
+        get => _activeSearchable;
+        set
+        {
+            _activeSearchable = value;
+            CinemachineCamerasHandler.Instance.FollowSearchableCam.Follow = value.transform;
+        }
+    }
+    
     private void OnEnable()
     {
         GameManager.OnCharactersInstantiated += SetFirstSearchable;
@@ -26,6 +37,7 @@ public class Searchables : MonoBehaviour
     }
     
     private readonly List<GameObject> _searchableCharacters = new List<GameObject>();
+    public IReadOnlyList<GameObject> SearchableCharacters => _searchableCharacters;
     private int _currentIndex;
     private void SetFirstSearchable()
     {
@@ -55,8 +67,10 @@ public class Searchables : MonoBehaviour
         if (transform.childCount == 0) return;
         
         _currentIndex = (_currentIndex + 1) % transform.childCount; //Cycles through the list
+
+        ActiveSearchable = transform.GetChild(_currentIndex).gameObject;
         
-        var nextCharacter = transform.GetChild(_currentIndex).GetComponent<Character>();
+        var nextCharacter = ActiveSearchable.GetComponent<Character>();
 
         if (!nextCharacter.gameObject.activeSelf) nextCharacter.gameObject.SetActive(true); 
         
