@@ -64,16 +64,4 @@ public class UnsearchablePool : MonoBehaviour
     {
         _pool.Clear();
     }
-
-    private void Update()
-    {
-        if (Keyboard.current.gKey.wasPressedThisFrame)
-        {
-            for (var i = 0; i < transform.childCount; i++)
-            {
-                var obj = transform.GetChild(i).gameObject;
-                if (obj.activeSelf) _pool.Release(obj);
-            }
-        }
-    }
 }
