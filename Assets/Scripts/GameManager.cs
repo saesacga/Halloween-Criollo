@@ -103,13 +103,15 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         GameTime.OnTimeEnd += LevelEnd;
-        LevelCompleteAnimation.OnEndLevelUIOpen += NewLevelConfig;
+        LevelCompleteAnimation.OnEndLevelUIOpen += NewLevelOpenMenuConfig;
+        LevelCompleteAnimation.OnEndLevelUIClose += NewLevelCloseMenuConfig;
     }
 
     private void OnDisable()
     {
         GameTime.OnTimeEnd -= LevelEnd;
-        LevelCompleteAnimation.OnEndLevelUIOpen -= NewLevelConfig;
+        LevelCompleteAnimation.OnEndLevelUIOpen -= NewLevelOpenMenuConfig;
+        LevelCompleteAnimation.OnEndLevelUIClose -= NewLevelCloseMenuConfig;
     }
     
     private void Start()
@@ -171,20 +173,22 @@ public class GameManager : MonoBehaviour
 
     private void LevelEnd()
     {
-        UnsearchablePool.Instance.DestroyAll();
+        LevelCompleteAnimation.Instance.SetLevelCompletedText();
         _reservedMaterial.Clear();
-        
         CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
-        
-        DailyScore = 0;
     }
 
-    private void NewLevelConfig()
+    private void NewLevelOpenMenuConfig()
     {
-        UpdateScoreText();
+        UnsearchablePool.Instance.DestroyAll();
         InstantiateCharacters();
-        GameTime.Instance.SetTime();
         UnsearchablePool.Instance.ActivateObjects(30);
+    }
+    private void NewLevelCloseMenuConfig()
+    {
+        DailyScore = 0;
+        UpdateScoreText();
+        GameTime.Instance.SetTime();
     }
     
     private void UpdateEntitySpawnQuantity()

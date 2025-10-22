@@ -55,6 +55,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
     private Sequence _closeSequence;
     private bool _sequenceEnd;
     public static event Action OnEndLevelUIOpen;
+    public static event Action OnEndLevelUIClose;
 
     private void Start()
     {
@@ -70,24 +71,13 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
 
         #endregion
     }
-
-    private void Update()
-    {
-        if (Keyboard.current.gKey.wasPressedThisFrame)
-        {
-            SetLevelCompletedText();
-        }
-    }
-
+    
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!_sequenceEnd) return;
         
         CloseLevelCompleteUI();
         _sequenceEnd = false;
-        OnEndLevelUIOpen?.Invoke();
-        Debug.Log("Clicked");
-
     }
 
     public void SetLevelCompletedText()
@@ -99,7 +89,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
             .SetEase(Ease.Linear)
             .SetLoops(-1, LoopType.Restart);
         
-        _openSequence.Append(_bg.DOAnchorPos(Vector2.zero, _animationDuration).SetEase(Ease.OutBounce));
+        _openSequence.Append(_bg.DOAnchorPos(Vector2.zero, _animationDuration).SetEase(Ease.OutBounce).OnComplete(()=>OnEndLevelUIOpen?.Invoke()));
         _openSequence.Append(_levelCompleted.DOScale(Vector3.one, _animationDuration/2).SetEase(Ease.OutBack));
         _openSequence.Append(_charactersFounded.DOAnchorPosY(1, _animationDuration/2).SetEase(Ease.OutBack));
         _openSequence.AppendInterval(0.2f);
@@ -146,7 +136,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         
         _closeSequence.Append(_clickToContinue.DOAnchorPosY(_clickToContinueInitialPos, 0.2f).SetEase(Ease.InBack));
         _closeSequence.Append(_charactersFounded.DOAnchorPosY(_charactersFoundedInitialPos, _animationDuration/2).SetEase(Ease.InBack));
-        _closeSequence.Append(_levelCompleted.DOScale(Vector3.zero, _animationDuration/2).SetEase(Ease.InBack));
+        _closeSequence.Append(_levelCompleted.DOScale(Vector3.zero, _animationDuration/2).SetEase(Ease.InBack).OnComplete(()=>OnEndLevelUIClose?.Invoke()));
         _closeSequence.Append(_bg.DOAnchorPosY(_bgInitialPos, _animationDuration).SetEase(Ease.InBounce));
         _closeSequence.OnComplete(() =>
         {
