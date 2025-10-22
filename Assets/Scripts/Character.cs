@@ -18,6 +18,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (ActiveSearchable) SetUnsearchable();
+        else WrongAnimation();
     }
 
     private void OnEnable()
@@ -44,15 +45,34 @@ public class Character : MonoBehaviour, IPointerClickHandler
     }
     private void SetUnsearchable()
     {
+        GameManager.Instance.UpdateScore();
+        
         ActiveSearchable = false;
         
         _useCorner = true;
         _followerEntity.rvoSettings.priority = 0;
         
         _visualCharacter.transform.localPosition = Vector3.zero;
+
+        RightAnimation();
         
         Searchables.Instance.ChangeSearchableCharacter();
-        
+    }
+
+    private void WrongAnimation()
+    {
+        _visualCharacter.transform.DOShakePosition(
+            duration: 0.3f,
+            strength: new Vector3(0.05f, 0.05f, 0),
+            vibrato: 30,
+            randomness: 90,
+            snapping: false, 
+            fadeOut: false
+        );
+    }
+
+    private void RightAnimation()
+    {
         _visualCharacter.transform.DOScale(1.5f, 0.1f)
             .SetEase(Ease.OutQuad)
             .OnComplete(() =>

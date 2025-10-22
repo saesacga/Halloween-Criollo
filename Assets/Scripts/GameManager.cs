@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using TMPro;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
     public enum Level { One, Two, Three }
     [TabGroup("Game Parameters", TextColor = "orange"), EnumToggleButtons, OnValueChanged(nameof(UpdateEntitySpawnQuantity)), SerializeField]
     private Level _currentLevel;
-    public Level CurrentLevel
+    private Level CurrentLevel
     {
         get => _currentLevel; // devuelve el valor actual
         set
@@ -63,17 +64,23 @@ public class GameManager : MonoBehaviour
 
     #region Global Scene References
 
-    [TabGroup("Global Scene References", TextColor = "yellow"), SerializeField] 
+    [TabGroup("Global Scene References", TextColor = "yellow"), SerializeField, SceneObjectsOnly] 
     private Transform[] _corners;
     
-    [TabGroup("Global Scene References"), SerializeField] 
+    [TabGroup("Global Scene References"), SerializeField, SceneObjectsOnly] 
     private Transform[] _spawnPoints;
     public Transform[] SpawnPoints => _spawnPoints;
     
-    [TabGroup("Global Scene References"), Title("Character Parents"), SerializeField] 
+    [TabGroup("Global Scene References"), Title("Character Parents"), SerializeField, SceneObjectsOnly] 
     private Transform _searchableParent;
-    [TabGroup("Global Scene References"), SerializeField] 
+    [TabGroup("Global Scene References"), SerializeField, SceneObjectsOnly] 
     private Transform _unsearchableParent;
+
+    [TabGroup("Global Scene References"), Title("UI for score"), SerializeField, SceneObjectsOnly]
+    private TextMeshProUGUI _dailyScoreUI;
+    
+    [TabGroup("Global Scene References"), SerializeField, SceneObjectsOnly]
+    private TextMeshProUGUI _totalScoreUI;
     
     #endregion
 
@@ -82,6 +89,11 @@ public class GameManager : MonoBehaviour
     private int _numberOfCharacters, _spawnPerClick;
     public int NumberOfCharacters => _numberOfCharacters;
     public int SpawnPerClick => _spawnPerClick;
+
+    public int DailyScore { get; set; }
+
+    private int _totalScore;
+    
     
     private GameObject _charaRef;
     public static event Action OnCharactersInstantiated;
@@ -143,6 +155,18 @@ public class GameManager : MonoBehaviour
         return chosenMat;
     }
 
+    public void UpdateScore()
+    {
+        DailyScore++;
+        _totalScore++;
+        UpdateScoreText();
+    }
+    private void UpdateScoreText()
+    {
+        _dailyScoreUI.text = $"{DailyScore}";
+        _totalScoreUI.text = $"{_totalScore}";
+    }
+
     private void LevelEnd()
     {
         UnsearchablePool.Instance.DestroyAll();
@@ -150,10 +174,13 @@ public class GameManager : MonoBehaviour
         
         CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
         
+        DailyScore = 0;
+        UpdateScoreText();
+        
         InstantiateCharacters();
         GameTime.Instance.SetTime();
     }
-
+    
     private void UpdateEntitySpawnQuantity()
     {
         _numberOfCharacters = _currentLevel switch
