@@ -3,6 +3,7 @@ using Pathfinding;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class Character : MonoBehaviour, IPointerClickHandler
 {
@@ -19,18 +20,24 @@ public class Character : MonoBehaviour, IPointerClickHandler
     private void OnEnable()
     {
         _mainCamera = Camera.main;
-        
         _followerEntity = GetComponent<FollowerEntity>();
         _visualCharacter = transform.GetChild(0).gameObject;
-
+    }
+    private void Start()
+    {
         SetNewRandomDestination();
     }
-    
+
     public void OnPointerClick(PointerEventData eventData)
+    {
+        ClickEffect();
+    }
+
+    protected virtual void ClickEffect()
     {
         if (ActiveSearchable) SetUnsearchable();
         else WrongAnimation();
-    }
+    } 
     
     public void SetSearchable()
     {
