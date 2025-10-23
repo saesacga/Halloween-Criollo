@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour
     [TabGroup("Global Assets References"), SerializeField, AssetsOnly] 
     private ParticleSystem[] _particles;
     public ParticleSystem[] Particles => _particles;
+    [TabGroup("Global Assets References"), SerializeField, AssetsOnly] 
+    private ParticleSystem _badEffectParticles;
+    public ParticleSystem BadEffectParticles => _badEffectParticles;
     
     #endregion
 

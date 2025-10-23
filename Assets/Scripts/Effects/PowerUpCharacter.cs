@@ -4,28 +4,35 @@ using UnityEngine;
 
 public class PowerUpCharacter : Character
 {
-    [SerializeField, EnumToggleButtons] private EffectsManager.TypeOfCharEffect _typeOfCharEffect;
+    private Tween _tween;
     
     protected override void OnEnable()
     {
         base.OnEnable();
+        LevelCompleteAnimation.OnEndLevelUIOpen += () => Destroy(gameObject);
         SetSearchable();
-        DOVirtual.DelayedCall( 10, () =>
+        
+        _tween = DOVirtual.DelayedCall( 10, () =>
         {
-            EffectsManager.Instance.GiveEffectToPlayer(transform, _typeOfCharEffect);
+            var particles = Instantiate(GameManager.Instance.BadEffectParticles, transform);
+            particles.transform.localPosition = new Vector3(0, 0.5f, 0);
+            particles.Play();
+            Destroy(particles.gameObject, particles.main.duration);
+            
+            EffectsManager.Instance.GiveEffectToPlayer(transform, EffectsManager.TypeOfCharEffect.BadEffect);
+
+            SetUnsearchable();
         });
     }
     
     protected override void SetSearchableUI()
     {
-        Debug.Log("Someone enter to help");
+        
     }
 
     protected override void SetUnsearchableUI()
     {
-        if (_typeOfCharEffect == EffectsManager.TypeOfCharEffect.GoodEffect)
-        {
-            EffectsManager.Instance.GiveEffectToPlayer(transform, _typeOfCharEffect);
-        }
+        EffectsManager.Instance.GiveEffectToPlayer(transform, EffectsManager.TypeOfCharEffect.GoodEffect); 
+        _tween?.Kill();
     }
 }

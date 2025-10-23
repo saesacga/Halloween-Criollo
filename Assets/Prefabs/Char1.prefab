@@ -29,6 +29,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 29aba10a9aec8484c90a5f84c3daa418, type: 2}
     - target: {fileID: 2724395757957260892, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
+      propertyPath: CharacterName
+      value: El Futbolista
+      objectReference: {fileID: 0}
+    - target: {fileID: 2724395757957260892, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: _characterName
       value: El Futbolista
       objectReference: {fileID: 0}

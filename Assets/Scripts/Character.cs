@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Character : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private string _characterName;
+    [SerializeField] protected string CharacterName;
     [field: SerializeField, ReadOnly] public bool ActiveSearchable { get; set; }
     [SerializeField] private bool _useCorner;
 
@@ -15,13 +15,13 @@ public class Character : MonoBehaviour, IPointerClickHandler
     private Camera _mainCamera;
     public Transform Corner { get; set; }
     
-    private GameObject _visualCharacter;
+    protected GameObject VisualCharacter;
     
     protected virtual void OnEnable()
     {
         _mainCamera = Camera.main;
         _followerEntity = GetComponent<FollowerEntity>();
-        _visualCharacter = transform.GetChild(0).gameObject;
+        VisualCharacter = transform.GetChild(0).gameObject;
     }
     private void Start()
     {
@@ -41,19 +41,19 @@ public class Character : MonoBehaviour, IPointerClickHandler
         _useCorner = false;
         _followerEntity.rvoSettings.priority = 1;
         
-        _visualCharacter.transform.localPosition = Vector3.back;
+        VisualCharacter.transform.localPosition = Vector3.back;
         
         SetSearchableUI();
     }
     protected virtual void SetSearchableUI()
     {
-        var spriteRenderer = _visualCharacter.GetComponent<SpriteRenderer>();
+        var spriteRenderer = VisualCharacter.GetComponent<SpriteRenderer>();
         FollowSearchable.Instance.SetSprite(spriteRenderer.sprite, spriteRenderer.material);//For camera Render Texture
         
-        GameManager.Instance.CharacterName.text = _characterName;
+        GameManager.Instance.CharacterName.text = CharacterName;
     }
     
-    private void SetUnsearchable()
+    protected void SetUnsearchable()
     {
         GameManager.Instance.UpdateScore();
         
@@ -62,7 +62,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
         _useCorner = true;
         _followerEntity.rvoSettings.priority = 0;
         
-        _visualCharacter.transform.localPosition = Vector3.zero;
+        VisualCharacter.transform.localPosition = Vector3.zero;
         RightAnimation();
         SetUnsearchableUI();
     }
@@ -78,7 +78,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
     {
         _shakeTween?.Kill();
         
-        _shakeTween = _visualCharacter.transform.DOShakePosition(
+        _shakeTween = VisualCharacter.transform.DOShakePosition(
             duration: 0.3f,
             strength: new Vector3(0.05f, 0.05f, 0),
             vibrato: 30,
@@ -98,18 +98,18 @@ public class Character : MonoBehaviour, IPointerClickHandler
         
         _scaleTween?.Kill();
         
-        _scaleTween= _visualCharacter.transform.DOScale(1.5f, 0.1f)
+        _scaleTween= VisualCharacter.transform.DOScale(1.5f, 0.1f)
             .SetEase(Ease.OutQuad)
             .OnComplete(() =>
             {
-                _visualCharacter.transform.DOScale(1, 0.2f)
+                VisualCharacter.transform.DOScale(1, 0.2f)
                     .SetEase(Ease.OutBack);
             });
     }
 
     public void SetMaterial(Material mat)
     {
-        _visualCharacter.GetComponent<SpriteRenderer>().material = mat;
+        VisualCharacter.GetComponent<SpriteRenderer>().material = mat;
     }
     
     #endregion

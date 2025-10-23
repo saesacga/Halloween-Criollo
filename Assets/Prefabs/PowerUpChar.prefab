@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 982a2d57921dc88429e4b4ed45330781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _characterName: 
+  CharacterName: Tu Abuela
   <ActiveSearchable>k__BackingField: 0
   _useCorner: 0
   _typeOfCharEffect: 1
@@ -239,7 +239,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.63, y: 1.28}
+    oldSize: {x: 0.45, y: 0.9142857}
     newSize: {x: 0.6333333, y: 0.96666664}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

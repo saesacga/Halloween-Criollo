@@ -19,14 +19,17 @@ public class FollowSearchable : MonoBehaviour
     private SpriteRenderer _characterRT;
     private Sequence _sequence;
     
-    public void SetSprite(Sprite sprite, Material mat)
+    public void SetSprite(Sprite sprite, Material mat, Color color = default)
     {
+        color = color == default ? Color.white : color;
+        
         if (_sequence != null && _sequence.IsPlaying()) _sequence.Restart();
         
         _sequence = DOTween.Sequence().SetAutoKill(false);
         _sequence.Append(_characterRT.transform.DOScale(Vector3.zero, 0.1f).SetEase(Ease.InBack).OnComplete(() =>
         {
             _characterRT.sprite = sprite;
+            _characterRT.color = color;
             _characterRT.material = mat;
         }));
         _sequence.Append(_characterRT.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.OutBack));

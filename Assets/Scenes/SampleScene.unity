@@ -1972,7 +1972,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -842, y: 443}
+  m_AnchoredPosition: {x: -811, y: 443}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &569283565
@@ -1993,7 +1993,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: 30
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -2992,6 +2992,7 @@ MonoBehaviour:
   - {fileID: 327606628237973525, guid: 88a2a4901c41e4c48819626ae979eb99, type: 3}
   - {fileID: 327606628237973525, guid: d17a778035117b840b455379db43d161, type: 3}
   - {fileID: 327606628237973525, guid: 61b3d0a2d3d0dee4a8722e04302fbd51, type: 3}
+  _badEffectParticles: {fileID: 8433629907136391681, guid: 32b81718137c1734da761881847d2be9, type: 3}
   _corners:
   - {fileID: 1347439515}
   - {fileID: 2037385772}
