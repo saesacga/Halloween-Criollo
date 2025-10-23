@@ -58,8 +58,15 @@ public class GameManager : MonoBehaviour
     private GameObject[] _characterPrefabs;
     
     [TabGroup("Global Assets References"), SerializeField, AssetsOnly] 
+    private GameObject[] _powerUpCharacterPrefabs;
+    
+    [TabGroup("Global Assets References"), SerializeField, AssetsOnly] 
     private Material[] _paletteMaterials;
     private readonly Dictionary<GameObject, Material> _reservedMaterial = new();
+    
+    [TabGroup("Global Assets References"), SerializeField, AssetsOnly] 
+    private ParticleSystem[] _particles;
+    public ParticleSystem[] Particles => _particles;
     
     #endregion
 
@@ -76,6 +83,8 @@ public class GameManager : MonoBehaviour
     private Transform _searchableParent;
     [TabGroup("Global Scene References"), SerializeField, SceneObjectsOnly] 
     private Transform _unsearchableParent;
+    [TabGroup("Global Scene References"), SerializeField, SceneObjectsOnly]
+    private Transform _powerUpParent;
 
     [TabGroup("Global Scene References"), Title("In Game UI"), SerializeField, SceneObjectsOnly]
     private TextMeshProUGUI _dailyScoreUI;
@@ -105,6 +114,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         GameTime.OnTimeEnd += LevelEnd;
+        GameTime.OnTimeForPowerUp += SpawnPowerUp;
         LevelCompleteAnimation.OnEndLevelUIOpen += NewLevelOpenMenuConfig;
         LevelCompleteAnimation.OnEndLevelUIClose += NewLevelCloseMenuConfig;
     }
@@ -112,6 +122,7 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         GameTime.OnTimeEnd -= LevelEnd;
+        GameTime.OnTimeForPowerUp -= SpawnPowerUp;
         LevelCompleteAnimation.OnEndLevelUIOpen -= NewLevelOpenMenuConfig;
         LevelCompleteAnimation.OnEndLevelUIClose -= NewLevelCloseMenuConfig;
     }
@@ -197,6 +208,13 @@ public class GameManager : MonoBehaviour
     private void NewLevelCloseMenuConfig()
     {
         GameTime.Instance.SetTime();
+    }
+
+    private void SpawnPowerUp()
+    {
+        var prefabToUse = _powerUpCharacterPrefabs[Random.Range(0, _powerUpCharacterPrefabs.Length)];
+        var powerUp = Instantiate(prefabToUse, _spawnPoints[Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
+        powerUp.transform.SetParent(_powerUpParent);
     }
     
     private void UpdateEntitySpawnQuantity()

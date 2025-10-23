@@ -17,7 +17,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
     
     private GameObject _visualCharacter;
     
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         _mainCamera = Camera.main;
         _followerEntity = GetComponent<FollowerEntity>();
@@ -30,14 +30,9 @@ public class Character : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ClickEffect();
-    }
-
-    protected virtual void ClickEffect()
-    {
         if (ActiveSearchable) SetUnsearchable();
         else WrongAnimation();
-    } 
+    }
     
     public void SetSearchable()
     {
@@ -48,11 +43,16 @@ public class Character : MonoBehaviour, IPointerClickHandler
         
         _visualCharacter.transform.localPosition = Vector3.back;
         
+        SetSearchableUI();
+    }
+    protected virtual void SetSearchableUI()
+    {
         var spriteRenderer = _visualCharacter.GetComponent<SpriteRenderer>();
         FollowSearchable.Instance.SetSprite(spriteRenderer.sprite, spriteRenderer.material);//For camera Render Texture
         
         GameManager.Instance.CharacterName.text = _characterName;
     }
+    
     private void SetUnsearchable()
     {
         GameManager.Instance.UpdateScore();
@@ -63,9 +63,11 @@ public class Character : MonoBehaviour, IPointerClickHandler
         _followerEntity.rvoSettings.priority = 0;
         
         _visualCharacter.transform.localPosition = Vector3.zero;
-
         RightAnimation();
-        
+        SetUnsearchableUI();
+    }
+    protected virtual void SetUnsearchableUI()
+    {
         Searchables.Instance.ChangeSearchableCharacter();
     }
 
@@ -89,6 +91,11 @@ public class Character : MonoBehaviour, IPointerClickHandler
     private Tween _scaleTween;
     private void RightAnimation()
     {
+        var particles = Instantiate(GameManager.Instance.Particles[Random.Range(0, GameManager.Instance.Particles.Length)], transform);
+        particles.transform.localPosition = new Vector3(0, 0.5f, 0);
+        particles.Play();
+        Destroy(particles.gameObject, particles.main.duration);
+        
         _scaleTween?.Kill();
         
         _scaleTween= _visualCharacter.transform.DOScale(1.5f, 0.1f)

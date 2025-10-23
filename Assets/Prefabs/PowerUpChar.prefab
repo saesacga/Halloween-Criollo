@@ -108,6 +108,7 @@ MonoBehaviour:
   _characterName: 
   <ActiveSearchable>k__BackingField: 0
   _useCorner: 0
+  _typeOfCharEffect: 1
 --- !u!1 &8578384221619566124
 GameObject:
   m_ObjectHideFlags: 0

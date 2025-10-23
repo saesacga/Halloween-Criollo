@@ -25,6 +25,7 @@ public class GameTime : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _clockDisplay;
     
     public static event Action OnTimeEnd;
+    public static event Action OnTimeForPowerUp;
     
     void Start()
     { 
@@ -34,18 +35,22 @@ public class GameTime : MonoBehaviour
     private Tween _timeTween;
     public void SetTime()
     {
-        float totalHours = _gameEndHour - _gameStartHour;
+        var totalHours = _gameEndHour - _gameStartHour;
         float t = 0;
 
-        _timeTween = DOTween.To(() => t, x => t = x, totalHours, _durationInSeconds)
-            .SetEase(Ease.Linear)
-            .OnUpdate(() => {
+        _timeTween = DOTween.Sequence()
+            .Append(DOTween.To(() => t, x => {
+                t = x;
                 CurrentHour = _gameStartHour + t;
                 UpdateClockDisplay();
+            }, totalHours, _durationInSeconds).SetEase(Ease.Linear))
+            .InsertCallback((_durationInSeconds * (20 - _gameStartHour) / totalHours), () => {
+                OnTimeForPowerUp?.Invoke();
             })
-            .OnComplete(() => {
-                OnTimeEnd?.Invoke();
-            });
+            .InsertCallback((_durationInSeconds * (22 - _gameStartHour) / totalHours), () => {
+                OnTimeForPowerUp?.Invoke();
+            })
+            .OnComplete(() => OnTimeEnd?.Invoke());
     }
 
     private int _lastMinute = -1;
