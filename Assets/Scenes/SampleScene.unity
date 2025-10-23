@@ -7812,7 +7812,7 @@ MonoBehaviour:
   - {fileID: 6571516033583601351, guid: a24b79864d3f12e4ab7fc4b7c9bce49e, type: 3}
   _paletteMaterials:
   - {fileID: 2100000, guid: 29aba10a9aec8484c90a5f84c3daa418, type: 2}
-  - {fileID: 2100000, guid: 3044fc12d0ddff147bab15ea6e477361, type: 2}
+  - {fileID: 2100000, guid: 663722a48a74d1d448581ff1eb73282f, type: 2}
   - {fileID: 2100000, guid: 3e8235a508abf1542aa916c7d25f60b9, type: 2}
   - {fileID: 2100000, guid: 21fe7ba2229fe6f4f890f7b7c312212d, type: 2}
   _corners:
@@ -9495,7 +9495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532b4517f02bebe4fa513a664c54d75c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _durationInSeconds: 10
+  _durationInSeconds: 180
   _clockDisplay: {fileID: 481702577}
 --- !u!1 &1601751442
 GameObject:

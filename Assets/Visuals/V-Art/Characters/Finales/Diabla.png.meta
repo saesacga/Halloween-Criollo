@@ -126,8 +126,8 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
-        width: 20
+        y: 0
+        width: 19
         height: 50
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -147,9 +147,9 @@ TextureImporter:
       name: Diabla_1
       rect:
         serializedVersion: 2
-        x: 20
-        y: 1
-        width: 20
+        x: 19
+        y: 0
+        width: 19
         height: 50
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -169,9 +169,9 @@ TextureImporter:
       name: Diabla_2
       rect:
         serializedVersion: 2
-        x: 40
-        y: 1
-        width: 20
+        x: 38
+        y: 0
+        width: 19
         height: 50
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -191,9 +191,9 @@ TextureImporter:
       name: Diabla_3
       rect:
         serializedVersion: 2
-        x: 60
-        y: 1
-        width: 20
+        x: 57
+        y: 0
+        width: 19
         height: 50
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -223,7 +223,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":20.0,"y":50.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":19.0,"y":50.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Diabla_0: 8059139747851154781
       Diabla_1: -2332709314186569916
