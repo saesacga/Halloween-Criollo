@@ -80,8 +80,12 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         _sequenceEnd = false;
     }
 
-    public void SetLevelCompletedText()
+    public void OpenLevelCompleteUI()
     {
+        _levelCompleted?.DOKill(true);
+        _clickToContinueText.DOKill(true);
+        _clickToContinueText.alpha = 1f;
+        
         _openSequence = DOTween.Sequence();
         
         _levelCompleted.DORotate(new Vector3(0, 10, 5), _animationDuration / 2).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
@@ -132,6 +136,8 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
 
     private void CloseLevelCompleteUI()
     {
+        _clickToContinue.DOKill();
+        
         _closeSequence = DOTween.Sequence();
         
         _closeSequence.Append(_clickToContinue.DOAnchorPosY(_clickToContinueInitialPos, 0.2f).SetEase(Ease.InBack));

@@ -2,6 +2,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 using System.Collections.Generic;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using TMPro;
 using Random = UnityEngine.Random;
@@ -174,21 +175,27 @@ public class GameManager : MonoBehaviour
 
     private void LevelEnd()
     {
-        LevelCompleteAnimation.Instance.SetLevelCompletedText();
-        _reservedMaterial.Clear();
+        LevelCompleteAnimation.Instance.OpenLevelCompleteUI();
         CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
+        
     }
 
     private void NewLevelOpenMenuConfig()
     {
         UnsearchablePool.Instance.DestroyAll();
-        InstantiateCharacters();
-        UnsearchablePool.Instance.ActivateObjects(30);
+        _reservedMaterial.Clear();
+        
+        DailyScore = 0;
+        UpdateScoreText();
+
+        DOVirtual.DelayedCall(0.1f, () =>
+        {
+            InstantiateCharacters();
+            UnsearchablePool.Instance.ActivateObjects(30);
+        });
     }
     private void NewLevelCloseMenuConfig()
     {
-        DailyScore = 0;
-        UpdateScoreText();
         GameTime.Instance.SetTime();
     }
     

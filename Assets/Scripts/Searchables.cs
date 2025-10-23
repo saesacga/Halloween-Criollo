@@ -37,7 +37,6 @@ public class Searchables : MonoBehaviour
     }
     
     private readonly List<GameObject> _searchableCharacters = new List<GameObject>();
-    public IReadOnlyList<GameObject> SearchableCharacters => _searchableCharacters;
     private int _currentIndex;
     private void SetFirstSearchable()
     {

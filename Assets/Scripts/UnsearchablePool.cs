@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Pool;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,6 +13,7 @@ public class UnsearchablePool : MonoBehaviour
     private List<GameObject> _activePoolObjects = new List<GameObject>();
     public IReadOnlyList<GameObject> ActivePoolObjects => _activePoolObjects;
     public static UnsearchablePool Instance { get; private set; }
+    
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -73,6 +75,7 @@ public class UnsearchablePool : MonoBehaviour
     
     public void DestroyAll()
     {
+        foreach (var obj in _activePoolObjects.ToList()) { Pool.Release(obj); }
         Pool.Clear();
     }
 }
