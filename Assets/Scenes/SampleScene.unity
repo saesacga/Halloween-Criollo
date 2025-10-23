@@ -7810,6 +7810,8 @@ MonoBehaviour:
   - {fileID: 6571516033583601351, guid: 23f147428fd3a014a9d655d8973f0cb8, type: 3}
   - {fileID: 6571516033583601351, guid: 58e76604873da8a469b79e1f226692a5, type: 3}
   - {fileID: 6571516033583601351, guid: a24b79864d3f12e4ab7fc4b7c9bce49e, type: 3}
+  - {fileID: 6571516033583601351, guid: 1bbffc25a70e550479d3e2364497dec3, type: 3}
+  - {fileID: 6571516033583601351, guid: c501d06f96e0c834d809fdda7d20c3b8, type: 3}
   _paletteMaterials:
   - {fileID: 2100000, guid: 29aba10a9aec8484c90a5f84c3daa418, type: 2}
   - {fileID: 2100000, guid: 663722a48a74d1d448581ff1eb73282f, type: 2}
@@ -11592,7 +11594,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2120327697}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 373d21f6bbe878741a8edf9a9e04a23a, type: 3}
   m_Name: 

@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
