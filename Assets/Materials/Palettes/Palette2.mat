@@ -40,11 +40,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Palette:
-        m_Texture: {fileID: 2800000, guid: 658f5c76377218146861bc7835a7e65f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9719059220338d541bf078ecc0ac1124, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Swap:
-        m_Texture: {fileID: 2800000, guid: 05c9daf794b5fb849a0d0eea718661b3, type: 3}
+        m_Texture: {fileID: 2800000, guid: b2a9f2da5e2c41e42b0b5d35761e1744, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []

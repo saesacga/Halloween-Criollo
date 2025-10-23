@@ -10,16 +10,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 403021850790436683, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_Name
-      value: Char2
-      objectReference: {fileID: 0}
-    - target: {fileID: 751499474301746216, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      value: Char4
       objectReference: {fileID: 0}
     - target: {fileID: 751499474301746216, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: af621c236404daf4c8b25fd748a58bd0, type: 2}
+      objectReference: {fileID: 9100000, guid: 4335b86f51acc724aabc835409f86350, type: 2}
     - target: {fileID: 932008134109605266, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_Size.x
       value: 0.33333334
@@ -31,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 932008134109605266, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2820281516306304949, guid: ae263557a5d71c44baa4bcecf4279e3a, type: 3}
+      objectReference: {fileID: 2032153682048607370, guid: 26e6812b24cd7d443b0428a33b9443fe, type: 3}
     - target: {fileID: 932008134109605266, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -42,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 29aba10a9aec8484c90a5f84c3daa418, type: 2}
     - target: {fileID: 2724395757957260892, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: _characterName
-      value: "El Adulto beb\xE9"
+      value: El  "Scary Movie"
       objectReference: {fileID: 0}
     - target: {fileID: 4340855832774808889, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -94,11 +90,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6351237810840993753, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.36363637
+      value: 0.34545454
       objectReference: {fileID: 0}
     - target: {fileID: 6351237810840993753, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.90909094
+      value: 0.8727273
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

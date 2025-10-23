@@ -10,16 +10,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 403021850790436683, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_Name
-      value: Char2
-      objectReference: {fileID: 0}
-    - target: {fileID: 751499474301746216, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
+      value: Char3
       objectReference: {fileID: 0}
     - target: {fileID: 751499474301746216, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: af621c236404daf4c8b25fd748a58bd0, type: 2}
+      objectReference: {fileID: 9100000, guid: ccfd56cd0d47d8f43b8e08f79a45622a, type: 2}
     - target: {fileID: 932008134109605266, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_Size.x
       value: 0.33333334
@@ -31,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 932008134109605266, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2820281516306304949, guid: ae263557a5d71c44baa4bcecf4279e3a, type: 3}
+      objectReference: {fileID: 8059139747851154781, guid: 7566aa94a2c7cbb4cb044947af337c75, type: 3}
     - target: {fileID: 932008134109605266, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -42,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 29aba10a9aec8484c90a5f84c3daa418, type: 2}
     - target: {fileID: 2724395757957260892, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: _characterName
-      value: "El Adulto beb\xE9"
+      value: La Diabla
       objectReference: {fileID: 0}
     - target: {fileID: 4340855832774808889, guid: f1c187d7222b7f84c96d8e71a0c9b34e, type: 3}
       propertyPath: m_LocalPosition.x
