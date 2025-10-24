@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using Pathfinding;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ public class CharacterEffects : MonoBehaviour
 {
     private FollowerEntity _followerEntity;
     private Animator _animator;
+    private Transform _visualTransform;
     
     private static readonly int Idle = Animator.StringToHash("Idle"); 
     private static readonly int Walk = Animator.StringToHash("Walk");
@@ -14,11 +16,13 @@ public class CharacterEffects : MonoBehaviour
     {
         EffectsManager.OnSpeedChange += ChangeSpeed;
         EffectsManager.OnStopMovement += StopMovement;
+        EffectsManager.OnShrinkCharacters += ShrinkCharacter;
         
         _followerEntity = GetComponent<FollowerEntity>();
         EffectsManager.Instance.NormalSpeed = _followerEntity.maxSpeed;
         
         _animator = GetComponentInChildren<Animator>();
+        _visualTransform = transform.GetChild(0);
     }
     private void OnDisable()
     {
@@ -35,5 +39,22 @@ public class CharacterEffects : MonoBehaviour
     {
         _followerEntity.canMove = stop;
         _animator.Play(stop ? Walk : Idle);
+    }
+
+    private void ShrinkCharacter(Vector3 size)
+    {
+        _visualTransform.DOScale(size, 0.2f).SetEase(Ease.OutBack);
+    }
+
+    private Tween _growTween;
+
+    public void GrowSearchable()
+    {
+        _growTween?.Kill();
+        _visualTransform.transform.DOScale(Vector3.one * EffectsManager.Instance.GrowSize, 0.2f);
+        _growTween = DOVirtual.DelayedCall(EffectsManager.Instance.ShrinkEffectDuration, () =>
+        {
+            _visualTransform.transform.DOScale(Vector3.one, 0.2f);
+        });
     }
 }

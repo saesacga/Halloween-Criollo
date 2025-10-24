@@ -17,6 +17,7 @@ public class GoodEffectUI : EffectUIButton
         {
             EffectsManager.PositiveEffects.BetterCamera => EffectsManager.Instance.BetterCameraIcon,
             EffectsManager.PositiveEffects.StopCharacterMovement => EffectsManager.Instance.StopCharacterMoveIcon,
+            EffectsManager.PositiveEffects.GrowSearchable => EffectsManager.Instance.GrowSearchableIcon,
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -24,6 +25,7 @@ public class GoodEffectUI : EffectUIButton
         {
             EffectsManager.PositiveEffects.BetterCamera => EffectsManager.Instance.CameraEffectDuration,
             EffectsManager.PositiveEffects.StopCharacterMovement => EffectsManager.Instance.StopEffectDuration,
+            EffectsManager.PositiveEffects.GrowSearchable => EffectsManager.Instance.GrowEffectDuration,
             _ => throw new ArgumentOutOfRangeException()
         };
         
@@ -40,6 +42,7 @@ public class GoodEffectUI : EffectUIButton
         {
             EffectsManager.PositiveEffects.BetterCamera => EffectsManager.Instance.BetterCamera,
             EffectsManager.PositiveEffects.StopCharacterMovement => EffectsManager.Instance.StopCharacterMovement,
+            EffectsManager.PositiveEffects.GrowSearchable => EffectsManager.Instance.GrowSearchable,
             _ => throw new ArgumentOutOfRangeException()
         };
         

@@ -17,10 +17,10 @@ public class Searchables : MonoBehaviour
     #endregion
 
     private GameObject _activeSearchable;
-    private GameObject ActiveSearchable
+    public GameObject ActiveSearchable
     {
         get => _activeSearchable;
-        set
+        private set
         {
             _activeSearchable = value;
             CinemachineCamerasHandler.Instance.FollowSearchableCam.Follow = value.transform;

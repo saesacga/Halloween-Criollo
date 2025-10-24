@@ -20,8 +20,8 @@ public class EffectsManager : MonoBehaviour
     #region Setup
     
     public enum TypeOfCharEffect { GoodEffect, BadEffect }
-    public enum PositiveEffects { BetterCamera, StopCharacterMovement }
-    public enum NegativeEffects { FasterCharacters, Rain }
+    public enum PositiveEffects { BetterCamera, StopCharacterMovement, GrowSearchable }
+    public enum NegativeEffects { FasterCharacters, Rain, ShrinkCharacters }
     
     public static event Action OnEffectGiven;
     public static event Action OnEffectDone;
@@ -195,4 +195,54 @@ public class EffectsManager : MonoBehaviour
     
     #endregion
 
+    #region Shrink Characters
+
+    public static event Action<Vector3> OnShrinkCharacters;
+    
+    [field:SerializeField, TabGroup("📉")] 
+    public Sprite ShrinkCharacterIcon { get; private set; }
+
+    [TabGroup("📉"), SerializeField] 
+    private float _shrinkSize;
+    [TabGroup("📉"), SerializeField] 
+    private float _shrinkEffectDuration = 10;
+    public float ShrinkEffectDuration => _shrinkEffectDuration;
+    
+    private Tween _shrinkTween;
+
+    [Button, TabGroup("📉")]
+    public void ShrinkCharacters()
+    {
+        _shrinkTween?.Kill();
+        
+        OnShrinkCharacters?.Invoke(_shrinkSize * Vector3.one);
+        _shrinkTween = DOVirtual.DelayedCall( _shrinkEffectDuration, () =>
+        {
+            OnShrinkCharacters?.Invoke(Vector3.one);
+        });
+    }
+
+    #endregion
+    
+    #region Grow Searchable
+    
+    [field:SerializeField, TabGroup("📈")] 
+    public Sprite GrowSearchableIcon { get; private set; }
+    [TabGroup("📈"), SerializeField] 
+    private float _growSize;
+    public float GrowSize => _growSize;
+    [TabGroup("📈"), SerializeField] 
+    private float _growEffectDuration = 10;
+    public float GrowEffectDuration => _growEffectDuration;
+    
+
+    [Button, TabGroup("📈")]
+    public void GrowSearchable()
+    {
+        Searchables.Instance.ActiveSearchable.GetComponent<CharacterEffects>().GrowSearchable();
+    }
+
+    #endregion
+    
+    
 }

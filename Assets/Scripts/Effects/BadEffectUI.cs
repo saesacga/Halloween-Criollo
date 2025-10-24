@@ -17,12 +17,14 @@ public class BadEffectUI : EffectUIButton
         {
             EffectsManager.NegativeEffects.FasterCharacters => EffectsManager.Instance.HighSpeedIcon,
             EffectsManager.NegativeEffects.Rain => EffectsManager.Instance.RainIcon,
+            EffectsManager.NegativeEffects.ShrinkCharacters => EffectsManager.Instance.ShrinkCharacterIcon,
             _ => throw new ArgumentOutOfRangeException()
         };
         EffectTime = _negativeEffect switch
         {
             EffectsManager.NegativeEffects.FasterCharacters => EffectsManager.Instance.SpeedEffectDuration,
             EffectsManager.NegativeEffects.Rain => EffectsManager.Instance.RainEffectDuration,
+            EffectsManager.NegativeEffects.ShrinkCharacters => EffectsManager.Instance.ShrinkEffectDuration,
             _ => throw new ArgumentOutOfRangeException()
         };
         
@@ -38,6 +40,7 @@ public class BadEffectUI : EffectUIButton
         {
             EffectsManager.NegativeEffects.FasterCharacters => EffectsManager.Instance.FasterCharacters,
             EffectsManager.NegativeEffects.Rain => EffectsManager.Instance.StartRain,
+            EffectsManager.NegativeEffects.ShrinkCharacters => EffectsManager.Instance.ShrinkCharacters,
             _ => throw new ArgumentOutOfRangeException()
         };
         effect.Invoke();
