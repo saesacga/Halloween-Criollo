@@ -8,29 +8,53 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     public RectTransform SlotTransform { get; set; }
     
     protected Image IconImage;
+    protected float EffectTime;
     
     protected EffectsManager.TypeOfCharEffect TypeOfEffect;
     
-    protected virtual void OnEnable()
+    private void OnEnable()
     {
         EffectsManager.OnEffectGiven += EffectSetup;
+        EffectsManager.OnEffectDone += UpdatePosition;
+    }
+    private void OnDisable()
+    {
+        EffectsManager.OnEffectGiven -= EffectSetup;
+        EffectsManager.OnEffectDone -= UpdatePosition;
     }
     
     protected virtual void EffectSetup()
     {
         IconImage = transform.GetChild(0).GetComponent<Image>();
         
+        UpdatePosition();
+    }
+
+    private void UpdatePosition()
+    {
         transform.DOMove(SlotTransform.position, 0.5f).SetEase(Ease.OutBack);
     }
 
+    private Sequence _useSequence;
     protected virtual void ExecuteEffect()
     {
-        if (_useTween != null && _useTween.IsPlaying()) return;
+        _useSequence = DOTween.Sequence();
         
-        _useTween = transform.DOLocalRotate(new Vector3(0, 0, -30), 0.2f).SetEase(Ease.OutBack).SetLoops(2, LoopType.Yoyo);
+        _useSequence.Append(transform.DOLocalRotate(new Vector3(0, 0, -30), 0.2f).SetEase(Ease.OutBack).SetLoops(2, LoopType.Yoyo));
+        _useSequence.Join(DOTween.To(() => 1f, h => IconImage.fillAmount = h, 0f, EffectTime).SetEase(Ease.Linear));
+        _useSequence.Append(transform.DOLocalRotate(new Vector3(0, 0, 360), 0.2f, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(3, LoopType.Restart));
+        _useSequence.Join(transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack)).OnComplete(()=>
+        {
+            Destroy(gameObject);
+            Destroy(SlotTransform.gameObject);
+            DOVirtual.DelayedCall( 0.1f, () =>
+            {
+                EffectsManager.Instance.TriggerOnEffectDone();
+            });
+            
+        });
     }
     
-    private Tween _useTween;
     public void OnPointerClick(PointerEventData eventData)
     {
         if(TypeOfEffect == EffectsManager.TypeOfCharEffect.GoodEffect) ExecuteEffect();
@@ -39,11 +63,11 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     
     public void OnPointerEnter(PointerEventData eventData)
     { 
-        transform.DOScale(Vector3.one * 1.2f, 0.2f).SetEase(Ease.OutBack);
+        //transform.DOScale(Vector3.one * 1.2f, 0.2f).SetEase(Ease.OutBack);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     { 
-        transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+        //transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
     }
 }

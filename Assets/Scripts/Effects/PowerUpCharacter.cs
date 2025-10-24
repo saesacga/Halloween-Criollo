@@ -1,6 +1,4 @@
-using System;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PowerUpCharacter : Character
@@ -10,7 +8,7 @@ public class PowerUpCharacter : Character
         base.OnEnable();
         LevelCompleteAnimation.OnEndLevelUIOpen += () =>
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         };
         PowerUpComingUI.OnPowerUpTimerUp += NegativeEffect;
         
@@ -20,8 +18,9 @@ public class PowerUpCharacter : Character
         SetSearchable();
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
+        DOTween.Kill(this);
         PowerUpComingUI.OnPowerUpTimerUp -= NegativeEffect;
     }
 

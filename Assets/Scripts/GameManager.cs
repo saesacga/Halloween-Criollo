@@ -215,9 +215,12 @@ public class GameManager : MonoBehaviour
 
     private void SpawnPowerUp()
     {
-        var prefabToUse = _powerUpCharacterPrefabs[Random.Range(0, _powerUpCharacterPrefabs.Length)];
-        var powerUp = Instantiate(prefabToUse, _spawnPoints[Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
-        powerUp.transform.SetParent(_powerUpParent);
+        for (int i = 0; i < 3; i++)
+        {
+            var prefabToUse = _powerUpCharacterPrefabs[Random.Range(0, _powerUpCharacterPrefabs.Length)];
+            var powerUp = Instantiate(prefabToUse, _spawnPoints[Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
+            powerUp.transform.SetParent(_powerUpParent);
+        }
     }
     
     private void UpdateEntitySpawnQuantity()

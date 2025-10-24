@@ -24,6 +24,7 @@ public class EffectsManager : MonoBehaviour
     public enum NegativeEffects { FasterCharacters }
     
     public static event Action OnEffectGiven;
+    public static event Action OnEffectDone;
 
     [TabGroup("Setup"), Title("Logic"), SerializeField]
     private RectTransform _goodEffectsGrid;
@@ -83,6 +84,11 @@ public class EffectsManager : MonoBehaviour
         .OnKill(() => _tween = null);
     }
 
+    public void TriggerOnEffectDone()
+    {
+        OnEffectDone?.Invoke();
+    }
+
     #endregion
 
     #region Faster Characters
@@ -96,12 +102,17 @@ public class EffectsManager : MonoBehaviour
     private float _highSpeed = 20;
     [TabGroup("🏃"), SerializeField] 
     private float _speedEffectDuration = 5;
+    public float SpeedEffectDuration => _speedEffectDuration;
+    
+    private Tween _speedTween;
     
     [Button, TabGroup("🏃")]
     public void FasterCharacters()
     {
+        _speedTween?.Kill();
+        
         OnSpeedChange?.Invoke(_highSpeed);
-        DOVirtual.DelayedCall( _speedEffectDuration, () =>
+        _speedTween = DOVirtual.DelayedCall( _speedEffectDuration, () =>
         {
             OnSpeedChange?.Invoke(NormalSpeed);
         });
@@ -115,12 +126,17 @@ public class EffectsManager : MonoBehaviour
     public Sprite BetterCameraIcon { get; private set; }
     [TabGroup("🎥"), SerializeField] 
     private float _cameraEffectDuration = 5;
+    public float CameraEffectDuration => _cameraEffectDuration;
+    
+    private Tween _cameraTween;
     
     [Button, TabGroup("🎥")]
     public void BetterCamera()
     {
+        _cameraTween?.Kill();
+        
         CinemachineCamerasHandler.Instance.SwitchCam(CinemachineCamerasHandler.CameraState.FollowSearchableCam);
-        DOVirtual.DelayedCall( _cameraEffectDuration, () =>
+        _cameraTween = DOVirtual.DelayedCall( _cameraEffectDuration, () =>
         {
             CinemachineCamerasHandler.Instance.SwitchCam();
         });
@@ -136,12 +152,17 @@ public class EffectsManager : MonoBehaviour
     public Sprite StopCharacterMoveIcon { get; private set; }
     [TabGroup("🗿"), SerializeField] 
     private float _stopEffectDuration = 10;
+    public float StopEffectDuration => _stopEffectDuration;
+    
+    private Tween _stopTween;
 
     [Button, TabGroup("🗿")]
     public void StopCharacterMovement()
     {
+        _stopTween?.Kill();
+        
         OnStopMovement?.Invoke(true);
-        DOVirtual.DelayedCall( _stopEffectDuration, () =>
+        _stopTween = DOVirtual.DelayedCall( _stopEffectDuration, () =>
         {
             OnStopMovement?.Invoke(false);
         });

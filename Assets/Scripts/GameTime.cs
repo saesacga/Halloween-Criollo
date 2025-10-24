@@ -44,7 +44,7 @@ public class GameTime : MonoBehaviour
                 CurrentHour = _gameStartHour + t;
                 UpdateClockDisplay();
             }, totalHours, _durationInSeconds).SetEase(Ease.Linear))
-            .InsertCallback((_durationInSeconds * (20 - _gameStartHour) / totalHours), () => {
+            .InsertCallback((_durationInSeconds * (19.2f - _gameStartHour) / totalHours), () => {
                 OnTimeForPowerUp?.Invoke();
             })
             .InsertCallback((_durationInSeconds * (22 - _gameStartHour) / totalHours), () => {

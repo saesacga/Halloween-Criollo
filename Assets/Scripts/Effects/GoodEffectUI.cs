@@ -19,6 +19,13 @@ public class GoodEffectUI : EffectUIButton
             EffectsManager.PositiveEffects.StopCharacterMovement => EffectsManager.Instance.StopCharacterMoveIcon,
             _ => throw new ArgumentOutOfRangeException()
         };
+
+        EffectTime = _goodEffect switch
+        {
+            EffectsManager.PositiveEffects.BetterCamera => EffectsManager.Instance.CameraEffectDuration,
+            EffectsManager.PositiveEffects.StopCharacterMovement => EffectsManager.Instance.StopEffectDuration,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     protected override void ExecuteEffect()

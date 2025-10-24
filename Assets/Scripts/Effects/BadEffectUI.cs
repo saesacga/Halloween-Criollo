@@ -4,13 +4,7 @@ using System;
 public class BadEffectUI : EffectUIButton
 { 
     private EffectsManager.NegativeEffects _negativeEffect;
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        ExecuteEffect();
-    }
-
+    
     protected override void EffectSetup()
     {
         base.EffectSetup();
@@ -24,6 +18,13 @@ public class BadEffectUI : EffectUIButton
             EffectsManager.NegativeEffects.FasterCharacters => EffectsManager.Instance.HighSpeedIcon,
             _ => throw new ArgumentOutOfRangeException()
         };
+        EffectTime = _negativeEffect switch
+        {
+            EffectsManager.NegativeEffects.FasterCharacters => EffectsManager.Instance.SpeedEffectDuration,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+        
+        ExecuteEffect();
     }
     
     protected override void ExecuteEffect()
