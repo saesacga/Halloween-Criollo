@@ -52,10 +52,12 @@ public class EffectsManager : MonoBehaviour
             case TypeOfCharEffect.GoodEffect:
                 gridToUse = _goodEffectsGrid;
                 effectToUse = _goodEffectPrefab;
+                AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[2]);
                 break;
             case TypeOfCharEffect.BadEffect:
                 gridToUse = _badEffectsGrid;
                 effectToUse = _badEffectPrefab;
+                AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[3]);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(typeOfCharEffect), typeOfCharEffect, null);
@@ -75,11 +77,11 @@ public class EffectsManager : MonoBehaviour
             );
             effect.GetComponent<RectTransform>().anchoredPosition = canvasPos;
         } //Set effect position relative to the gifter
-        
         _tween = DOVirtual.DelayedCall( 0.1f, () =>
         {
             effect.GetComponent<EffectUIButton>().SlotTransform = slot.GetComponent<RectTransform>();
             OnEffectGiven?.Invoke();
+            OnEffectDone?.Invoke();
         })
         .OnKill(() => _tween = null);
     }

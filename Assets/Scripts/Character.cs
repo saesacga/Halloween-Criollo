@@ -64,10 +64,11 @@ public class Character : MonoBehaviour, IPointerClickHandler
         
         VisualCharacter.transform.localPosition = Vector3.zero;
         RightAnimation();
-        SetUnsearchableUI();
+        UnsearchablePolymorph();
     }
-    protected virtual void SetUnsearchableUI()
+    protected virtual void UnsearchablePolymorph()
     {
+        AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[0], 2f);
         Searchables.Instance.ChangeSearchableCharacter();
     }
 
@@ -77,6 +78,8 @@ public class Character : MonoBehaviour, IPointerClickHandler
     private void WrongAnimation()
     {
         _shakeTween?.Kill();
+        
+        AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[1]);
         
         _shakeTween = VisualCharacter.transform.DOShakePosition(
             duration: 0.3f,
@@ -157,7 +160,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
         {
             Vector2 randomViewportPoint = new Vector2(
                 Random.Range(0f, 1f),
-                Random.Range(0f, 1f)
+                Random.Range(0f, 0.9f)
             );
 
             randomPos = _mainCamera.ViewportToWorldPoint(

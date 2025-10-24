@@ -220,6 +220,8 @@ public class GameManager : MonoBehaviour
     [TabGroup("Game Parameters"), Button]
     private void SpawnPowerUp()
     {
+        AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[6]); 
+        
         var prefabToUse = _powerUpCharacterPrefabs[Random.Range(0, _powerUpCharacterPrefabs.Length)];
         var powerUp = Instantiate(prefabToUse, _spawnPoints[Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
         powerUp.transform.SetParent(_powerUpParent);

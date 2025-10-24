@@ -51,7 +51,8 @@ public class PowerUpComingUI : MonoBehaviour
         
         _sequence.Append(_characterPowerUpUI.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack));
         _sequence.Join(_charText.rectTransform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack));
-        _sequence.Append(_timer.rectTransform.DOScale(0.5f, 0.2f).SetEase(Ease.OutBounce));
+        _sequence.Append(_timer.rectTransform.DOScale(0.5f, 0.2f).SetEase(Ease.OutBounce)
+            .OnComplete(()=>AudioManager.Instance.PlayLoop(AudioManager.Instance.SfxClips[7])));
         _sequence.Append(DOTween.To(() => 1f, h => _timer.fillAmount = h, 0f, _timerDuration).SetEase(Ease.Linear)).OnComplete(()=>
         {
             HideCharacterPowerUpUI();
@@ -64,6 +65,7 @@ public class PowerUpComingUI : MonoBehaviour
     {
         _sequence?.Kill();
         _sequence = DOTween.Sequence();
+        AudioManager.Instance.StopLoop();
         
         _sequence.Append(_timer.rectTransform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBounce));
         _sequence.Join(_charText.rectTransform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack));

@@ -25,7 +25,15 @@ public class AudioManager : MonoBehaviour
     private AudioClip[] _levelMusicClips;
     public AudioClip[] LevelMusicClips => _levelMusicClips;
     
-    public void FadeMusic(AudioClip newClip, float fadeDuration = 1f)
+    [TabGroup("SFX", TextColor = "orange"), SerializeField]
+    private AudioSource _sfxAudioSource;
+    [TabGroup("SFX"), SerializeField]
+    private AudioSource _sfxLoopAudioSource;
+    [TabGroup("SFX"), SerializeField]
+    private AudioClip[] _sfxClips;
+    public AudioClip[] SfxClips => _sfxClips;
+    
+    public void FadeMusic(AudioClip newClip, float fadeDuration = 0.5f)
     {
         if (!_musicAudioSource.isPlaying)
         {
@@ -41,5 +49,28 @@ public class AudioManager : MonoBehaviour
             _musicAudioSource.Play();
             _musicAudioSource.DOFade(1f, fadeDuration);
         });
+    }
+
+    public void PlaySfx(AudioClip clip, float volume = 1f)
+    {
+        if (_sfxAudioSource == null || clip == null) return;
+        
+        _sfxAudioSource.PlayOneShot(clip, volume);
+    }
+    
+    public void PlayLoop(AudioClip clip, float volume = 1f)
+    {
+        _sfxLoopAudioSource.clip = clip;
+        _sfxLoopAudioSource.volume = volume;
+        _sfxLoopAudioSource.loop = true;
+        _sfxLoopAudioSource.Play();
+    }
+    
+    public void StopLoop()
+    {
+        if (_sfxLoopAudioSource == null) return;
+
+        _sfxLoopAudioSource.Stop();
+        _sfxLoopAudioSource.loop = false;
     }
 }

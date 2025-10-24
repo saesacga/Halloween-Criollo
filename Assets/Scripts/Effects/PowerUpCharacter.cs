@@ -24,7 +24,7 @@ public class PowerUpCharacter : Character
         PowerUpComingUI.OnPowerUpTimerUp -= NegativeEffect;
     }
 
-    protected override void SetUnsearchableUI()
+    protected override void UnsearchablePolymorph()
     {
         EffectsManager.Instance.GiveEffectToPlayer(transform, EffectsManager.TypeOfCharEffect.GoodEffect); 
         PowerUpComingUI.Instance.HideCharacterPowerUpUI();

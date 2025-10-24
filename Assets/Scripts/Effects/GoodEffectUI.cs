@@ -33,6 +33,9 @@ public class GoodEffectUI : EffectUIButton
     protected override void ExecuteEffect()
     {
         base.ExecuteEffect();
+        
+        AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[5]);
+        
         Action effect = _goodEffect switch
         {
             EffectsManager.PositiveEffects.BetterCamera => EffectsManager.Instance.BetterCamera,
