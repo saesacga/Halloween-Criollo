@@ -108,7 +108,6 @@ MonoBehaviour:
   CharacterName: Tu Abuela
   <ActiveSearchable>k__BackingField: 0
   _useCorner: 0
-  _typeOfCharEffect: 1
 --- !u!1 &8578384221619566124
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +256,7 @@ Animator:
   m_GameObject: {fileID: 8578384221619566124}
   m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2e1a1a6086417364695337570a971220, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4335b86f51acc724aabc835409f86350, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

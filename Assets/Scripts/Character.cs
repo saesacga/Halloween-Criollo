@@ -48,7 +48,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
     protected virtual void SetSearchableUI()
     {
         var spriteRenderer = VisualCharacter.GetComponent<SpriteRenderer>();
-        FollowSearchable.Instance.SetSprite(spriteRenderer.sprite, spriteRenderer.material);//For camera Render Texture
+        FollowSearchable.Instance.SetSprite(spriteRenderer.material, VisualCharacter.GetComponent<Animator>().runtimeAnimatorController);//For camera Render Texture
         
         GameManager.Instance.CharacterName.text = CharacterName;
     }
