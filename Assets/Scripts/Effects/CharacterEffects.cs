@@ -28,6 +28,7 @@ public class CharacterEffects : MonoBehaviour
     {
         EffectsManager.OnSpeedChange -= ChangeSpeed;
         EffectsManager.OnStopMovement -= StopMovement;
+        DOTween.Kill(this);
     }
     
     private void ChangeSpeed(float speed)

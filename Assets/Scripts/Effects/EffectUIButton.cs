@@ -16,6 +16,8 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     {
         EffectsManager.OnEffectGiven += EffectSetup;
         EffectsManager.OnEffectDone += UpdatePosition;
+        
+        transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
     }
     private void OnDisable()
     {

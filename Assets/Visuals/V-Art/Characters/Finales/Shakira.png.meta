@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: e6a42fc8b81f12e4ea9c3708b44ec932
+guid: b6326b0026e6acc41aa4e97aede8e47d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4899529057815437571
-    second: ArmandoDrag_0
+      213: -3705314560685667288
+    second: Shakira_0
   - first:
-      213: -6700914235935515930
-    second: ArmandoDrag_1
+      213: -8476480608515478498
+    second: Shakira_1
   - first:
-      213: -8784915885106846899
-    second: ArmandoDrag_2
+      213: -7326405199965759580
+    second: Shakira_2
   - first:
-      213: 7592239175765507524
-    second: ArmandoDrag_3
+      213: 7518111211273573387
+    second: Shakira_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -122,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ArmandoDrag_0
+      name: Shakira_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 23
-        height: 53
+        width: 19
+        height: 50
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dfed43ed740610cb0800000000000000
-      internalID: -4899529057815437571
+      spriteID: 82c8f35e904149cc0800000000000000
+      internalID: -3705314560685667288
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmandoDrag_1
+      name: Shakira_1
       rect:
         serializedVersion: 2
-        x: 23
+        x: 19
         y: 0
-        width: 23
-        height: 53
+        width: 19
+        height: 50
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +159,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6ea94b061029103a0800000000000000
-      internalID: -6700914235935515930
+      spriteID: e1ca2fffbcd7d5a80800000000000000
+      internalID: -8476480608515478498
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmandoDrag_2
+      name: Shakira_2
       rect:
         serializedVersion: 2
-        x: 46
+        x: 38
         y: 0
-        width: 23
-        height: 53
+        width: 19
+        height: 50
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,20 +181,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d4325860c85b51680800000000000000
-      internalID: -8784915885106846899
+      spriteID: 4a7577f9941635a90800000000000000
+      internalID: -7326405199965759580
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmandoDrag_3
+      name: Shakira_3
       rect:
         serializedVersion: 2
-        x: 69
+        x: 57
         y: 0
-        width: 23
-        height: 53
+        width: 19
+        height: 50
       alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,8 +203,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4cdbe411e4d0d5960800000000000000
-      internalID: 7592239175765507524
+      spriteID: b04d7d16052b55860800000000000000
+      internalID: 7518111211273573387
       vertices: []
       indices: 
       edges: []
@@ -213,7 +213,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ad3b77d0f9768d349977c6a80e21f6e5
+    spriteID: 39f37b4ea893ab64f8a67905a136fbb5
     internalID: 0
     vertices: []
     indices: 
@@ -223,12 +223,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":23.0,"y":53.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":19.0,"y":50.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      ArmandoDrag_0: -4899529057815437571
-      ArmandoDrag_1: -6700914235935515930
-      ArmandoDrag_2: -8784915885106846899
-      ArmandoDrag_3: 7592239175765507524
+      Shakira_0: -3705314560685667288
+      Shakira_1: -8476480608515478498
+      Shakira_2: -7326405199965759580
+      Shakira_3: 7518111211273573387
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 982a2d57921dc88429e4b4ed45330781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  CharacterName: Tu Abuela
+  CharacterName: Armando Drag
   <ActiveSearchable>k__BackingField: 0
   _useCorner: 0
 --- !u!114 &-3142121593958219182
@@ -202,7 +202,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e520faadc53f3bc488b255d9956c7824, type: 3}
+  m_Sprite: {fileID: -4899529057815437571, guid: e6a42fc8b81f12e4ea9c3708b44ec932, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -247,17 +247,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.019356191, y: 0.41838712}
+  m_Offset: {x: 0.00045859814, y: 0.4679934}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.45, y: 0.9142857}
+    oldSize: {x: 0.4181818, y: 0.96363634}
     newSize: {x: 0.6333333, y: 0.96666664}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.5508181, y: 1.0371362}
+  m_Size: {x: 0.5886133, y: 1.1080024}
   m_EdgeRadius: 0
 --- !u!95 &751499474301746216
 Animator:
@@ -267,9 +267,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8578384221619566124}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4335b86f51acc724aabc835409f86350, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5a3ac3b4329e2444ebf2641261f6a3cd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

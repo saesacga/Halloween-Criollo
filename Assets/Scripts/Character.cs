@@ -30,7 +30,11 @@ public class Character : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (ActiveSearchable) SetUnsearchable();
+        if (ActiveSearchable) 
+        {
+            SetUnsearchable();
+            GameManager.Instance.UpdateScore();
+        }
         else WrongAnimation();
     }
     
@@ -55,8 +59,6 @@ public class Character : MonoBehaviour, IPointerClickHandler
     
     protected void SetUnsearchable()
     {
-        GameManager.Instance.UpdateScore();
-        
         ActiveSearchable = false;
         
         _useCorner = true;

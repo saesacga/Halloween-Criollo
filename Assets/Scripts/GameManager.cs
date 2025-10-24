@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         
         Instance = this;
+
+        DOTween.SetTweensCapacity(500, 100);
     }
 
     #endregion
@@ -26,10 +28,10 @@ public class GameManager : MonoBehaviour
     public enum Level { One, Two, Three }
     [TabGroup("Game Parameters", TextColor = "orange"), EnumToggleButtons, OnValueChanged(nameof(UpdateEntitySpawnQuantity)), SerializeField]
     private Level _currentLevel;
-    private Level CurrentLevel
+    public Level CurrentLevel
     {
         get => _currentLevel; // devuelve el valor actual
-        set
+        private set
         {
             if (_currentLevel == value) return;
             _currentLevel = value;
@@ -191,7 +193,14 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.FadeMusic(AudioManager.Instance.ChangeLevelMusicClip);
         LevelCompleteAnimation.Instance.OpenLevelCompleteUI();
-        CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
+        if (DailyScore < 11)
+        {
+            CurrentLevel = Level.One;
+        }
+        else
+        {
+           CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
+        }
     }
 
     private void NewLevelOpenMenuConfig()
@@ -199,7 +208,6 @@ public class GameManager : MonoBehaviour
         UnsearchablePool.Instance.DestroyAll();
         _reservedMaterial.Clear();
         
-        DailyScore = 0;
         UpdateScoreText();
 
         DOVirtual.DelayedCall(0.1f, () =>
@@ -215,14 +223,18 @@ public class GameManager : MonoBehaviour
         _index = (_index + 1) % AudioManager.Instance.LevelMusicClips.Length;
         AudioManager.Instance.FadeMusic(AudioManager.Instance.LevelMusicClips[_index]);
         GameTime.Instance.SetTime();
+        DailyScore = 0;
     }
 
+    private int _powerUpIndex;
     [TabGroup("Game Parameters"), Button]
     private void SpawnPowerUp()
     {
         AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[6]); 
         
-        var prefabToUse = _powerUpCharacterPrefabs[Random.Range(0, _powerUpCharacterPrefabs.Length)];
+        _powerUpIndex = (_powerUpIndex + 1) % _powerUpCharacterPrefabs.Length;
+        
+        var prefabToUse = _powerUpCharacterPrefabs[_powerUpIndex];
         var powerUp = Instantiate(prefabToUse, _spawnPoints[Random.Range(0, _spawnPoints.Length)].position, Quaternion.identity);
         powerUp.transform.SetParent(_powerUpParent);
     }

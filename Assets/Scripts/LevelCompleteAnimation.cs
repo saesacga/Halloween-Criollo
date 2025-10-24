@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine.InputSystem;
 
@@ -36,6 +37,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
     [SerializeField] private RectTransform _clickToContinue;
     
     [SerializeField] private RectTransform _bg;
+    [SerializeField] private RectTransform _missingCharactersMessage;
     
     #endregion
     
@@ -80,6 +82,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         _sequenceEnd = false;
     }
 
+    [Button]
     public void OpenLevelCompleteUI()
     {
         _levelCompleted?.DOKill(true);
@@ -87,11 +90,23 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         _clickToContinueText.alpha = 1f;
         
         _openSequence = DOTween.Sequence();
-        
+
         _levelCompleted.DORotate(new Vector3(0, 10, 5), _animationDuration / 2).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
-        DOTween.To(() => 0f, h => _levelCompletedText.color = Color.HSVToRGB(h, 1f, 1f), 1f, 3f)
-            .SetEase(Ease.Linear)
-            .SetLoops(-1, LoopType.Restart);
+        if (GameManager.Instance.DailyScore < 11)
+        {
+            _levelCompletedText.text = "Perdiste";
+            _levelCompletedText.color = Color.crimson;
+        }
+        else
+        {
+            _levelCompletedText.text = "Noche Completada";
+            DOTween.To(() => 0f, h => _levelCompletedText.color = Color.HSVToRGB(h, 1f, 1f), 1f, 3f)
+                .SetEase(Ease.Linear)
+                .SetLoops(-1, LoopType.Restart);
+        }
+        
+        
+        
         
         _openSequence.Append(_bg.DOAnchorPos(Vector2.zero, _animationDuration).SetEase(Ease.OutBounce).OnComplete(()=>OnEndLevelUIOpen?.Invoke()));
         _openSequence.Append(_levelCompleted.DOScale(Vector3.one, _animationDuration/2).SetEase(Ease.OutBack));
@@ -100,6 +115,9 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         _openSequence.Append(CounterTween());
         _openSequence.Append(_charactersFoundedNumber.DOPunchScale(Vector3.one * 0.6f, 0.1f, 4)).OnComplete(() =>
         {
+            if(GameManager.Instance.DailyScore < 11) {_missingCharactersMessage.DOScale(Vector3.one, 0.6f).SetEase(Ease.OutBack).OnComplete(()=>_missingCharactersMessage.DOScale(Vector3.one * 1.2f, 0.6f)
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo));}
             _charactersFoundedNumber.DOScale(Vector3.one * 1.6f, 0.6f)
                 .SetEase(Ease.InOutSine)
                 .SetLoops(-1, LoopType.Yoyo);
@@ -117,6 +135,10 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         int displayedValue = 0;
         float currentValue = 0;
         
+        _charactersFoundedNumberText.text = GameManager.Instance.DailyScore == 0
+            ? "Ninguno?"
+            : "";
+        
         var counterTween = DOTween.To(() => currentValue, x => currentValue = x, GameManager.Instance.DailyScore, 2)
             .SetEase(Ease.OutCubic)
             .OnUpdate(() =>
@@ -129,6 +151,9 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
                 _charactersFoundedNumber.DOKill(true);
                 _charactersFoundedNumber.localScale = Vector3.one;
                 _charactersFoundedNumber.DOPunchScale(Vector3.one * 0.6f, 0.2f, 4);
+            }).OnComplete(() =>
+            {
+                _charactersFoundedNumberText.color = GameManager.Instance.DailyScore < 11 ? Color.crimson : Color.lawnGreen;
             });
         
         return counterTween;
@@ -136,12 +161,15 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
 
     private void CloseLevelCompleteUI()
     {
-        _clickToContinue.DOKill();
+        _clickToContinue?.DOKill();
         
         _closeSequence = DOTween.Sequence();
         
         _closeSequence.Append(_clickToContinue.DOAnchorPosY(_clickToContinueInitialPos, 0.2f).SetEase(Ease.InBack));
         _closeSequence.Append(_charactersFounded.DOAnchorPosY(_charactersFoundedInitialPos, _animationDuration/2).SetEase(Ease.InBack));
+        
+        if (GameManager.Instance.DailyScore < 11) _closeSequence.Append(_missingCharactersMessage.DOScale(Vector3.zero, 0.2f).OnComplete(()=>_missingCharactersMessage.DOKill(true)));
+        
         _closeSequence.Append(_levelCompleted.DOScale(Vector3.zero, _animationDuration/2).SetEase(Ease.InBack).OnComplete(()=>OnEndLevelUIClose?.Invoke()));
         _closeSequence.Append(_bg.DOAnchorPosY(_bgInitialPos, _animationDuration).SetEase(Ease.InBounce));
         _closeSequence.OnComplete(() =>
