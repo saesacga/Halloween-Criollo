@@ -189,9 +189,9 @@ public class GameManager : MonoBehaviour
 
     private void LevelEnd()
     {
+        AudioManager.Instance.FadeMusic(AudioManager.Instance.ChangeLevelMusicClip);
         LevelCompleteAnimation.Instance.OpenLevelCompleteUI();
         CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
-        
     }
 
     private void NewLevelOpenMenuConfig()
@@ -208,8 +208,12 @@ public class GameManager : MonoBehaviour
             UnsearchablePool.Instance.ActivateObjects(30);
         });
     }
+
+    private int _index;
     private void NewLevelCloseMenuConfig()
     {
+        _index = (_index + 1) % AudioManager.Instance.LevelMusicClips.Length;
+        AudioManager.Instance.FadeMusic(AudioManager.Instance.LevelMusicClips[_index]);
         GameTime.Instance.SetTime();
     }
 
