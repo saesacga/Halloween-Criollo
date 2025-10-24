@@ -51,11 +51,11 @@ public class StartGameAnimation : MonoBehaviour, IPointerClickHandler
         });
     }
 
+    private bool _clicked;
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (_sequenceEnd)
-        {
-            CloseSequence();
-        }
+        if (!_sequenceEnd || _clicked) return;
+        CloseSequence();
+        _clicked = true;
     }
 }

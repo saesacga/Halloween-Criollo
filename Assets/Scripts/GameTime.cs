@@ -84,12 +84,12 @@ public class GameTime : MonoBehaviour
     }
     
     [Button]
-    private void PauseTimer()
+    public void PauseTimer()
     {
         _timeTween?.Pause();
     }
     [Button]
-    private void ResumeTimer()
+    public void ResumeTimer()
     {
         if (_timeTween == null) SetTime();
      

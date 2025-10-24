@@ -90,8 +90,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         _clickToContinueText.alpha = 1f;
         
         _openSequence = DOTween.Sequence();
-
-        _levelCompleted.DORotate(new Vector3(0, 10, 5), _animationDuration / 2).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
+        
         if (GameManager.Instance.DailyScore < 11)
         {
             _levelCompletedText.text = "Perdiste";
@@ -99,14 +98,12 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            _levelCompletedText.text = "Noche Completada";
+            _levelCompletedText.text = GameManager.Instance.CurrentLevel == GameManager.Level.Three ? "Juego Completado!" : "Noche Completada";
             DOTween.To(() => 0f, h => _levelCompletedText.color = Color.HSVToRGB(h, 1f, 1f), 1f, 3f)
                 .SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Restart);
         }
-        
-        
-        
+        _levelCompleted.DORotate(new Vector3(0, 10, 5), _animationDuration / 2).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
         
         _openSequence.Append(_bg.DOAnchorPos(Vector2.zero, _animationDuration).SetEase(Ease.OutBounce).OnComplete(()=>OnEndLevelUIOpen?.Invoke()));
         _openSequence.Append(_levelCompleted.DOScale(Vector3.one, _animationDuration/2).SetEase(Ease.OutBack));
@@ -168,7 +165,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         _closeSequence.Append(_clickToContinue.DOAnchorPosY(_clickToContinueInitialPos, 0.2f).SetEase(Ease.InBack));
         _closeSequence.Append(_charactersFounded.DOAnchorPosY(_charactersFoundedInitialPos, _animationDuration/2).SetEase(Ease.InBack));
         
-        if (GameManager.Instance.DailyScore < 11) _closeSequence.Append(_missingCharactersMessage.DOScale(Vector3.zero, 0.2f).OnComplete(()=>_missingCharactersMessage.DOKill(true)));
+        _closeSequence.Append(_missingCharactersMessage.DOScale(Vector3.zero, 0.2f).OnComplete(()=>_missingCharactersMessage.DOKill(true)));
         
         _closeSequence.Append(_levelCompleted.DOScale(Vector3.zero, _animationDuration/2).SetEase(Ease.InBack).OnComplete(()=>OnEndLevelUIClose?.Invoke()));
         _closeSequence.Append(_bg.DOAnchorPosY(_bgInitialPos, _animationDuration).SetEase(Ease.InBounce));
