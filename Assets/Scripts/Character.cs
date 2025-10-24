@@ -122,6 +122,16 @@ public class Character : MonoBehaviour, IPointerClickHandler
         {
             SetNewRandomDestination();
         }
+        
+        var velocity = _followerEntity.velocity;
+        
+        if (Mathf.Abs(velocity.x) > 0.05f)
+        { 
+            transform.localScale = new Vector3( velocity.x < 0 ? -1 : 1, 
+                1, 
+                1
+            );
+        }
     }
 
     void SetNewRandomDestination()

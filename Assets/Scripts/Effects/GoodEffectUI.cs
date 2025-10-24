@@ -26,6 +26,8 @@ public class GoodEffectUI : EffectUIButton
             EffectsManager.PositiveEffects.StopCharacterMovement => EffectsManager.Instance.StopEffectDuration,
             _ => throw new ArgumentOutOfRangeException()
         };
+        
+        EffectsManager.OnEffectGiven -= EffectSetup;
     }
 
     protected override void ExecuteEffect()

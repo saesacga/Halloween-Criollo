@@ -2748,7 +2748,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1754209713
   m_SortingOrder: 999
   m_TargetDisplay: 0
 --- !u!1 &697081542
@@ -3516,6 +3516,9 @@ MonoBehaviour:
   _cameraEffectDuration: 15
   <StopCharacterMoveIcon>k__BackingField: {fileID: 21300148, guid: 29c9cded5e558164aaf8c9bf08aa1510, type: 3}
   _stopEffectDuration: 10
+  <RainIcon>k__BackingField: {fileID: 21300000, guid: 27a9706d13e5eff48b30a72696db31ca, type: 3}
+  _rainEffectDuration: 30
+  _rainEffect: {fileID: 4258533655003550695, guid: 034d549aded6f2e4493eca3872ac6cdf, type: 3}
 --- !u!1 &963641216
 GameObject:
   m_ObjectHideFlags: 0
@@ -5349,7 +5352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532b4517f02bebe4fa513a664c54d75c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _durationInSeconds: 100
+  _useTime: 0
+  _durationInSeconds: 30
   _clockDisplay: {fileID: 481702577}
 --- !u!1 &1601751442
 GameObject:

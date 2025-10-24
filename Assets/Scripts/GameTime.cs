@@ -19,6 +19,7 @@ public class GameTime : MonoBehaviour
     
     private readonly float _gameEndHour = 23f;   // 11 PM
     private readonly float _gameStartHour = 19f; // 7 PM
+    [SerializeField] private bool _useTime;
     [SerializeField] private float _durationInSeconds = 180f;
     public float CurrentHour { get; private set; }
 
@@ -29,7 +30,7 @@ public class GameTime : MonoBehaviour
     
     void Start()
     { 
-        SetTime();
+        if(_useTime) SetTime();
     }
 
     private Tween _timeTween;

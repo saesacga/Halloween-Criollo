@@ -21,7 +21,7 @@ public class EffectsManager : MonoBehaviour
     
     public enum TypeOfCharEffect { GoodEffect, BadEffect }
     public enum PositiveEffects { BetterCamera, StopCharacterMovement }
-    public enum NegativeEffects { FasterCharacters }
+    public enum NegativeEffects { FasterCharacters, Rain }
     
     public static event Action OnEffectGiven;
     public static event Action OnEffectDone;
@@ -161,13 +161,36 @@ public class EffectsManager : MonoBehaviour
     {
         _stopTween?.Kill();
         
-        OnStopMovement?.Invoke(true);
+        OnStopMovement?.Invoke(false);
         _stopTween = DOVirtual.DelayedCall( _stopEffectDuration, () =>
         {
-            OnStopMovement?.Invoke(false);
+            OnStopMovement?.Invoke(true);
         });
     }
 
+    #endregion
+    
+    #region Rain
+    
+    [field:SerializeField, TabGroup("☔")] 
+    public Sprite RainIcon { get; private set; }
+    [TabGroup("☔"), SerializeField] 
+    private float _rainEffectDuration = 10;
+    [TabGroup("☔"), SerializeField] 
+    private ParticleSystem _rainEffect;
+    public float RainEffectDuration => _rainEffectDuration;
+    
+
+    [Button, TabGroup("☔")]
+    public void StartRain()
+    {
+        var particles = Instantiate(_rainEffect);
+        var main = particles.main;
+        main.duration = _rainEffectDuration;
+        particles.Play();
+        Destroy(particles.gameObject, main.duration + 2);
+    }
+    
     #endregion
 
 }

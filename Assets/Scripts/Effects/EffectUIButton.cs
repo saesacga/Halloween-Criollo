@@ -19,7 +19,6 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     }
     private void OnDisable()
     {
-        EffectsManager.OnEffectGiven -= EffectSetup;
         EffectsManager.OnEffectDone -= UpdatePosition;
     }
     
@@ -38,6 +37,9 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     private Sequence _useSequence;
     protected virtual void ExecuteEffect()
     {
+        _usedEffect = true;
+        
+        _scaleTween?.Kill();
         _useSequence = DOTween.Sequence();
         
         _useSequence.Append(transform.DOLocalRotate(new Vector3(0, 0, -30), 0.2f).SetEase(Ease.OutBack).SetLoops(2, LoopType.Yoyo));
@@ -51,23 +53,31 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
             {
                 EffectsManager.Instance.TriggerOnEffectDone();
             });
-            
         });
     }
-    
+
+    private bool _usedEffect;
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(TypeOfEffect == EffectsManager.TypeOfCharEffect.GoodEffect) ExecuteEffect();
+        if(TypeOfEffect == EffectsManager.TypeOfCharEffect.GoodEffect && !_usedEffect) ExecuteEffect();
     }
 
-    
+    private Tween _scaleTween;
     public void OnPointerEnter(PointerEventData eventData)
     { 
-        //transform.DOScale(Vector3.one * 1.2f, 0.2f).SetEase(Ease.OutBack);
+        if(_usedEffect) return;
+        
+        _scaleTween?.Kill();
+        
+        _scaleTween = transform.DOScale(Vector3.one * 1.2f, 0.2f).SetEase(Ease.OutBack);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     { 
-        //transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+        if(_usedEffect) return;
+        
+        _scaleTween?.Kill();
+        
+        _scaleTween = transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
     }
 }

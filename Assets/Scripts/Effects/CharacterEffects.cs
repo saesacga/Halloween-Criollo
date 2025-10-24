@@ -5,6 +5,10 @@ using UnityEngine;
 public class CharacterEffects : MonoBehaviour
 {
     private FollowerEntity _followerEntity;
+    private Animator _animator;
+    
+    private static readonly int Idle = Animator.StringToHash("Idle"); 
+    private static readonly int Walk = Animator.StringToHash("Walk");
 
     private void OnEnable()
     {
@@ -13,6 +17,8 @@ public class CharacterEffects : MonoBehaviour
         
         _followerEntity = GetComponent<FollowerEntity>();
         EffectsManager.Instance.NormalSpeed = _followerEntity.maxSpeed;
+        
+        _animator = GetComponentInChildren<Animator>();
     }
     private void OnDisable()
     {
@@ -27,6 +33,7 @@ public class CharacterEffects : MonoBehaviour
 
     private void StopMovement(bool stop)
     {
-        _followerEntity.canMove = !stop;
+        _followerEntity.canMove = stop;
+        _animator.Play(stop ? Walk : Idle);
     }
 }
