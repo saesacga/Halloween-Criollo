@@ -21,7 +21,7 @@ public class NightChangeText : MonoBehaviour
         {
             GameManager.Level.One => "Noche 1, 29 de Octubre",
             GameManager.Level.Two => "Noche 2, 30 de Octubre",
-            GameManager.Level.Three => "Noche 3, 31 de Octubre",
+            GameManager.Level.Three => "Noche final, 31 de Octubre",
             _ => throw new ArgumentOutOfRangeException()
         };
 

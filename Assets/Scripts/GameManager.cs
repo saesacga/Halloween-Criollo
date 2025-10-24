@@ -208,8 +208,6 @@ public class GameManager : MonoBehaviour
         UnsearchablePool.Instance.DestroyAll();
         _reservedMaterial.Clear();
         
-        UpdateScoreText();
-
         DOVirtual.DelayedCall(0.1f, () =>
         {
             InstantiateCharacters();
@@ -224,6 +222,7 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.FadeMusic(AudioManager.Instance.LevelMusicClips[_index]);
         GameTime.Instance.SetTime();
         DailyScore = 0;
+        UpdateScoreText();
     }
 
     private int _powerUpIndex;
