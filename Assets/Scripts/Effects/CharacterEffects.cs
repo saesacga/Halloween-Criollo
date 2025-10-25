@@ -42,8 +42,10 @@ public class CharacterEffects : MonoBehaviour
         _animator.Play(stop ? Walk : Idle);
     }
 
+    private Tween _scaleTween;
     private void ShrinkCharacter(Vector3 size)
     {
-        _visualTransform.DOScale(size, 0.2f).SetEase(Ease.OutBack);
+        _scaleTween?.Kill();
+        _scaleTween = _visualTransform.DOScale(size, 0.2f).SetEase(Ease.OutBack);
     }
 }

@@ -63,7 +63,6 @@ public class AudioManager : MonoBehaviour
         if (!_musicAudioSource.isPlaying)
         {
             _musicAudioSource.clip = newClip;
-            _musicAudioSource.volume = 1f;
             _musicAudioSource.Play();
             return;
         }

@@ -42,9 +42,10 @@ public class StartGameAnimation : MonoBehaviour, IPointerClickHandler
         _sequence.Append(_text3.DOFade(0f, 1f));
         _sequence.Append(_text2.DOFade(0f, 1f));
         _sequence.Append(_text1.DOFade(0f, 1f));
-        _sequence.Append(_backgroundImage.DOFade(0f, 3f));
+        _sequence.Append(_backgroundImage.DOFade(0f, 2f));
         _sequence.OnComplete(() =>
         {
+            AudioManager.Instance.FadeMusic(AudioManager.Instance.LevelMusicClips[0]);
             GameTime.Instance.SetTime();
             _nightChangeText.ShowDate();
             gameObject.SetActive(false);

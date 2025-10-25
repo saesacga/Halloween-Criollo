@@ -79,6 +79,8 @@ public class Character : MonoBehaviour, IPointerClickHandler
     private Tween _shakeTween;
     private void WrongAnimation()
     {
+        GameManager.Instance.TotalMistakes++;
+        
         _shakeTween?.Kill();
         
         AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[1]);

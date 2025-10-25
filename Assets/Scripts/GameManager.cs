@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     #region Game Parameters
     
-    public enum Level { One, Two, Three }
+    public enum Level { One, Two, Three, Chaos }
     [TabGroup("Game Parameters", TextColor = "orange"), EnumToggleButtons, OnValueChanged(nameof(UpdateEntitySpawnQuantity)), SerializeField]
     private Level _currentLevel;
     public Level CurrentLevel
@@ -106,9 +106,13 @@ public class GameManager : MonoBehaviour
     public int NumberOfCharacters => _numberOfCharacters;
     public int SpawnPerClick => _spawnPerClick;
 
-    public int DailyScore { get; set; }
+    public int DailyScore { get; private set; }
 
     private int _totalScore;
+    public int TotalScore => _totalScore;
+    public int TotalMistakes { get; set; }
+    public int TotalTries { get; private set; }
+    
     
     
     private GameObject _charaRef;
@@ -189,17 +193,29 @@ public class GameManager : MonoBehaviour
         _totalScoreUI.text = $"{_totalScore}";
     }
 
+    private int _chaosNight = 1;
+    public int ChaosNight => _chaosNight;
     private void LevelEnd()
     {
         AudioManager.Instance.FadeMusic(AudioManager.Instance.ChangeLevelMusicClip);
         LevelCompleteAnimation.Instance.OpenLevelCompleteUI();
+        
         if (DailyScore < 11)
         {
+            TotalTries++;
             CurrentLevel = Level.One;
         }
-        else
+        else switch (CurrentLevel)
         {
-           CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
+            case Level.Chaos:
+                _chaosNight++;
+                return;
+            case Level.Three:
+                CurrentLevel = Level.Chaos;
+                break;
+            default:
+                CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
+                break;
         }
     }
 
@@ -245,6 +261,7 @@ public class GameManager : MonoBehaviour
             Level.One => _numberOfTotalCharacters1,
             Level.Two => _numberOfTotalCharacters2,
             Level.Three => _numberOfTotalCharacters3,
+            Level.Chaos => -_numberOfTotalCharacters3,
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -253,6 +270,7 @@ public class GameManager : MonoBehaviour
             Level.One => _spawnPerClick1,
             Level.Two => _spawnPerClick2,
             Level.Three => _spawnPerClick3,
+            Level.Chaos => -_spawnPerClick3,
             _ => throw new ArgumentOutOfRangeException()
         };
     }

@@ -76,7 +76,13 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!_sequenceEnd) return;
-        
+
+        if (GameManager.Instance.CurrentLevel == GameManager.Level.Chaos  && GameManager.Instance.ChaosNight == 1)
+        {
+            StatsMenu1.Instance.ShowStats();
+            _sequenceEnd = false;
+            return;
+        }
         CloseLevelCompleteUI();
         _sequenceEnd = false;
     }
@@ -98,7 +104,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            _levelCompletedText.text = "Noche Completada";
+            _levelCompletedText.text = GameManager.Instance.CurrentLevel == GameManager.Level.Three ? "Juego Completado!" : "Noche Completada";
             _levelCompletedTextTween = DOTween.To(() => 0f, h => _levelCompletedText.color = Color.HSVToRGB(h, 1f, 1f), 1f, 3f)
                 .SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Restart);
@@ -154,7 +160,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         _openSequence.Append(_clickToContinue.DOAnchorPosY(-438, 0.2f).SetEase(Ease.OutBack).SetDelay(1f)).OnComplete(()=>_sequenceEnd = true);
     }
 
-    private static Tween CreateCounterTween(TMP_Text text, float targetValue)
+    public static Tween CreateCounterTween(TMP_Text text, float targetValue)
     {
         var displayedValue = 0;
         var currentValue = 0f;
@@ -174,6 +180,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
                 int newValue = Mathf.FloorToInt(currentValue);
                 if (newValue == displayedValue) return;
 
+                AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[8]);
                 displayedValue = newValue;
                 text.text = displayedValue.ToString();
                 
@@ -185,7 +192,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         return tween;
     }
     
-    private void CloseLevelCompleteUI()
+    public void CloseLevelCompleteUI()
     {
         if(_closeSequence!=null && _closeSequence.IsActive() && !_closeSequence.IsPlaying()) _closeSequence.Kill();
         

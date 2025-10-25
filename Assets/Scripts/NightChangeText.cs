@@ -28,6 +28,7 @@ public class NightChangeText : MonoBehaviour
             GameManager.Level.One => _night1Text,
             GameManager.Level.Two => _night2Text,
             GameManager.Level.Three => _night3Text,
+            GameManager.Level.Chaos => $"<size=40>????</size>\nCaos Noche {GameManager.Instance.ChaosNight}\n<size=30><color=green>11 disfraces por encontrar</size>",
             _ => throw new ArgumentOutOfRangeException()
         };
 
