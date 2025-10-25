@@ -25,6 +25,20 @@ public class CinemachineCamerasHandler : MonoBehaviour
         GeneralCam,
         FollowSearchableCam
     }
+
+    private void OnEnable()
+    {
+        Searchables.OnSearchableChanged += ChangeFollowTarget;
+    }
+    private void OnDisable()
+    {
+        Searchables.OnSearchableChanged -= ChangeFollowTarget;
+    }
+    
+    private void ChangeFollowTarget()
+    {
+        FollowSearchableCam.Follow = Searchables.Instance.ActiveSearchable.transform;
+    }
     
     public void SwitchCam(CameraState state = CameraState.GeneralCam)
     {

@@ -117,7 +117,7 @@ public class EffectsManager : MonoBehaviour
         _speedTween = DOVirtual.DelayedCall( _speedEffectDuration, () =>
         {
             OnSpeedChange?.Invoke(NormalSpeed);
-        });
+        }).SetUpdate(false);
     }
     
     #endregion
@@ -141,7 +141,7 @@ public class EffectsManager : MonoBehaviour
         _cameraTween = DOVirtual.DelayedCall( _cameraEffectDuration, () =>
         {
             CinemachineCamerasHandler.Instance.SwitchCam();
-        });
+        }).SetUpdate(false);
     }
     
     #endregion
@@ -167,7 +167,7 @@ public class EffectsManager : MonoBehaviour
         _stopTween = DOVirtual.DelayedCall( _stopEffectDuration, () =>
         {
             OnStopMovement?.Invoke(true);
-        });
+        }).SetUpdate(false);
     }
 
     #endregion
@@ -219,12 +219,17 @@ public class EffectsManager : MonoBehaviour
         _shrinkTween = DOVirtual.DelayedCall( _shrinkEffectDuration, () =>
         {
             OnShrinkCharacters?.Invoke(Vector3.one);
-        });
+        }).SetUpdate(false);
     }
 
     #endregion
     
     #region Grow Searchable
+    
+    private void OnEnable()
+    {
+        Searchables.OnSearchableChanged += ChangeSearchableCharacter; 
+    }
     
     [field:SerializeField, TabGroup("📈")] 
     public Sprite GrowSearchableIcon { get; private set; }
@@ -235,11 +240,27 @@ public class EffectsManager : MonoBehaviour
     private float _growEffectDuration = 10;
     public float GrowEffectDuration => _growEffectDuration;
     
-
+    private Tween _growTween;
+    private Transform _searchableVisualTransform;
+    
     [Button, TabGroup("📈")]
     public void GrowSearchable()
     {
-        Searchables.Instance.ActiveSearchable.GetComponent<CharacterEffects>().GrowSearchable();
+        if(_growTween != null && _growTween.IsActive() && !_growTween.IsPlaying()) _growTween?.Kill();
+        
+        _searchableVisualTransform = Searchables.Instance.ActiveSearchable.transform.GetChild(0);
+        _searchableVisualTransform.DOScale(Vector3.one * GrowSize, 0.2f);
+        _growTween = DOVirtual.DelayedCall(_growEffectDuration, () =>
+        {
+            _searchableVisualTransform.transform.DOScale(Vector3.one, 0.2f);
+        }).SetUpdate(false);
+    }
+
+    private void ChangeSearchableCharacter()
+    {
+        if (_growTween == null || !_growTween.IsActive() || !_growTween.IsPlaying()) return;
+        _searchableVisualTransform = Searchables.Instance.ActiveSearchable.transform.GetChild(0);
+        _searchableVisualTransform.DOScale(Vector3.one * GrowSize, 0.2f);
     }
 
     #endregion

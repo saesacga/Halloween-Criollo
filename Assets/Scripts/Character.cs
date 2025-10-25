@@ -161,8 +161,8 @@ public class Character : MonoBehaviour, IPointerClickHandler
         do
         {
             Vector2 randomViewportPoint = new Vector2(
-                Random.Range(0f, 1f),
-                Random.Range(0f, 0.9f)
+                Random.Range(0.1f, 0.9f),
+                Random.Range(0.1f, 0.9f)
             );
 
             randomPos = _mainCamera.ViewportToWorldPoint(

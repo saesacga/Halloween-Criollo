@@ -16,6 +16,7 @@ public class Searchables : MonoBehaviour
     
     #endregion
 
+    public static event Action OnSearchableChanged;
     private GameObject _activeSearchable;
     public GameObject ActiveSearchable
     {
@@ -23,7 +24,7 @@ public class Searchables : MonoBehaviour
         private set
         {
             _activeSearchable = value;
-            CinemachineCamerasHandler.Instance.FollowSearchableCam.Follow = value.transform;
+            OnSearchableChanged?.Invoke();
         }
     }
     

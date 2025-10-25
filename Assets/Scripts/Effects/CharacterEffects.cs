@@ -46,16 +46,4 @@ public class CharacterEffects : MonoBehaviour
     {
         _visualTransform.DOScale(size, 0.2f).SetEase(Ease.OutBack);
     }
-
-    private Tween _growTween;
-
-    public void GrowSearchable()
-    {
-        _growTween?.Kill();
-        _visualTransform.transform.DOScale(Vector3.one * EffectsManager.Instance.GrowSize, 0.2f);
-        _growTween = DOVirtual.DelayedCall(EffectsManager.Instance.ShrinkEffectDuration, () =>
-        {
-            _visualTransform.transform.DOScale(Vector3.one, 0.2f);
-        });
-    }
 }
