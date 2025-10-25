@@ -83,11 +83,6 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
             _sequenceEnd = false;
             return;
         }
-
-        if (GameManager.Instance.CurrentLevel == GameManager.Level.Chaos && GameManager.Instance.ChaosNight > 1 && GameManager.Instance.DailyScore < 11)
-        {
-            
-        }
         CloseLevelCompleteUI();
         _sequenceEnd = false;
     }

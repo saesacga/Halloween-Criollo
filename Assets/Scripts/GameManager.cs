@@ -202,8 +202,16 @@ public class GameManager : MonoBehaviour
         
         if (DailyScore < 11)
         {
+            if (_currentLevel == Level.Chaos)
+            {
+                Stats2.Instance.ShowStats2();
+            }
             TotalTries++;
             CurrentLevel = Level.One;
+            TotalMistakes = 0;
+            BadEffectUI.BadEffectsCount = 0;
+            GoodEffectUI.GoodEffect = 0;
+            _totalScore = 0;
         }
         else switch (CurrentLevel)
         {

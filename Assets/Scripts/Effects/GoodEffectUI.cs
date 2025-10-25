@@ -46,7 +46,7 @@ public class GoodEffectUI : EffectUIButton
         
         EffectsManager.OnEffectGiven -= EffectSetup;
     }
-
+    public static int GoodEffect { get; set; }
     protected override void ExecuteEffect()
     {
         base.ExecuteEffect();
@@ -62,5 +62,6 @@ public class GoodEffectUI : EffectUIButton
         };
         
         effect.Invoke();
+        GoodEffect++;
     }
 }

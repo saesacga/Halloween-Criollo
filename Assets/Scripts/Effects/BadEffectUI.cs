@@ -47,6 +47,7 @@ public class BadEffectUI : EffectUIButton
         ExecuteEffect();
     }
     
+    public static int BadEffectsCount { get; set; }
     protected override void ExecuteEffect()
     {
         base.ExecuteEffect();
@@ -58,5 +59,6 @@ public class BadEffectUI : EffectUIButton
             _ => throw new ArgumentOutOfRangeException()
         };
         effect.Invoke();
+        BadEffectsCount++;
     }
 }
