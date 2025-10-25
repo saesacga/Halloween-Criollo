@@ -28,6 +28,7 @@ public class CharacterEffects : MonoBehaviour
     {
         EffectsManager.OnSpeedChange -= ChangeSpeed;
         EffectsManager.OnStopMovement -= StopMovement;
+        EffectsManager.OnShrinkCharacters -= ShrinkCharacter;
         DOTween.Kill(this);
     }
     

@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
     private int _totalScore;
     public int TotalScore => _totalScore;
     public int TotalMistakes { get; set; }
-    public int TotalTries { get; private set; }
+    public int TotalTries { get; private set; } = 1;
     
     
     

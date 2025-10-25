@@ -26,6 +26,8 @@ public class PowerUpCharacter : Character
 
     protected override void UnsearchablePolymorph()
     {
+        if (GameManager.Instance.CurrentLevel != GameManager.Level.Chaos) GameManager.Instance.UpdateScore();
+        
         EffectsManager.Instance.GiveEffectToPlayer(transform, EffectsManager.TypeOfCharEffect.GoodEffect); 
         PowerUpComingUI.Instance.HideCharacterPowerUpUI();
         PowerUpComingUI.OnPowerUpTimerUp -= NegativeEffect;

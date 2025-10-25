@@ -33,7 +33,6 @@ public class Character : MonoBehaviour, IPointerClickHandler
         if (ActiveSearchable) 
         {
             SetUnsearchable();
-            GameManager.Instance.UpdateScore();
         }
         else WrongAnimation();
     }
@@ -70,6 +69,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
     }
     protected virtual void UnsearchablePolymorph()
     {
+        GameManager.Instance.UpdateScore();
         AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[0], 2f);
         Searchables.Instance.ChangeSearchableCharacter();
     }
