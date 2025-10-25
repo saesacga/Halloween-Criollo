@@ -105,6 +105,12 @@ public class EffectsManager : MonoBehaviour
     [TabGroup("🏃"), SerializeField] 
     private float _speedEffectDuration = 5;
     public float SpeedEffectDuration => _speedEffectDuration;
+    [TabGroup("🏃"), SerializeField] 
+    private string _speedEffectDescription;
+    public string SpeedEffectDescription => _speedEffectDescription;
+    [TabGroup("🏃"), SerializeField] 
+    private string _speedEffectName;
+    public string SpeedEffectName => _speedEffectName;
     
     private Tween _speedTween;
     
@@ -129,6 +135,12 @@ public class EffectsManager : MonoBehaviour
     [TabGroup("🎥"), SerializeField] 
     private float _cameraEffectDuration = 5;
     public float CameraEffectDuration => _cameraEffectDuration;
+    [TabGroup("🎥"), SerializeField] 
+    private string _betterCameraDescription;
+    public string BetterCameraDescription => _betterCameraDescription;
+    [TabGroup("🎥"), SerializeField] 
+    private string _betterCameraEffectName;
+    public string BetterCameraEffectName => _betterCameraEffectName;
     
     private Tween _cameraTween;
     
@@ -155,6 +167,12 @@ public class EffectsManager : MonoBehaviour
     [TabGroup("🗿"), SerializeField] 
     private float _stopEffectDuration = 10;
     public float StopEffectDuration => _stopEffectDuration;
+    [TabGroup("🗿"), SerializeField] 
+    private string _freezeEffectDescription;
+    public string FreezeEffectDescription => _freezeEffectDescription;
+    [TabGroup("🗿"), SerializeField] 
+    private string _freezeEffectName;
+    public string FreezeEffectName => _freezeEffectName;
     
     private Tween _stopTween;
 
@@ -181,8 +199,13 @@ public class EffectsManager : MonoBehaviour
     [TabGroup("☔"), SerializeField] 
     private ParticleSystem _rainEffect;
     public float RainEffectDuration => _rainEffectDuration;
+    [TabGroup("☔"), SerializeField] 
+    private string _rainEffectDescription;
+    public string RainEffectDescription => _rainEffectDescription;
+    [TabGroup("☔"), SerializeField] 
+    private string _rainEffectName;
+    public string RainEffectName => _rainEffectName;
     
-
     [Button, TabGroup("☔")]
     public void StartRain()
     {
@@ -207,6 +230,12 @@ public class EffectsManager : MonoBehaviour
     [TabGroup("📉"), SerializeField] 
     private float _shrinkEffectDuration = 10;
     public float ShrinkEffectDuration => _shrinkEffectDuration;
+    [TabGroup("📉"), SerializeField] 
+    private string _shrinkEffectDescription;
+    public string ShrinkEffectDescription => _shrinkEffectDescription;
+    [TabGroup("📉"), SerializeField] 
+    private string _shrinkEffectName;
+    public string ShrinkEffectName => _shrinkEffectName;
     
     private Tween _shrinkTween;
 
@@ -239,6 +268,12 @@ public class EffectsManager : MonoBehaviour
     [TabGroup("📈"), SerializeField] 
     private float _growEffectDuration = 10;
     public float GrowEffectDuration => _growEffectDuration;
+    [TabGroup("📈"), SerializeField] 
+    private string _growEffectDescription;
+    public string GrowEffectDescription => _growEffectDescription;
+    [TabGroup("📈"), SerializeField] 
+    private string _growEffectName;
+    public string GrowEffectName => _growEffectName;
     
     private Tween _growTween;
     private Transform _searchableVisualTransform;

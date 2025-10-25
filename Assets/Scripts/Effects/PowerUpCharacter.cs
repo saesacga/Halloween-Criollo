@@ -28,6 +28,7 @@ public class PowerUpCharacter : Character
     {
         EffectsManager.Instance.GiveEffectToPlayer(transform, EffectsManager.TypeOfCharEffect.GoodEffect); 
         PowerUpComingUI.Instance.HideCharacterPowerUpUI();
+        PowerUpComingUI.OnPowerUpTimerUp -= NegativeEffect;
     }
 
     protected override void SetSearchableUI()

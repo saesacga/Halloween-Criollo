@@ -27,6 +27,22 @@ public class GoodEffectUI : EffectUIButton
             EffectsManager.PositiveEffects.GrowSearchable => EffectsManager.Instance.GrowEffectDuration,
             _ => throw new ArgumentOutOfRangeException()
         };
+
+        DescriptionText.text = _goodEffect switch
+        {
+            EffectsManager.PositiveEffects.BetterCamera => EffectsManager.Instance.BetterCameraDescription,
+            EffectsManager.PositiveEffects.StopCharacterMovement => EffectsManager.Instance.FreezeEffectDescription,
+            EffectsManager.PositiveEffects.GrowSearchable => EffectsManager.Instance.GrowEffectDescription,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        NameText.text = _goodEffect switch
+        {
+            EffectsManager.PositiveEffects.BetterCamera => EffectsManager.Instance.BetterCameraEffectName,
+            EffectsManager.PositiveEffects.StopCharacterMovement => EffectsManager.Instance.FreezeEffectName,
+            EffectsManager.PositiveEffects.GrowSearchable => EffectsManager.Instance.GrowEffectName,
+            _ => throw new ArgumentOutOfRangeException()
+        };
         
         EffectsManager.OnEffectGiven -= EffectSetup;
     }

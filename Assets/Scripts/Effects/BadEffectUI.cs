@@ -27,6 +27,20 @@ public class BadEffectUI : EffectUIButton
             EffectsManager.NegativeEffects.ShrinkCharacters => EffectsManager.Instance.ShrinkEffectDuration,
             _ => throw new ArgumentOutOfRangeException()
         };
+        DescriptionText.text = _negativeEffect switch
+        {
+            EffectsManager.NegativeEffects.FasterCharacters => EffectsManager.Instance.SpeedEffectDescription,
+            EffectsManager.NegativeEffects.Rain => EffectsManager.Instance.RainEffectDescription,
+            EffectsManager.NegativeEffects.ShrinkCharacters => EffectsManager.Instance.ShrinkEffectDescription,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+        NameText.text = _negativeEffect switch
+        {
+            EffectsManager.NegativeEffects.FasterCharacters => EffectsManager.Instance.SpeedEffectName,
+            EffectsManager.NegativeEffects.Rain => EffectsManager.Instance.RainEffectName,
+            EffectsManager.NegativeEffects.ShrinkCharacters => EffectsManager.Instance.ShrinkEffectName,
+            _ => throw new ArgumentOutOfRangeException()
+        };
         
         EffectsManager.OnEffectGiven -= EffectSetup;
         

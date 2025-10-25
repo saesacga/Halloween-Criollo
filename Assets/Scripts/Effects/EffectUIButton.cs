@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -7,10 +8,16 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
 {
     public RectTransform SlotTransform { get; set; }
     
-    protected Image IconImage;
     protected float EffectTime;
     
     protected EffectsManager.TypeOfCharEffect TypeOfEffect;
+    
+    [SerializeField]
+    protected Image IconImage;
+    [SerializeField]
+    protected TextMeshProUGUI DescriptionText;
+    [SerializeField]
+    protected TextMeshProUGUI NameText;
     
     private void OnEnable()
     {
@@ -26,14 +33,13 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     
     protected virtual void EffectSetup()
     {
-        IconImage = transform.GetChild(0).GetComponent<Image>();
-        
         UpdatePosition();
     }
 
+    private bool _inSlotPosition;
     private void UpdatePosition()
     {
-        transform.DOMove(SlotTransform.position, 0.5f).SetEase(Ease.OutBack);
+        transform.DOMove(SlotTransform.position, 0.5f).SetEase(Ease.OutBack).OnComplete(()=>_inSlotPosition = true);
     }
 
     private Sequence _useSequence;
@@ -41,7 +47,13 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     {
         _usedEffect = true;
         
-        _scaleTween?.Kill();
+        _scaleSeq?.Kill();
+        _scaleSeq = DOTween.Sequence();
+        
+        _scaleSeq.Append(transform.DOScale(Vector3.one, 0.2f));
+        _scaleSeq.Append(DescriptionText.DOFade(0f, 0.2f));
+        _scaleSeq.Join(NameText.DOFade(0f, 0.2f)).SetEase(Ease.OutBack);
+        
         _useSequence = DOTween.Sequence();
         
         _useSequence.Append(transform.DOLocalRotate(new Vector3(0, 0, -30), 0.2f).SetEase(Ease.OutBack).SetLoops(2, LoopType.Yoyo));
@@ -62,25 +74,39 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     private bool _usedEffect;
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (!_inSlotPosition) return;
         if(TypeOfEffect == EffectsManager.TypeOfCharEffect.GoodEffect && !_usedEffect) ExecuteEffect();
     }
 
-    private Tween _scaleTween;
+    private Sequence _scaleSeq;
     public void OnPointerEnter(PointerEventData eventData)
     { 
+        if (!_inSlotPosition) return;
+        
+        _scaleSeq?.Kill();
+        _scaleSeq = DOTween.Sequence();
+        
+        _scaleSeq.Append(DescriptionText.DOFade(1f, 0.2f));
+        _scaleSeq.Join(NameText.DOFade(1f, 0.2f)).SetEase(Ease.OutBack);
+        
         if(_usedEffect) return;
         
-        _scaleTween?.Kill();
+        _scaleSeq.Join(transform.DOScale(Vector3.one * 1.2f, 0.2f));
         
-        _scaleTween = transform.DOScale(Vector3.one * 1.2f, 0.2f).SetEase(Ease.OutBack);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     { 
+        if (!_inSlotPosition) return;
+        
+        _scaleSeq?.Kill();
+        _scaleSeq = DOTween.Sequence();
+        
+        _scaleSeq.Append(DescriptionText.DOFade(0f, 0.2f));
+        _scaleSeq.Join(NameText.DOFade(0f, 0.2f)).SetEase(Ease.OutBack);
+        
         if(_usedEffect) return;
         
-        _scaleTween?.Kill();
-        
-        _scaleTween = transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
+        _scaleSeq.Join(transform.DOScale(Vector3.one, 0.2f));
     }
 }
