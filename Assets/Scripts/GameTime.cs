@@ -21,7 +21,7 @@ public class GameTime : MonoBehaviour
     private readonly float _gameStartHour = 19f; // 7 PM
     [SerializeField] private bool _useTime;
     [SerializeField] private float _durationInSeconds = 180f;
-    public float CurrentHour { get; private set; }
+    private float _currentHour;
 
     [SerializeField] private TextMeshProUGUI _clockDisplay;
     
@@ -36,32 +36,41 @@ public class GameTime : MonoBehaviour
     private Tween _timeTween;
     public void SetTime()
     {
-        var totalHours = _gameEndHour - _gameStartHour;
+        var startHour = _gameStartHour;
+        var endHour = _gameEndHour;
+        var totalHours = endHour - startHour;
         float t = 0;
+        
+        _timeTween = DOTween.To(() => t, x =>
+        {
+            t = x;
+            _currentHour = startHour + t;
+            UpdateClockDisplay();
+        }, totalHours, _durationInSeconds).SetEase(Ease.Linear).SetUpdate(false);
+        
+        var firstCallbackHour = GameManager.Instance.CurrentLevel == GameManager.Level.Chaos ? 19.25f : 19.8f;
+        var intervalSeconds = GameManager.Instance.CurrentLevel == GameManager.Level.Chaos? 20f : 45f;
+        var elapsedTime = 0f;
+        
+        var firstCallbackTime = (firstCallbackHour - startHour) / totalHours * _durationInSeconds;
 
-        _timeTween = DOTween.Sequence()
-            .Append(DOTween.To(() => t, x => {
-                t = x;
-                CurrentHour = _gameStartHour + t;
-                UpdateClockDisplay();
-            }, totalHours, _durationInSeconds).SetEase(Ease.Linear))
-            .InsertCallback((_durationInSeconds * (19.8f - _gameStartHour) / totalHours), () => {
-                OnTimeForPowerUp?.Invoke();
-            })
-            .InsertCallback((_durationInSeconds * (20.8f - _gameStartHour) / totalHours), () => {
-                OnTimeForPowerUp?.Invoke();
-            })
-            .InsertCallback((_durationInSeconds * (21.8f - _gameStartHour) / totalHours), () => {
-                OnTimeForPowerUp?.Invoke();
-            })
-            .OnComplete(() => OnTimeEnd?.Invoke());
+        elapsedTime = firstCallbackTime;
+        while (elapsedTime < _durationInSeconds)
+        {
+            var callbackTime = elapsedTime;
+            DOVirtual.DelayedCall(callbackTime, () => OnTimeForPowerUp?.Invoke());
+            elapsedTime += intervalSeconds;
+        }
+
+        _timeTween.OnComplete(() => OnTimeEnd?.Invoke());
     }
+
 
     private int _lastMinute = -1;
     void UpdateClockDisplay()
     {
-        int hour = Mathf.FloorToInt(CurrentHour);
-        int minute = Mathf.FloorToInt((CurrentHour - hour) * 60f);
+        int hour = Mathf.FloorToInt(_currentHour);
+        int minute = Mathf.FloorToInt((_currentHour - hour) * 60f);
         
         string ampm = hour >= 12 ? "PM" : "AM";
         int displayHour = hour % 12;

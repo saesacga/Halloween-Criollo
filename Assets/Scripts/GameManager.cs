@@ -261,7 +261,7 @@ public class GameManager : MonoBehaviour
             Level.One => _numberOfTotalCharacters1,
             Level.Two => _numberOfTotalCharacters2,
             Level.Three => _numberOfTotalCharacters3,
-            Level.Chaos => -_numberOfTotalCharacters3,
+            Level.Chaos => _numberOfTotalCharacters3 + 100,
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -270,7 +270,7 @@ public class GameManager : MonoBehaviour
             Level.One => _spawnPerClick1,
             Level.Two => _spawnPerClick2,
             Level.Three => _spawnPerClick3,
-            Level.Chaos => -_spawnPerClick3,
+            Level.Chaos => _spawnPerClick3 + 10,
             _ => throw new ArgumentOutOfRangeException()
         };
     }
