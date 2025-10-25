@@ -5,6 +5,12 @@ using DG.Tweening;
 
 public class NightChangeText : MonoBehaviour
 {
+    [SerializeField, Multiline(3)]
+    private string _night1Text;
+    [SerializeField, Multiline(3)]
+    private string _night2Text;
+    [SerializeField, Multiline(3)]
+    private string _night3Text;
     private TextMeshProUGUI _text;
     
     private void OnEnable()
@@ -19,9 +25,9 @@ public class NightChangeText : MonoBehaviour
         _tween?.Kill();
         _text.text = GameManager.Instance.CurrentLevel switch
         {
-            GameManager.Level.One => "Noche 1, 29 de Octubre",
-            GameManager.Level.Two => "Noche 2, 30 de Octubre",
-            GameManager.Level.Three => "Noche final, 31 de Octubre",
+            GameManager.Level.One => _night1Text,
+            GameManager.Level.Two => _night2Text,
+            GameManager.Level.Three => _night3Text,
             _ => throw new ArgumentOutOfRangeException()
         };
 
