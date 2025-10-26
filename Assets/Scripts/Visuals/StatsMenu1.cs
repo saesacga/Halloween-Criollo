@@ -42,17 +42,9 @@ public class StatsMenu1 : MonoBehaviour, IPointerClickHandler
     private bool _completeSequence;
     private Sequence _sequence;
     
-    private int _totalScore3Night;
-    public int TotalScore3Night => _totalScore3Night;
-    private int _totalMistakes3Night;
-    public int TotalMistakes3Night => _totalMistakes3Night;
-    
     [Button]
     public void ShowStats()
     {
-        _totalScore3Night = GameManager.Instance.TotalScore;
-        _totalMistakes3Night = GameManager.Instance.TotalMistakes;
-        
         _sequence?.Kill();
         _statsContainer.DOAnchorPosY(77, 0.01f);
         
@@ -79,6 +71,8 @@ public class StatsMenu1 : MonoBehaviour, IPointerClickHandler
     private bool _completeSequence2;
     private void ShowChaosRules()
     {
+        if (_sequence != null && _sequence.IsPlaying()) return;
+        
         _sequence?.Kill();
         
         _clickToContinueText.transform.DOScale(0, 1f).SetEase(Ease.OutBack);

@@ -58,7 +58,7 @@ public class GameTime : MonoBehaviour
         while (elapsedTime < _durationInSeconds)
         {
             var callbackTime = elapsedTime;
-            DOVirtual.DelayedCall(callbackTime, () => OnTimeForPowerUp?.Invoke());
+            DOVirtual.DelayedCall(callbackTime, () => OnTimeForPowerUp?.Invoke()).SetUpdate(false);
             elapsedTime += intervalSeconds;
         }
 

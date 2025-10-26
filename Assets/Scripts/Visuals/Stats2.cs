@@ -45,15 +45,15 @@ public class Stats2 : MonoBehaviour, IPointerClickHandler
 
         _sequence.Append(_thisTransform.DOAnchorPos(Vector2.zero, 1f).SetEase(Ease.OutBounce));
         _sequence.AppendInterval(0.1f);
-        _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat1, GameManager.Instance.TotalScore - StatsMenu1.Instance.TotalScore3Night)); //Total Score Caos
+        _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat1, GameManager.Instance.TotalScore)); //Total Score Caos
         _sequence.AppendInterval(0.1f);
-        _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat2, GameManager.Instance.TotalMistakes - StatsMenu1.Instance.TotalScore3Night)); //Total Mistakes Caos
+        _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat2, GameManager.Instance.TotalMistakes)); //Total Mistakes Caos
         _sequence.AppendInterval(0.1f);
         _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat3, GoodEffectUI.GoodEffect)); //Total Effects Caos
         _sequence.AppendInterval(0.1f);
         _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat4, BadEffectUI.BadEffectsCount));//Total NegEffects Caos
         _sequence.AppendInterval(0.1f);
-        _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat5, GameManager.Instance.ChaosNight));//Total Nights Caos
+        _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat5, GameManager.Instance.ChaosNight-1));//Total Nights Caos
         _sequence.AppendInterval(1f).OnComplete(() =>
             {
                 _completeSequence = true;

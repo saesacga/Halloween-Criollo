@@ -80,6 +80,8 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         if (GameManager.Instance.CurrentLevel == GameManager.Level.Chaos  && GameManager.Instance.ChaosNight == 1)
         {
             StatsMenu1.Instance.ShowStats();
+            GameManager.Instance.TotalMistakes = 0;
+            GameManager.Instance.TotalScore = 0;
             _sequenceEnd = false;
             return;
         }

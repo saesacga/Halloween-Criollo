@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PowerUpCharacter : Character
 {
+    [SerializeField] private ParticleSystem _particles;
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -29,6 +30,8 @@ public class PowerUpCharacter : Character
         if (GameManager.Instance.CurrentLevel != GameManager.Level.Chaos) GameManager.Instance.UpdateScore();
         
         EffectsManager.Instance.GiveEffectToPlayer(transform, EffectsManager.TypeOfCharEffect.GoodEffect); 
+        _particles.Stop();
+        
         PowerUpComingUI.Instance.HideCharacterPowerUpUI();
         PowerUpComingUI.OnPowerUpTimerUp -= NegativeEffect;
     }
@@ -45,6 +48,7 @@ public class PowerUpCharacter : Character
         Destroy(particles.gameObject, particles.main.duration);
             
         EffectsManager.Instance.GiveEffectToPlayer(transform, EffectsManager.TypeOfCharEffect.BadEffect);
+        _particles.Stop();
 
         SetUnsearchable();
         

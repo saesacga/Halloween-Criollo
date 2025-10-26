@@ -108,8 +108,7 @@ public class GameManager : MonoBehaviour
 
     public int DailyScore { get; private set; }
 
-    private int _totalScore;
-    public int TotalScore => _totalScore;
+    public int TotalScore { get; set; }
     public int TotalMistakes { get; set; }
     public int TotalTries { get; private set; } = 1;
     
@@ -184,13 +183,13 @@ public class GameManager : MonoBehaviour
     public void UpdateScore()
     {
         DailyScore++;
-        _totalScore++;
+        TotalScore++;
         UpdateScoreText();
     }
     private void UpdateScoreText()
     {
         _dailyScoreUI.text = $"{DailyScore}";
-        _totalScoreUI.text = $"{_totalScore}";
+        _totalScoreUI.text = $"{TotalScore}";
     }
 
     private int _chaosNight = 1;
@@ -211,7 +210,7 @@ public class GameManager : MonoBehaviour
             TotalMistakes = 0;
             BadEffectUI.BadEffectsCount = 0;
             GoodEffectUI.GoodEffect = 0;
-            _totalScore = 0;
+            TotalScore = 0;
         }
         else switch (CurrentLevel)
         {
@@ -235,7 +234,8 @@ public class GameManager : MonoBehaviour
         DOVirtual.DelayedCall(0.1f, () =>
         {
             InstantiateCharacters();
-            UnsearchablePool.Instance.ActivateObjects(30);
+            var count = CurrentLevel == Level.Chaos ? 100 : 30;
+            UnsearchablePool.Instance.ActivateObjects(count);
         });
     }
 
@@ -269,7 +269,7 @@ public class GameManager : MonoBehaviour
             Level.One => _numberOfTotalCharacters1,
             Level.Two => _numberOfTotalCharacters2,
             Level.Three => _numberOfTotalCharacters3,
-            Level.Chaos => _numberOfTotalCharacters3 + 100,
+            Level.Chaos => _numberOfTotalCharacters3,
             _ => throw new ArgumentOutOfRangeException()
         };
 
@@ -278,7 +278,7 @@ public class GameManager : MonoBehaviour
             Level.One => _spawnPerClick1,
             Level.Two => _spawnPerClick2,
             Level.Three => _spawnPerClick3,
-            Level.Chaos => _spawnPerClick3 + 10,
+            Level.Chaos => _spawnPerClick3,
             _ => throw new ArgumentOutOfRangeException()
         };
     }
