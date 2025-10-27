@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,112 +8,114 @@ using Sirenix.OdinInspector;
 
 public class StatsMenu1 : MonoBehaviour, IPointerClickHandler
 {
-    #region Singleton 
-    public static StatsMenu1 Instance { get; private set; }
+    [SerializeField, TabGroup("Stats Related")] 
+    private GameObject _statEntryPrefab;
+    [SerializeField, TabGroup("Stats Related")]
+    private RectTransform _statsLayoutGroup;
     
-    private void Awake() 
-    { 
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-        
-        Instance = this; 
-    } 
-    #endregion
-    
-    [TabGroup("ChaosRules"), SerializeField]
-    private TextMeshProUGUI _chaosRulesText;
-    [TabGroup("ChaosRules"), SerializeField]
-    private TextMeshProUGUI _chaosTitleText;
-    
-    [TabGroup("StatsReferences"), SerializeField] 
-    private TextMeshProUGUI _stat1;
-    [TabGroup("StatsReferences"), SerializeField] 
-    private TextMeshProUGUI _stat2;
-    [TabGroup("StatsReferences"), SerializeField] 
-    private TextMeshProUGUI _stat3;
-    [TabGroup("StatsReferences"), SerializeField] 
+    [SerializeField, DisableIf("@_clickToContinueText != null")] 
     private TextMeshProUGUI _clickToContinueText;
-    [TabGroup("StatsReferences"), SerializeField]
-    private RectTransform _statsContainer;
-    private RectTransform _parent;
-
-    private void OnEnable()
+    [SerializeField, DisableIf("@_containerRect != null")] private RectTransform _containerRect;
+    private float _containerInitialYPos;
+    
+    private List<(string, int)> _finishGameStats;
+    private List<(string, int)> _chaosStats;
+    
+    private void Start()
     {
-        _parent = GetComponent<RectTransform>();
+        _finishGameStats = new List<(string, int)>
+        {
+            ("Disfraces encontrados", GameManager.Instance.TotalScore),
+            ("Errores totales", GameManager.Instance.TotalMistakes),
+            ("Intentos totales hasta pasar la noche del 31", GameManager.Instance.TotalTries)
+        };
+        
+        _chaosStats = new List<(string, int)>
+        {
+            ("Disfraces encontrados en modo Caos", GameManager.Instance.TotalScore),
+            ("Errores totales en modo Caos", GameManager.Instance.TotalMistakes),
+            ("Efectos positivos usados", GoodEffectUI.GoodEffect),
+            ("Efectos negativos activados", BadEffectUI.BadEffectsCount),
+            ("Noches en modo Caos completadas", GameManager.Instance.ChaosNight - 1)
+        };
+
+        _containerInitialYPos = _containerRect.anchoredPosition.y;
     }
     
-    private bool _completeSequence;
     private Sequence _sequence;
+    private bool _completeSequence;
     
-    [Button]
-    public void ShowStats()
+    private void ShowStats(List<(string label, int value)> stats, float animationDuration = 1f)
     {
         _sequence?.Kill();
-        _statsContainer.DOAnchorPosY(77, 0.01f);
         
-        _sequence = DOTween.Sequence();
+        foreach (Transform child in _statsLayoutGroup)
+            Destroy(child.gameObject);
 
-        _sequence.Append(_parent.DOAnchorPos(Vector2.zero, 1f).SetEase(Ease.OutBounce));
-        _sequence.AppendInterval(0.1f);
-        _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat1, GameManager.Instance.TotalScore));
-        _sequence.AppendInterval(0.1f);
-        _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat2, GameManager.Instance.TotalMistakes));
-        _sequence.AppendInterval(0.1f);
-        _sequence.Append(LevelCompleteAnimation.CreateCounterTween(_stat3, GameManager.Instance.TotalTries));
-        _sequence.AppendInterval(1f);
+        List<TMP_Text> statNumbers = new List<TMP_Text>();
+        
+        foreach (var element in stats)
+        {
+            var newStat = Instantiate(_statEntryPrefab, _statsLayoutGroup);
+            var texts = newStat.GetComponentsInChildren<TMP_Text>();
+            texts[0].text = element.label;
+            texts[1].text = "0";
+            statNumbers.Add(texts[1]);
+        }
+
+        _sequence = DOTween.Sequence();
+        
+        _sequence.Append(_containerRect.DOLocalMoveY(0, 1f).SetEase(Ease.OutBack));
+        
+        for (int i = 0; i < stats.Count; i++)
+        {
+            int targetValue = stats[i].value;
+            TMP_Text numberText = statNumbers[i];
+            _sequence.Append(LevelCompleteAnimation.CreateCounterTween(numberText, targetValue));
+            _sequence.AppendInterval(0.1f);
+        }
+
         _sequence.Append(_clickToContinueText.transform.DOScale(1f, 1f).SetEase(Ease.OutBack))
             .OnComplete(() =>
             {
-                _completeSequence = true;
-                _clickToContinueText.DOFade(0.3f, 1f)
+                _clickToContinueText.GetComponent<TextMeshProUGUI>().DOFade(0.3f, 1f)
                     .SetEase(Ease.InOutSine)
                     .SetLoops(-1, LoopType.Yoyo);
+                _completeSequence = true;
             });
     }
 
-    private bool _completeSequence2;
-    private void ShowChaosRules()
+    private void HideStats()
     {
-        if (_sequence != null && _sequence.IsPlaying()) return;
+        if (_sequence != null && _sequence.IsActive() && _sequence.IsPlaying()) return;
         
         _sequence?.Kill();
         
-        _clickToContinueText.transform.DOScale(0, 1f).SetEase(Ease.OutBack);
-        _clickToContinueText.DOFade(1f, 1f);
-        
         _sequence = DOTween.Sequence();
         
-        DOTween.To(() => 0f, h => _chaosTitleText.color = Color.HSVToRGB(h, 1f, 1f), 1f, 3f)
-            .SetEase(Ease.Linear)
-            .SetLoops(-1, LoopType.Restart);
+        _sequence.Append(_containerRect.DOAnchorPosY(_containerInitialYPos, 1f).SetEase(Ease.InBounce));
+        _sequence.Append(_clickToContinueText.transform.DOScale(0f, 1f).SetEase(Ease.InBack));
         
-        _sequence.Append(_statsContainer.DOAnchorPosY(1304f, 0.2f).SetEase(Ease.InBack));
-        _sequence.AppendInterval(1f);
-        _sequence.Append(_chaosRulesText.DOFade(1f, 1f));
-        _sequence.Join(_chaosTitleText.DOFade(1f, 1f)); 
-        _sequence.AppendInterval(3f);
-        _sequence.Append(_clickToContinueText.transform.DOScale(1f, 1f).SetEase(Ease.OutBack)).OnComplete(()=>
-        {
-            _completeSequence2 = true;
-            _clickToContinueText.DOFade(0.3f, 1f)
-                .SetEase(Ease.InOutSine)
-                .SetLoops(-1, LoopType.Yoyo);
-        });
+        LevelCompleteAnimation.Instance.CloseLevelCompleteUI();
     }
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (_completeSequence)
-        {
-            ShowChaosRules();
-        }
-
-        if (!_completeSequence2) return;
+        if (!_completeSequence) return;
         
-        _sequence?.Kill();
-            
-        _sequence = DOTween.Sequence();
-            
-        LevelCompleteAnimation.Instance.CloseLevelCompleteUI();
-        _sequence.Append(_parent.DOAnchorPosY(1304, 1f).SetEase(Ease.OutBounce));
+        HideStats();
     }
+
+    [Button]
+    private void ShowFinishGameStats()
+    {
+        ShowStats(_finishGameStats);
+    }
+    
+    [Button]
+    private void ShowChaosStats()
+    {
+        ShowStats(_chaosStats);
+    }
+    
 }

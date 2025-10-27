@@ -24,7 +24,8 @@ public class UIManager : MonoBehaviour
 
         #region TouchControls
         
-        var isTouch = Application.platform == RuntimePlatform.WebGLPlayer && Application.isMobilePlatform;        
+        var isTouch = Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android;
+        
         _touchControls.SetActive(isTouch);
         
         #endregion

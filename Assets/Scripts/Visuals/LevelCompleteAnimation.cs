@@ -58,12 +58,25 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
     public static event Action OnEndLevelUIOpen;
     public static event Action OnEndLevelUIClose;
 
+    private float _screenTop;
+    private float _screenBottom;
+    private float _screenLeft;
+    private float _screenRight;
+    [SerializeField] private float _bordersOffset;
+
     private void Start()
     {
         _levelCompletedText = _levelCompleted.GetComponent<TextMeshProUGUI>();
         _charactersFoundedNumberText = _charactersFoundedNumber.GetComponent<TextMeshProUGUI>();
         _clickToContinueText = _clickToContinue.GetComponent<TextMeshProUGUI>();
 
+        var thisRect = GetComponent<RectTransform>();
+
+        _screenTop = thisRect.rect.height / 2f - _bordersOffset;
+        _screenBottom = -thisRect.rect.height / 2f + _bordersOffset;
+        _screenRight = -thisRect.rect.width / 2f - _bordersOffset;
+        _screenLeft = thisRect.rect.width / 2f + _bordersOffset;
+        
         #region Save Transforms
 
         _clickToContinueInitialPos = _clickToContinue.anchoredPosition.y;
@@ -79,7 +92,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
 
         if (GameManager.Instance.CurrentLevel == GameManager.Level.Chaos  && GameManager.Instance.ChaosNight == 1)
         {
-            StatsMenu1.Instance.ShowStats();
+            //StatsMenu1.Instance.ShowStats();
             GameManager.Instance.TotalMistakes = 0;
             GameManager.Instance.TotalScore = 0;
             _sequenceEnd = false;
@@ -132,9 +145,9 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
 
         SetEndMessage();
         
-        _openSequence.Append(_bg.DOAnchorPos(Vector2.zero, _animationDuration).SetEase(Ease.OutBounce).OnComplete(()=>OnEndLevelUIOpen?.Invoke()));
+        _openSequence.Append(_bg.DOLocalMoveY(0, _animationDuration).SetEase(Ease.OutBounce).OnComplete(()=>OnEndLevelUIOpen?.Invoke()));
         _openSequence.Append(_levelCompleted.DOScale(Vector3.one, _animationDuration/2).SetEase(Ease.OutBack));
-        _openSequence.Append(_charactersFounded.DOAnchorPosY(1, _animationDuration/2).SetEase(Ease.OutBack));
+        _openSequence.Append(_charactersFounded.DOLocalMoveY(0, _animationDuration/2).SetEase(Ease.OutBack));
         _openSequence.Append(CreateCounterTween(_charactersFoundedNumberText, GameManager.Instance.DailyScore)
             .OnComplete(() =>
             {
@@ -159,7 +172,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
                     .SetEase(Ease.InOutSine)
                     .SetLoops(-1, LoopType.Yoyo);
             }));
-        _openSequence.Append(_clickToContinue.DOAnchorPosY(-438, 0.2f).SetEase(Ease.OutBack).SetDelay(1f)).OnComplete(()=>_sequenceEnd = true);
+        _openSequence.Append(_clickToContinue.DOLocalMoveY(_screenBottom, 0.2f).SetEase(Ease.OutBack).SetDelay(1f)).OnComplete(()=>_sequenceEnd = true);
     }
 
     public static Tween CreateCounterTween(TMP_Text text, float targetValue)
