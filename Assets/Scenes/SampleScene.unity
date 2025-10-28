@@ -2193,7 +2193,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &310813701
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5144,7 +5144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7018cb3a8db93324eb606fa183902606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _currentLevel: 2
+  _currentLevel: 0
   _numberOfTotalCharacters1: 100
   _spawnPerClick1: 10
   _numberOfTotalCharacters2: 150
