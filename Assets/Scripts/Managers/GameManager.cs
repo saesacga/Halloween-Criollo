@@ -110,9 +110,7 @@ public class GameManager : MonoBehaviour
 
     public int TotalScore { get; set; }
     public int TotalMistakes { get; set; }
-    public int TotalTries { get; private set; } = 1;
-    
-    
+    public int TotalTries { get; set; } = 1;
     
     private GameObject _charaRef;
     public static event Action OnCharactersInstantiated;
@@ -123,16 +121,12 @@ public class GameManager : MonoBehaviour
     {
         GameTime.OnTimeEnd += LevelEnd;
         GameTime.OnTimeForPowerUp += SpawnPowerUp;
-        LevelCompleteAnimation.OnEndLevelUIOpen += NewLevelOpenMenuConfig;
-        LevelCompleteAnimation.OnEndLevelUIClose += NewLevelCloseMenuConfig;
     }
 
     private void OnDisable()
     {
         GameTime.OnTimeEnd -= LevelEnd;
         GameTime.OnTimeForPowerUp -= SpawnPowerUp;
-        LevelCompleteAnimation.OnEndLevelUIOpen -= NewLevelOpenMenuConfig;
-        LevelCompleteAnimation.OnEndLevelUIClose -= NewLevelCloseMenuConfig;
     }
     
     private void Start()
@@ -192,31 +186,19 @@ public class GameManager : MonoBehaviour
         _totalScoreUI.text = $"{TotalScore}";
     }
 
-    private int _chaosNight = 1;
-    public int ChaosNight => _chaosNight;
+    public int ChaosNight { get; set; } = 1;
     private void LevelEnd()
     {
-        AudioManager.Instance.FadeMusic(AudioManager.Instance.ChangeLevelMusicClip);
-        LevelCompleteAnimation.Instance.OpenLevelCompleteUI();
-        
         if (DailyScore < 11)
         {
-            if (_currentLevel == Level.Chaos)
-            {
-                Stats2.Instance.ShowStats2();
-            }
             TotalTries++;
             CurrentLevel = Level.One;
-            TotalMistakes = 0;
-            BadEffectUI.BadEffectsCount = 0;
-            GoodEffectUI.GoodEffect = 0;
-            TotalScore = 0;
         }
         else switch (CurrentLevel)
         {
             case Level.Chaos:
-                _chaosNight++;
-                return;
+                ChaosNight++;
+                break;
             case Level.Three:
                 CurrentLevel = Level.Chaos;
                 break;
@@ -224,9 +206,12 @@ public class GameManager : MonoBehaviour
                 CurrentLevel = (Level)(((int)CurrentLevel + 1) % Enum.GetValues(typeof(Level)).Length);
                 break;
         }
+        
+        AudioManager.Instance.FadeMusic(AudioManager.Instance.ChangeLevelMusicClip);
+        UIManager.Instance.StartSequence();
     }
 
-    private void NewLevelOpenMenuConfig()
+    public void NewLevelOpenMenuConfig()
     {
         UnsearchablePool.Instance.DestroyAll();
         _reservedMaterial.Clear();
@@ -240,11 +225,12 @@ public class GameManager : MonoBehaviour
     }
 
     private int _index;
-    private void NewLevelCloseMenuConfig()
+    private ShowChaosRules _chaosRules;
+    public void NewLevelCloseMenuConfig()
     {
         _index = (_index + 1) % AudioManager.Instance.LevelMusicClips.Length;
         AudioManager.Instance.FadeMusic(AudioManager.Instance.LevelMusicClips[_index]);
-        GameTime.Instance.SetTime();
+        
         DailyScore = 0;
         UpdateScoreText();
     }

@@ -32,11 +32,11 @@ public class PowerUpComingUI : MonoBehaviour
 
     private void OnEnable()
     {
-        LevelCompleteAnimation.OnEndLevelUIOpen += HideCharacterPowerUpUI;
+        UIManager.OnEndLevelUIOpen += HideCharacterPowerUpUI;
     }
     private void OnDisable()
     {
-        LevelCompleteAnimation.OnEndLevelUIOpen -= HideCharacterPowerUpUI;
+        UIManager.OnEndLevelUIOpen -= HideCharacterPowerUpUI;
     }
 
     public void SetSprite(Material mat, RuntimeAnimatorController animController, string charName)

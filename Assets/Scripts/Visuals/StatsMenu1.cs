@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 
-public class StatsMenu1 : MonoBehaviour, IPointerClickHandler
+public class StatsMenu1 : MonoBehaviour, IPointerClickHandler, IUIAnimated
 {
     [SerializeField, TabGroup("Stats Related")] 
     private GameObject _statEntryPrefab;
@@ -23,22 +23,6 @@ public class StatsMenu1 : MonoBehaviour, IPointerClickHandler
     
     private void Start()
     {
-        _finishGameStats = new List<(string, int)>
-        {
-            ("Disfraces encontrados", GameManager.Instance.TotalScore),
-            ("Errores totales", GameManager.Instance.TotalMistakes),
-            ("Intentos totales hasta pasar la noche del 31", GameManager.Instance.TotalTries)
-        };
-        
-        _chaosStats = new List<(string, int)>
-        {
-            ("Disfraces encontrados en modo Caos", GameManager.Instance.TotalScore),
-            ("Errores totales en modo Caos", GameManager.Instance.TotalMistakes),
-            ("Efectos positivos usados", GoodEffectUI.GoodEffect),
-            ("Efectos negativos activados", BadEffectUI.BadEffectsCount),
-            ("Noches en modo Caos completadas", GameManager.Instance.ChaosNight - 1)
-        };
-
         _containerInitialYPos = _containerRect.anchoredPosition.y;
     }
     
@@ -64,6 +48,7 @@ public class StatsMenu1 : MonoBehaviour, IPointerClickHandler
         }
 
         _sequence = DOTween.Sequence();
+        OnAnimationStart?.Invoke();
         
         _sequence.Append(_containerRect.DOLocalMoveY(0, 1f).SetEase(Ease.OutBack));
         
@@ -96,9 +81,10 @@ public class StatsMenu1 : MonoBehaviour, IPointerClickHandler
         _sequence.Append(_containerRect.DOAnchorPosY(_containerInitialYPos, 1f).SetEase(Ease.InBounce));
         _sequence.Append(_clickToContinueText.transform.DOScale(0f, 1f).SetEase(Ease.InBack));
         
-        LevelCompleteAnimation.Instance.CloseLevelCompleteUI();
+        OnAnimationEnd?.Invoke();
+        
+        _completeSequence = false;
     }
-    
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!_completeSequence) return;
@@ -107,15 +93,33 @@ public class StatsMenu1 : MonoBehaviour, IPointerClickHandler
     }
 
     [Button]
-    private void ShowFinishGameStats()
+    public void ShowFinishGameStats()
     {
+        _finishGameStats = new List<(string, int)>
+        {
+            ("Disfraces encontrados", GameManager.Instance.TotalScore),
+            ("Errores totales", GameManager.Instance.TotalMistakes),
+            ("Intentos totales hasta pasar la noche del 31", GameManager.Instance.TotalTries)
+        };
+        
         ShowStats(_finishGameStats);
     }
     
     [Button]
-    private void ShowChaosStats()
+    public void ShowChaosStats()
     {
+        _chaosStats = new List<(string, int)>
+        {
+            ("Disfraces encontrados en modo Caos", GameManager.Instance.TotalScore),
+            ("Errores totales en modo Caos", GameManager.Instance.TotalMistakes),
+            ("Efectos positivos usados", GoodEffectUI.GoodEffect),
+            ("Efectos negativos activados", BadEffectUI.BadEffectsCount),
+            ("Noches en modo Caos completadas", GameManager.Instance.ChaosNight - 1)
+        };
+        
         ShowStats(_chaosStats);
     }
     
+    public event Action OnAnimationStart;
+    public event Action OnAnimationEnd;
 }

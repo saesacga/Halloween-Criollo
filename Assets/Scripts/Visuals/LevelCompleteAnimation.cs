@@ -5,20 +5,8 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using TMPro;
 
-public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
+public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler, IUIAnimated
 {
-    #region Singleton
-    public static LevelCompleteAnimation Instance { get; private set; }
-    
-    private void Awake() 
-    { 
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
-        
-        Instance = this;
-    }
-
-    #endregion
-
     #region Animation Params
     
     [SerializeField] private float _animationDuration = 1f;
@@ -55,8 +43,6 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
     private Sequence _openSequence;
     private Sequence _closeSequence;
     private bool _sequenceEnd;
-    public static event Action OnEndLevelUIOpen;
-    public static event Action OnEndLevelUIClose;
 
     private float _screenTop;
     private float _screenBottom;
@@ -89,15 +75,6 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         if (!_sequenceEnd) return;
-
-        if (GameManager.Instance.CurrentLevel == GameManager.Level.Chaos  && GameManager.Instance.ChaosNight == 1)
-        {
-            //StatsMenu1.Instance.ShowStats();
-            GameManager.Instance.TotalMistakes = 0;
-            GameManager.Instance.TotalScore = 0;
-            _sequenceEnd = false;
-            return;
-        }
         CloseLevelCompleteUI();
         _sequenceEnd = false;
     }
@@ -145,7 +122,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
 
         SetEndMessage();
         
-        _openSequence.Append(_bg.DOLocalMoveY(0, _animationDuration).SetEase(Ease.OutBounce).OnComplete(()=>OnEndLevelUIOpen?.Invoke()));
+        _openSequence.Append(_bg.DOLocalMoveY(0, _animationDuration).SetEase(Ease.OutBounce).OnComplete(()=>OnAnimationStart?.Invoke()));
         _openSequence.Append(_levelCompleted.DOScale(Vector3.one, _animationDuration/2).SetEase(Ease.OutBack));
         _openSequence.Append(_charactersFounded.DOLocalMoveY(0, _animationDuration/2).SetEase(Ease.OutBack));
         _openSequence.Append(CreateCounterTween(_charactersFoundedNumberText, GameManager.Instance.DailyScore)
@@ -218,7 +195,10 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler
         _closeSequence.Append(_clickToContinue.DOAnchorPosY(_clickToContinueInitialPos, 0.2f).SetEase(Ease.InBack));
         _closeSequence.Join(_missingCharactersMessage.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InBack));
         _closeSequence.Append(_charactersFounded.DOAnchorPosY(_charactersFoundedInitialPos, _animationDuration/2).SetEase(Ease.InBack));
-        _closeSequence.Append(_levelCompleted.DOScale(Vector3.zero, _animationDuration/2).SetEase(Ease.InBack).OnComplete(()=>OnEndLevelUIClose?.Invoke()));
+        _closeSequence.Append(_levelCompleted.DOScale(Vector3.zero, _animationDuration/2).SetEase(Ease.InBack).OnComplete(()=>OnAnimationEnd?.Invoke()));
         _closeSequence.Append(_bg.DOAnchorPosY(_bgInitialPos, _animationDuration).SetEase(Ease.InBounce));
     }
+    
+    public event Action OnAnimationStart;
+    public event Action OnAnimationEnd;
 }

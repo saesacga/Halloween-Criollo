@@ -1817,7 +1817,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _chaosContainer: {fileID: 604012247}
   _chaosRulesTitle: {fileID: 1646870866}
-  _goodLuck: {fileID: 56180637}
   _clickToContinueText: {fileID: 1687066061}
 --- !u!1 &241462598
 GameObject:
@@ -2307,10 +2306,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1634057323}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -76.25307}
-  m_SizeDelta: {x: 319.7, y: 50}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 21}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &347192277
 MonoBehaviour:
@@ -2397,7 +2396,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -428.27045, y: -510.60846, z: -428.27026, w: -510.60846}
+  m_margin: {x: -428.27045, y: -63.742344, z: -428.27026, w: -36.38308}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3452,9 +3451,9 @@ RectTransform:
   - {fileID: 1880196834}
   m_Father: {fileID: 233683388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1068}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 614}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &617468810
@@ -5146,13 +5145,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7018cb3a8db93324eb606fa183902606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _currentLevel: 0
+  _currentLevel: 2
   _numberOfTotalCharacters1: 100
   _spawnPerClick1: 10
   _numberOfTotalCharacters2: 150
   _spawnPerClick2: 20
   _numberOfTotalCharacters3: 250
-  _spawnPerClick3: 50
+  _spawnPerClick3: 1
   _walkRadius: 10
   _characterPrefabs:
   - {fileID: 6571516033583601351, guid: f6edbe1789ea3624396f496fa27cd7c4, type: 3}
@@ -5450,6 +5449,9 @@ MonoBehaviour:
   _touchControls: {fileID: 1294611491}
   _pauseRectTransform: {fileID: 1471478626}
   _pauseTextTransform: {fileID: 894521274}
+  _levelCompleteAnimation: {fileID: 1272521072}
+  _statsMenu1: {fileID: 1222444439}
+  _chaosRules: {fileID: 233683389}
 --- !u!1 &994266873
 GameObject:
   m_ObjectHideFlags: 0
@@ -8388,9 +8390,9 @@ RectTransform:
   - {fileID: 347192276}
   m_Father: {fileID: 1222444438}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1075}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 717}
   m_SizeDelta: {x: 3000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1646870864

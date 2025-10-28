@@ -15,7 +15,7 @@ public class NightChangeText : MonoBehaviour
     
     private void OnEnable()
     {
-        LevelCompleteAnimation.OnEndLevelUIClose += ShowDate;
+        UIManager.OnEndLevelUIClose += ShowDate;
         _text = GetComponent<TextMeshProUGUI>();
     }
 
@@ -23,6 +23,8 @@ public class NightChangeText : MonoBehaviour
     public void ShowDate()
     {
         _tween?.Kill();
+        _text.alpha = 0;
+        
         _text.text = GameManager.Instance.CurrentLevel switch
         {
             GameManager.Level.One => _night1Text,

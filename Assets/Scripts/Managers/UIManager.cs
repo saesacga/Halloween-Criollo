@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -85,5 +86,89 @@ public class UIManager : MonoBehaviour
         _pauseTextTween = _pauseTextTransform.DORotate(new Vector3(0, -10, -5), 0.2f).SetEase(Ease.OutBack);
     }
 
+    #endregion
+
+    #region Sequences
+    
+    [TabGroup("Sequences", TextColor = "yellow"), SerializeField]
+    private LevelCompleteAnimation _levelCompleteAnimation;
+    [TabGroup("Sequences"), SerializeField]
+    private StatsMenu1 _statsMenu1;
+    [TabGroup("Sequences"), SerializeField]
+    private ShowChaosRules _chaosRules;
+    
+    private void Start()
+    {
+        _levelCompleteAnimation.OnAnimationStart += OnLevelCompleteStart;
+        _levelCompleteAnimation.OnAnimationEnd += OnLevelCompleteEnd;
+        _statsMenu1.OnAnimationEnd += OnStatsMenuEnd;
+        _chaosRules.OnAnimationEnd += OnChaosRulesEnd;
+    }
+
+    public void StartSequence()
+    {
+        _levelCompleteAnimation.OpenLevelCompleteUI();
+    }
+    
+    public static event Action OnEndLevelUIOpen; 
+    private void OnLevelCompleteStart()
+    {
+        OnEndLevelUIOpen?.Invoke();
+        GameManager.Instance.NewLevelOpenMenuConfig();
+    }
+    
+    public static event Action OnEndLevelUIClose; 
+    private bool _showFinishGameStats;
+    private bool _achievedChaos;
+    private void OnLevelCompleteEnd()
+    {
+        OnEndLevelUIClose?.Invoke();
+        GameManager.Instance.NewLevelCloseMenuConfig();
+        switch (GameManager.Instance.CurrentLevel)
+        {
+            case GameManager.Level.Chaos when !_showFinishGameStats:
+                _statsMenu1.ShowFinishGameStats();
+                _showFinishGameStats = true;
+                _achievedChaos = true;
+                break;
+            case GameManager.Level.One when _achievedChaos:
+                _statsMenu1.ShowChaosStats();
+                _showFinishGameStats = false;
+                _achievedChaos = false;
+                break;
+            default:
+                GameTime.Instance.SetTime();
+                break;
+        }
+    }
+
+    private void OnStatsMenuEnd()
+    {
+        if (GameManager.Instance.CurrentLevel == GameManager.Level.Chaos)
+        {
+            _chaosRules.ChaosRules();
+            
+            GameManager.Instance.TotalScore = 0;
+            GameManager.Instance.TotalMistakes = 0;
+            GameManager.Instance.TotalTries = 1;
+            
+            return;
+        }
+        GameTime.Instance.SetTime();
+        OnEndLevelUIClose?.Invoke();
+        
+        GameManager.Instance.TotalScore = 0;
+        GameManager.Instance.TotalMistakes = 0;
+        BadEffectUI.BadEffectsCount = 0;
+        GoodEffectUI.GoodEffect = 0;
+        GameManager.Instance.ChaosNight = 1;
+    }
+
+    private void OnChaosRulesEnd()
+    {
+        GameTime.Instance.SetTime();
+        OnEndLevelUIClose?.Invoke();
+    }
+    
     #endregion
 }

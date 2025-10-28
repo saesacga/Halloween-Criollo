@@ -7,7 +7,7 @@ public class PowerUpCharacter : Character
     protected override void OnEnable()
     {
         base.OnEnable();
-        LevelCompleteAnimation.OnEndLevelUIOpen += () =>
+        UIManager.OnEndLevelUIOpen += () =>
         {
             gameObject.SetActive(false);
         };
