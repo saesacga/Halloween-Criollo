@@ -40,7 +40,7 @@ public class ShowChaosRules : MonoBehaviour, IPointerClickHandler, IUIAnimated
         
         _sequence = DOTween.Sequence();
         
-        _sequence.Append(_chaosContainer.DOLocalMoveY(0, 1f).SetEase(Ease.OutBack));
+        _sequence.Append(_chaosContainer.DOLocalMoveY(0, 1f).SetEase(Ease.OutBounce));
         _sequence.Append(_clickToContinueText.transform.DOLocalMoveY(-_thisRect.rect.height / 2f + 50, 1f).SetEase(Ease.OutBack))
             .OnComplete(() =>
             {
@@ -54,7 +54,7 @@ public class ShowChaosRules : MonoBehaviour, IPointerClickHandler, IUIAnimated
     {
         if (_sequence != null && _sequence.IsActive() && _sequence.IsPlaying()) return;
         
-        _chaosContainer.DOLocalMoveY(_chaosContainerInitialYPos, 1f).SetEase(Ease.OutBack);
+        _chaosContainer.DOLocalMoveY(_chaosContainerInitialYPos, 1f).SetEase(Ease.InBounce);
         _clickToContinueText.transform.DOScale(0f, 1f).SetEase(Ease.OutBack);
         OnAnimationEnd?.Invoke();
     }

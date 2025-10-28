@@ -22,14 +22,8 @@ public class UIManager : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         
         Instance = this;
-
-        #region TouchControls
         
-        var isTouch = Application.platform == RuntimePlatform.IPhonePlayer || Application.platform == RuntimePlatform.Android;
-        
-        _touchControls.SetActive(isTouch);
-        
-        #endregion
+        _containerInitialYPos = _containerRect.anchoredPosition.y;
     }
 
     #endregion
@@ -37,17 +31,18 @@ public class UIManager : MonoBehaviour
     #region Pause Menu
 
     private bool _isPaused;
-
-    [SerializeField, TabGroup("⏸", TextColor = "yellow")] private RectTransform _pauseRectTransform;
-    [SerializeField, TabGroup("⏸")] private RectTransform _pauseTextTransform;
     
-    void Update()
+    [TabGroup("⏸", TextColor = "yellow"), SerializeField] private RectTransform _containerRect;
+    [TabGroup("⏸"), SerializeField] private RectTransform _pauseTextTransform;
+    private float _containerInitialYPos;
+    
+    private void Update()
     {
         if (!Keyboard.current.escapeKey.wasPressedThisFrame) return;
         
         TogglePauseMenu();
     }
-
+    
     public void TogglePauseMenu()
     {
         if (_isPaused)
@@ -67,7 +62,7 @@ public class UIManager : MonoBehaviour
         AudioManager.Instance.PauseAllAudio();
         Time.timeScale = 0f;
         
-        _pauseTween = _pauseRectTransform.DOAnchorPosY(Vector3.zero.y, 0.2f).SetEase(Ease.OutBack).SetUpdate(true);
+        _pauseTween = _containerRect.DOLocalMoveY(0, 0.2f).SetEase(Ease.OutBack).SetUpdate(true);
         _pauseTextTween = _pauseTextTransform.DORotate(new Vector3(0, 10, 5), 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo).SetUpdate(true);
         
         _isPaused = true;
@@ -77,12 +72,12 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         AudioManager.Instance.ResumeAllAudio();
-
+        
         _isPaused = false;
         _pauseTween?.Kill();
         _pauseTextTween?.Kill();
-
-        _pauseTween = _pauseRectTransform.DOAnchorPosY(1425, 0.2f).SetEase(Ease.OutBack);
+        
+        _pauseTween = _containerRect.DOAnchorPosY(_containerInitialYPos, 0.2f).SetEase(Ease.OutBack);
         _pauseTextTween = _pauseTextTransform.DORotate(new Vector3(0, -10, -5), 0.2f).SetEase(Ease.OutBack);
     }
 
