@@ -89,7 +89,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler, IUIAn
         
         _levelCompletedRotationTween = _levelCompleted.DORotate(new Vector3(0, 10, 5), _animationDuration / 2).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
         
-        if (GameManager.Instance.DailyScore < 11)
+        if (GameManager.Instance.DailyScore < 12)
         {
             _levelCompletedText.text = "Mala Suerte";
             _levelCompletedText.color = Color.crimson;
@@ -128,7 +128,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler, IUIAn
         _openSequence.Append(CreateCounterTween(_charactersFoundedNumberText, GameManager.Instance.DailyScore)
             .OnComplete(() =>
             {
-                if (GameManager.Instance.DailyScore < 11)
+                if (GameManager.Instance.DailyScore < 12)
                 {
                     _charactersFoundedNumberText.color = Color.crimson;
                     _missingCharactersMessage.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>

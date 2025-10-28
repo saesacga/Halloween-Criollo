@@ -189,7 +189,7 @@ public class GameManager : MonoBehaviour
     public int ChaosNight { get; set; } = 1;
     private void LevelEnd()
     {
-        if (DailyScore < 11)
+        if (DailyScore < 12)
         {
             TotalTries++;
             CurrentLevel = Level.One;
