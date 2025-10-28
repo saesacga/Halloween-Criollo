@@ -47,6 +47,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
         VisualCharacter.transform.localPosition = Vector3.back;
         
         SetSearchableUI();
+        SetNewRandomDestination();
     }
     protected virtual void SetSearchableUI()
     {
@@ -70,7 +71,7 @@ public class Character : MonoBehaviour, IPointerClickHandler
     protected virtual void UnsearchablePolymorph()
     {
         GameManager.Instance.UpdateScore();
-        AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[0], 2f);
+        AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[0]);
         Searchables.Instance.ChangeSearchableCharacter();
     }
 

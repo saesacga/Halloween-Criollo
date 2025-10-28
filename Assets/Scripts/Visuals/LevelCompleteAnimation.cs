@@ -96,7 +96,7 @@ public class LevelCompleteAnimation : MonoBehaviour, IPointerClickHandler, IUIAn
         }
         else
         {
-            _levelCompletedText.text = GameManager.Instance.CurrentLevel == GameManager.Level.Three ? "Juego Completado!" : "Noche Completada";
+            _levelCompletedText.text = GameManager.Instance.CurrentLevel == GameManager.Level.Chaos ? "Halloween Completado!" : "Noche Completada";
             _levelCompletedTextTween = DOTween.To(() => 0f, h => _levelCompletedText.color = Color.HSVToRGB(h, 1f, 1f), 1f, 3f)
                 .SetEase(Ease.Linear)
                 .SetLoops(-1, LoopType.Restart);

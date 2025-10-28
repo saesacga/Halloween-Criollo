@@ -33,6 +33,8 @@ public class ShowChaosRules : MonoBehaviour, IPointerClickHandler, IUIAnimated
         if (_sequence != null && _sequence.IsActive() && _sequence.IsPlaying()) return;
         
         OnAnimationStart?.Invoke();
+        _clickToContinueText.transform.localScale = Vector3.zero;
+        _clickToContinueText.alpha = 1f;
         
         DOTween.To(() => 0f, h => _chaosRulesTitle.color = Color.HSVToRGB(h, 1f, 1f), 1f, 3f)
             .SetEase(Ease.Linear)
@@ -40,8 +42,8 @@ public class ShowChaosRules : MonoBehaviour, IPointerClickHandler, IUIAnimated
         
         _sequence = DOTween.Sequence();
         
-        _sequence.Append(_chaosContainer.DOLocalMoveY(0, 1f).SetEase(Ease.OutBack));
-        _sequence.Append(_clickToContinueText.transform.DOLocalMoveY(-_thisRect.rect.height / 2f + 50, 1f).SetEase(Ease.OutBack))
+        _sequence.Append(_chaosContainer.DOLocalMoveY(0, 1f).SetEase(Ease.OutBounce));
+        _sequence.Append(_clickToContinueText.transform.DOScale(Vector3.one, 1f).SetEase(Ease.OutBack))
             .OnComplete(() =>
             {
                 _clickToContinueText.GetComponent<TextMeshProUGUI>().DOFade(0.3f, 1f)
@@ -54,7 +56,7 @@ public class ShowChaosRules : MonoBehaviour, IPointerClickHandler, IUIAnimated
     {
         if (_sequence != null && _sequence.IsActive() && _sequence.IsPlaying()) return;
         
-        _chaosContainer.DOLocalMoveY(_chaosContainerInitialYPos, 1f).SetEase(Ease.OutBack);
+        _chaosContainer.DOLocalMoveY(_chaosContainerInitialYPos, 1f).SetEase(Ease.InBounce);
         _clickToContinueText.transform.DOScale(0f, 1f).SetEase(Ease.OutBack);
         OnAnimationEnd?.Invoke();
     }

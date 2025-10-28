@@ -50,7 +50,7 @@ public class StatsMenu1 : MonoBehaviour, IPointerClickHandler, IUIAnimated
         _sequence = DOTween.Sequence();
         OnAnimationStart?.Invoke();
         
-        _sequence.Append(_containerRect.DOLocalMoveY(0, 1f).SetEase(Ease.OutBack));
+        _sequence.Append(_containerRect.DOLocalMoveY(0, 1f).SetEase(Ease.OutBounce));
         
         for (int i = 0; i < stats.Count; i++)
         {
