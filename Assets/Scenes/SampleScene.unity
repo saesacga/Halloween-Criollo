@@ -1688,7 +1688,7 @@ MonoBehaviour:
   hardCollisions: 1
   symmetryBreakingBias: 0.1
   movementPlane: 1
-  useNavmeshAsObstacle: 1
+  useNavmeshAsObstacle: 0
   drawQuadtree: 0
 --- !u!1 &229781661
 GameObject:
@@ -5144,7 +5144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7018cb3a8db93324eb606fa183902606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _currentLevel: 0
+  _currentLevel: 2
   _numberOfTotalCharacters1: 100
   _spawnPerClick1: 10
   _numberOfTotalCharacters2: 150
@@ -10329,7 +10329,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: -200.00003}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 1000, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1885372045

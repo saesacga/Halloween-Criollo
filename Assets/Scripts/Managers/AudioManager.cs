@@ -71,15 +71,15 @@ public class AudioManager : MonoBehaviour
         {
             _musicAudioSource.clip = newClip;
             _musicAudioSource.Play();
-            _musicAudioSource.DOFade(1f, fadeDuration);
+            _musicAudioSource.DOFade(MusicVolume, fadeDuration);
         });
     }
 
-    public void PlaySfx(AudioClip clip, float volume = 1f)
+    public void PlaySfx(AudioClip clip)
     {
         if (_sfxAudioSource == null || clip == null) return;
         
-        _sfxAudioSource.PlayOneShot(clip, volume);
+        _sfxAudioSource.PlayOneShot(clip, SfxVolume);
     }
     
     public void PlayLoop(AudioClip clip)

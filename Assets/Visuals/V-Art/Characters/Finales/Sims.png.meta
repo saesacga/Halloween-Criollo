@@ -118,6 +118,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -127,7 +140,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 24
+        width: 23
         height: 60
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -147,9 +160,9 @@ TextureImporter:
       name: Sims_1
       rect:
         serializedVersion: 2
-        x: 24
+        x: 23
         y: 0
-        width: 24
+        width: 23
         height: 60
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -159,7 +172,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03dc0a0c1cc55a945815ec72a6f883d4
+      spriteID: fe7afa8f5ed166f4d983d6993893133f
       internalID: -764535822
       vertices: []
       indices: 
@@ -169,9 +182,9 @@ TextureImporter:
       name: Sims_2
       rect:
         serializedVersion: 2
-        x: 48
+        x: 46
         y: 0
-        width: 24
+        width: 23
         height: 60
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -181,7 +194,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d80af70b0dcb5d444850f5cc21b8a6bf
+      spriteID: 3d05deada39fc37468e2e8ded8b3978a
       internalID: -1564965825
       vertices: []
       indices: 
@@ -191,9 +204,9 @@ TextureImporter:
       name: Sims_3
       rect:
         serializedVersion: 2
-        x: 72
+        x: 69
         y: 0
-        width: 24
+        width: 23
         height: 60
       alignment: 7
       pivot: {x: 0.5, y: 0}
@@ -203,7 +216,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aa64ac152e8cef04a828fd91f4a1e996
+      spriteID: 153a499bfec89eb469cf1855eba5233f
       internalID: 1374135565
       vertices: []
       indices: 
@@ -223,7 +236,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":24.0,"y":60.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":23.0,"y":60.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Sims_0: 3551380075022945258
       Sims_1: -764535822

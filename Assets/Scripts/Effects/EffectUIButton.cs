@@ -58,7 +58,7 @@ public class EffectUIButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
         
         _useSequence.Append(transform.DOLocalRotate(new Vector3(0, 0, -30), 0.2f).SetEase(Ease.OutBack).SetLoops(2, LoopType.Yoyo));
         _useSequence.Join(DOTween.To(() => 1f, h => IconImage.fillAmount = h, 0f, EffectTime).SetEase(Ease.Linear)
-            .OnComplete(() => AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[4], 2f)));
+            .OnComplete(() => AudioManager.Instance.PlaySfx(AudioManager.Instance.SfxClips[4])));
         _useSequence.Append(transform.DOLocalRotate(new Vector3(0, 0, 360), 0.2f, RotateMode.FastBeyond360).SetEase(Ease.Linear).SetLoops(3, LoopType.Restart));
         _useSequence.Join(transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InBack)).OnComplete(()=>
         {
